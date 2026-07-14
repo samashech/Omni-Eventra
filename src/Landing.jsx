@@ -1,10 +1,17 @@
-import React from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight, Compass, Bell, Calendar as CalIcon, Users } from 'lucide-react';
 
 export default function Landing({ onSignIn }) {
   const { scrollY } = useScroll();
-  
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate asset loading time before rising the curtain
+    const timer = setTimeout(() => setLoading(false), 1200);
+    return () => clearTimeout(timer);
+  }, []);
+
   // As the user scrolls down, the hero section shrinks slightly
   // but continues to scroll up naturally without fading away completely.
   const heroScale = useTransform(scrollY, [0, 600], [1, 0.85]);
@@ -74,6 +81,34 @@ export default function Landing({ onSignIn }) {
   return (
     <div style={{ background: 'var(--bg-gradient)', overflowX: 'hidden' }}>
       
+      {/* Poetic.com Style Opening Transition / Preloader */}
+      <AnimatePresence>
+        {loading && (
+          <motion.div
+            key="preloader"
+            initial={{ y: 0 }}
+            exit={{ y: '-100vh' }}
+            transition={{ duration: 1, ease: [0.76, 0, 0.24, 1] }} // Cinematic curtain rise easing
+            style={{
+              position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
+              background: '#0B0F19', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center',
+              flexDirection: 'column'
+            }}
+          >
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+            >
+              <div style={{ width: '32px', height: '32px', background: 'white', borderRadius: '50%', color: '#0B0F19', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '18px' }} className="font-serif">C</div>
+              <span style={{ fontSize: '20px', fontWeight: 600, color: 'white', letterSpacing: '-0.02em' }}>
+                Club<span style={{ color: '#EAB308', fontStyle: 'italic' }}>hub</span>
+              </span>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Navigation */}
       <nav style={{ padding: '24px 0', position: 'fixed', width: '100%', top: 0, zIndex: 100, backdropFilter: 'blur(10px)' }}>
         <div className="container flex-between">
@@ -103,7 +138,7 @@ export default function Landing({ onSignIn }) {
           style={{ textAlign: 'center', scale: heroScale }}
         >
           
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 1.2 }}>
             <span style={{ 
               display: 'inline-block', padding: '6px 16px', borderRadius: '999px',
               border: '1px solid rgba(0,0,0,0.1)', fontSize: '11px', fontWeight: 600,
@@ -115,7 +150,7 @@ export default function Landing({ onSignIn }) {
           </motion.div>
 
           <motion.h1 
-            initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}
+            initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 1.4, ease: [0.16, 1, 0.3, 1] }}
             className="font-serif" style={{ fontSize: 'clamp(60px, 10vw, 130px)', lineHeight: 1.05, color: '#111827', marginBottom: '40px' }}
           >
             every <span style={{ color: '#EAB308', fontStyle: 'italic' }}>society.</span><br/>
@@ -123,7 +158,7 @@ export default function Landing({ onSignIn }) {
           </motion.h1>
 
           <motion.p 
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }}
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 1.6 }}
             style={{ fontSize: '20px', color: '#4B5563', maxWidth: '600px', margin: '0 auto 48px auto', lineHeight: 1.6 }}
           >
             Discover every club at your college, follow the ones you love, 
@@ -131,7 +166,7 @@ export default function Landing({ onSignIn }) {
           </motion.p>
 
           <motion.div 
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.5 }}
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 1.7 }}
             style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}
           >
             <button onClick={onSignIn} className="btn btn-primary" style={{ padding: '16px 32px', fontSize: '16px' }}>
