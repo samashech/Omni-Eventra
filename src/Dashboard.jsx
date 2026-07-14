@@ -27,6 +27,17 @@ const calendarEvents = [
   { id: 104, title: 'Debate Finals', club: 'Debate Club', date: 28, time: '18:00 - 20:00', type: 'culture' },
 ];
 
+const allClubs = [
+  { id: 1, name: 'Tech & Code Society', category: 'Technology', followers: 840, icon: 'T', color: '#DBEAFE', textColor: '#1E40AF', desc: 'Building the future of software, one hackathon at a time.' },
+  { id: 2, name: 'Debating Society', category: 'Culture', followers: 420, icon: 'D', color: '#FCE7F3', textColor: '#9D174D', desc: 'Fostering critical thinking and eloquent speech.' },
+  { id: 3, name: 'Entrepreneurship Cell', category: 'Business', followers: 1200, icon: 'E', color: '#FEF3C7', textColor: '#92400E', desc: 'Empowering student founders and startup enthusiasts.' },
+  { id: 4, name: 'Photography Circle', category: 'Arts', followers: 650, icon: 'P', color: '#E0E7FF', textColor: '#3730A3', desc: 'Capturing campus life through a creative lens.' },
+  { id: 5, name: 'Robotics Club', category: 'Technology', followers: 310, icon: 'R', color: '#F3F4F6', textColor: '#374151', desc: 'Designing and programming autonomous machines.' },
+  { id: 6, name: 'Film Society', category: 'Arts', followers: 890, icon: 'F', color: '#FFEDD5', textColor: '#9A3412', desc: 'Weekly screenings and discussions of world cinema.' },
+  { id: 7, name: 'Mountaineering Club', category: 'Sports', followers: 230, icon: 'M', color: '#D1FAE5', textColor: '#065F46', desc: 'Weekend treks, climbing, and outdoor adventures.' },
+  { id: 8, name: 'Finance & Trading', category: 'Business', followers: 580, icon: 'F', color: '#E0F2FE', textColor: '#0369A1', desc: 'Learn investing, equity research, and market analysis.' },
+];
+
 const containerVariants = {
   hidden: { opacity: 0 },
   show: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.1 } }
@@ -45,6 +56,7 @@ const pageVariants = {
 
 export default function Dashboard({ onSignOut }) {
   const [activeTab, setActiveTab] = useState('Dashboard');
+  const [clubCategory, setClubCategory] = useState('All');
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', paddingBottom: '40px' }}>
@@ -167,6 +179,64 @@ export default function Dashboard({ onSignOut }) {
                 </div>
               </motion.div>
             </motion.div>
+          </motion.main>
+        )}
+
+        {activeTab === 'Clubs' && (
+          <motion.main key="clubs" variants={pageVariants} initial="initial" animate="animate" exit="exit" className="container" style={{ marginTop: '24px', flex: 1 }}>
+            
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '32px' }}>
+              <div>
+                <h1 style={{ fontSize: '36px', marginBottom: '8px', color: '#111827' }}>Discover Clubs</h1>
+                <p style={{ color: '#6B7280', fontSize: '15px' }}>Find your community on campus</p>
+              </div>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                {['All', 'Technology', 'Arts', 'Business', 'Culture', 'Sports'].map(cat => (
+                  <button 
+                    key={cat}
+                    onClick={() => setClubCategory(cat)}
+                    className="btn" 
+                    style={{ 
+                      padding: '8px 16px', 
+                      background: clubCategory === cat ? '#111827' : 'white', 
+                      color: clubCategory === cat ? 'white' : '#6B7280',
+                      border: `1px solid ${clubCategory === cat ? '#111827' : '#E5E7EB'}`,
+                      borderRadius: '999px',
+                      fontSize: '13px'
+                    }}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <motion.div variants={containerVariants} initial="hidden" animate="show" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
+              {allClubs.filter(c => clubCategory === 'All' || c.category === clubCategory).map(club => (
+                <motion.div key={club.id} variants={itemVariants} className="glass-panel" style={{ padding: '24px', display: 'flex', flexDirection: 'column' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
+                    <div style={{ width: '48px', height: '48px', borderRadius: '16px', background: club.color, color: club.textColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', fontWeight: 'bold' }}>
+                      {club.icon}
+                    </div>
+                    <span style={{ fontSize: '12px', fontWeight: 500, color: '#6B7280', background: '#F3F4F6', padding: '4px 10px', borderRadius: '999px' }}>
+                      {club.category}
+                    </span>
+                  </div>
+                  
+                  <h3 style={{ fontSize: '18px', color: '#111827', marginBottom: '8px' }}>{club.name}</h3>
+                  <p style={{ fontSize: '13px', color: '#6B7280', lineHeight: 1.5, marginBottom: '24px', flex: 1 }}>{club.desc}</p>
+                  
+                  <div className="flex-between" style={{ marginTop: 'auto', paddingTop: '16px', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#6B7280', fontSize: '13px' }}>
+                      <Users size={14} />
+                      {club.followers}
+                    </div>
+                    <button className="btn btn-primary" style={{ padding: '6px 16px', fontSize: '13px' }}>Follow</button>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+
           </motion.main>
         )}
 
