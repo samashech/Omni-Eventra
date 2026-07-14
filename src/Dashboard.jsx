@@ -4,8 +4,9 @@ import {
   Search, Bell, Moon, Plus, 
   Calendar as CalendarIcon, Users, ChevronRight,
   TrendingUp, Star, CalendarDays,
-  MessageSquare, AlertCircle, Clock, MapPin, ArrowUpRight
+  MessageSquare, AlertCircle, Clock, MapPin, ArrowUpRight, Sparkles
 } from 'lucide-react';
+import OnboardingQuiz from './OnboardingQuiz';
 
 const stats = [
   { label: 'SUBSCRIBED CLUBS', value: '12', subtext: '3 new this week' },
@@ -57,10 +58,15 @@ const pageVariants = {
 export default function Dashboard({ onSignOut }) {
   const [activeTab, setActiveTab] = useState('Dashboard');
   const [clubCategory, setClubCategory] = useState('All');
+  const [showQuiz, setShowQuiz] = useState(true);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', paddingBottom: '40px' }}>
       
+      {showQuiz && (
+        <OnboardingQuiz onComplete={() => setShowQuiz(false)} allClubs={allClubs} />
+      )}
+
       {/* Navigation */}
       <nav style={{ padding: '20px 0' }}>
         <div className="container flex-between">
@@ -93,7 +99,10 @@ export default function Dashboard({ onSignOut }) {
               <input type="text" className="search-input" placeholder="Search clubs, events..." />
               <span className="cmd-k">⌘K</span>
             </div>
-            
+            <button onClick={() => setShowQuiz(true)} className="btn btn-ghost" style={{ padding: '8px 16px', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Sparkles size={16} color="#EAB308" />
+              For You
+            </button>
             <button className="btn btn-ghost btn-icon"><Bell size={20} /></button>
             <div onClick={onSignOut} style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#FDE68A', color: '#92400E', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: '14px', marginLeft: '8px', cursor: 'pointer' }}>
               JD
