@@ -7,6 +7,8 @@ import {
   MessageSquare, AlertCircle, Clock, MapPin, ArrowUpRight, Sparkles
 } from 'lucide-react';
 import OnboardingQuiz from './OnboardingQuiz';
+import ClubProfile from './ClubProfile';
+import ClubLeaderView from './ClubLeaderView';
 
 const stats = [
   { label: 'SUBSCRIBED CLUBS', value: '12', subtext: '3 new this week' },
@@ -59,6 +61,16 @@ export default function Dashboard({ onSignOut }) {
   const [activeTab, setActiveTab] = useState('Dashboard');
   const [clubCategory, setClubCategory] = useState('All');
   const [showQuiz, setShowQuiz] = useState(true);
+  const [activeClub, setActiveClub] = useState(null);
+  const [isLeaderView, setIsLeaderView] = useState(false);
+
+  if (activeClub && isLeaderView) {
+    return <ClubLeaderView club={activeClub} onBack={() => setIsLeaderView(false)} />;
+  }
+
+  if (activeClub) {
+    return <ClubProfile club={activeClub} onBack={() => setActiveClub(null)} onLeaderView={() => setIsLeaderView(true)} />;
+  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', paddingBottom: '40px' }}>
@@ -222,7 +234,14 @@ export default function Dashboard({ onSignOut }) {
 
             <motion.div variants={containerVariants} initial="hidden" animate="show" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
               {allClubs.filter(c => clubCategory === 'All' || c.category === clubCategory).map(club => (
-                <motion.div key={club.id} variants={itemVariants} className="glass-panel" style={{ padding: '24px', display: 'flex', flexDirection: 'column' }}>
+                <motion.div 
+                  key={club.id} 
+                  variants={itemVariants} 
+                  className="glass-panel" 
+                  style={{ padding: '24px', display: 'flex', flexDirection: 'column', cursor: 'pointer' }}
+                  onClick={() => setActiveClub(club)}
+                  whileHover={{ y: -5 }}
+                >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
                     <div style={{ width: '48px', height: '48px', borderRadius: '16px', background: club.color, color: club.textColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', fontWeight: 'bold' }}>
                       {club.icon}
