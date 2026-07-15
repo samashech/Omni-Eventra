@@ -4,7 +4,8 @@ import {
   Search, Bell, Moon, Plus, 
   Calendar as CalendarIcon, Users, ChevronRight,
   TrendingUp, Star, CalendarDays,
-  MessageSquare, AlertCircle, Clock, MapPin, ArrowUpRight, Sparkles
+  MessageSquare, AlertCircle, Clock, MapPin, ArrowUpRight, Sparkles,
+  Cpu, Lightbulb, Zap, PartyPopper
 } from 'lucide-react';
 import OnboardingQuiz from './OnboardingQuiz';
 import ClubProfile from './ClubProfile';
@@ -19,27 +20,23 @@ const stats = [
 ];
 
 const feed = [
-  { id: 1, type: 'Event', title: 'Intro to Web3 & Blockchain', club: 'Tech & Code Society', date: 'Oct 24, 2026', status: 'RSVP Open', badge: 'badge-yellow' },
-  { id: 2, type: 'Announcement', title: 'Call for Core Team Members', club: 'Debate Club', date: 'Oct 25, 2026', status: 'Deadline', badge: 'badge-red' },
-  { id: 3, type: 'Event', title: 'Annual Photography Walk', club: 'Shutterbugs', date: 'Oct 28, 2026', status: 'Upcoming', badge: 'badge-green' },
+  { id: 1, type: 'Event', title: 'Intro to NodeMCU & IoT', club: 'RAIoT', date: 'Oct 24, 2026', status: 'RSVP Open', badge: 'badge-yellow' },
+  { id: 2, type: 'Announcement', title: 'Incubation Cohort Applications', club: 'E-Cell', date: 'Oct 25, 2026', status: 'Deadline', badge: 'badge-red' },
+  { id: 3, type: 'Event', title: 'Fest Headliner Announcement', club: 'Cultural Fest Committee', date: 'Oct 28, 2026', status: 'Upcoming', badge: 'badge-green' },
 ];
 
 const calendarEvents = [
-  { id: 101, title: 'Web3 & Blockchain', club: 'Tech Club', date: 24, time: '14:00 - 16:00', type: 'tech' },
-  { id: 102, title: 'Photography Walk', club: 'Shutterbugs', date: 24, time: '15:00 - 17:00', type: 'art', conflict: true },
-  { id: 103, title: 'Startup Pitch', club: 'E-Cell', date: 26, time: '10:00 - 12:00', type: 'business' },
-  { id: 104, title: 'Debate Finals', club: 'Debate Club', date: 28, time: '18:00 - 20:00', type: 'culture' },
+  { id: 101, title: 'Intro to NodeMCU', club: 'RAIoT', date: 24, time: '14:00 - 16:00', type: 'tech' },
+  { id: 102, title: 'Startup Pitch Deck', club: 'E-Cell', date: 24, time: '15:00 - 17:00', type: 'business', conflict: true },
+  { id: 103, title: 'IEEE Research Meet', club: 'IEEE', date: 26, time: '10:00 - 12:00', type: 'tech' },
+  { id: 104, title: 'Concert Setup', club: 'Cultural Fest', date: 28, time: '18:00 - 20:00', type: 'culture' },
 ];
 
 const allClubs = [
-  { id: 1, name: 'Tech & Code Society', category: 'Technology', followers: 840, icon: 'T', color: '#DBEAFE', textColor: '#1E40AF', desc: 'Building the future of software, one hackathon at a time.' },
-  { id: 2, name: 'Debating Society', category: 'Culture', followers: 420, icon: 'D', color: '#FCE7F3', textColor: '#9D174D', desc: 'Fostering critical thinking and eloquent speech.' },
-  { id: 3, name: 'Entrepreneurship Cell', category: 'Business', followers: 1200, icon: 'E', color: '#FEF3C7', textColor: '#92400E', desc: 'Empowering student founders and startup enthusiasts.' },
-  { id: 4, name: 'Photography Circle', category: 'Arts', followers: 650, icon: 'P', color: '#E0E7FF', textColor: '#3730A3', desc: 'Capturing campus life through a creative lens.' },
-  { id: 5, name: 'Robotics Club', category: 'Technology', followers: 310, icon: 'R', color: '#F3F4F6', textColor: '#374151', desc: 'Designing and programming autonomous machines.' },
-  { id: 6, name: 'Film Society', category: 'Arts', followers: 890, icon: 'F', color: '#FFEDD5', textColor: '#9A3412', desc: 'Weekly screenings and discussions of world cinema.' },
-  { id: 7, name: 'Mountaineering Club', category: 'Sports', followers: 230, icon: 'M', color: '#D1FAE5', textColor: '#065F46', desc: 'Weekend treks, climbing, and outdoor adventures.' },
-  { id: 8, name: 'Finance & Trading', category: 'Business', followers: 580, icon: 'F', color: '#E0F2FE', textColor: '#0369A1', desc: 'Learn investing, equity research, and market analysis.' },
+  { id: 1, name: 'RAIoT', category: 'Technology', followers: 840, icon: <Cpu size={24}/>, color: '#CFFAFE', textColor: '#0891B2', desc: 'IoT based robotics club focused on autonomous machines and hardware innovation.' },
+  { id: 2, name: 'E-Cell', category: 'Business', followers: 1200, icon: <Lightbulb size={24}/>, color: '#FEF3C7', textColor: '#92400E', desc: 'Innovation incubation center for student founders and breakthrough startup ideas.' },
+  { id: 3, name: 'IEEE Student Branch', category: 'Technology', followers: 650, icon: <Zap size={24}/>, color: '#E0E7FF', textColor: '#3730A3', desc: 'Advancing technology for humanity through hardware, software, and research.' },
+  { id: 4, name: 'Cultural Fest Committee', category: 'Culture', followers: 1890, icon: <PartyPopper size={24}/>, color: '#FCE7F3', textColor: '#9D174D', desc: 'Managing the university\'s biggest cultural fests, concerts, and celebrity events.' }
 ];
 
 const containerVariants = {
@@ -200,9 +197,9 @@ export default function Dashboard({ onSignOut }) {
                 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                   {[
-                    { title: 'Parliamentary debate night', club: 'Debating Society', time: 'Thu · 6pm', icon: 'D' },
-                    { title: 'Line-follower workshop', club: 'Robotics Club', time: 'Fri · 4pm', icon: 'R' },
-                    { title: 'Screening: In the Mood for Love', club: 'Film Society', time: 'Sat · 8pm', icon: 'F' }
+                    { title: 'Intro to NodeMCU', club: 'RAIoT', time: 'Thu · 6pm', icon: <Cpu size={20}/> },
+                    { title: 'Startup Pitch Deck', club: 'E-Cell', time: 'Fri · 4pm', icon: <Lightbulb size={20}/> },
+                    { title: 'Concert Setup', club: 'Cultural Fest', time: 'Sat · 8pm', icon: <PartyPopper size={20}/> }
                   ].map((evt, i) => (
                     <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '16px', paddingBottom: '16px', borderBottom: i === 2 ? 'none' : '1px solid rgba(0,0,0,0.05)' }}>
                       <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#F3F4F6', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, color: '#374151' }}>
@@ -226,9 +223,9 @@ export default function Dashboard({ onSignOut }) {
                 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                   {[
-                    { title: 'Photography Circle', tag: 'Arts · 412 followers', icon: 'P' },
-                    { title: 'Entrepreneurship Cell', tag: 'Business · 1.2k followers', icon: 'E' },
-                    { title: 'Astronomy Society', tag: 'Science · 289 followers', icon: 'A' }
+                    { title: 'IEEE Student Branch', tag: 'Technology · 650 followers', icon: <Zap size={20}/> },
+                    { title: 'RAIoT', tag: 'Technology · 840 followers', icon: <Cpu size={20}/> },
+                    { title: 'Cultural Fest Committee', tag: 'Culture · 1.8k followers', icon: <PartyPopper size={20}/> }
                   ].map((club, i) => (
                     <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                       <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#FDF4E3', color: '#92400E', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600 }}>

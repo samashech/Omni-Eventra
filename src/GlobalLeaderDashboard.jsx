@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Bell, Plus, Megaphone, FileText, TrendingUp, Users, ArrowUpRight, AlertTriangle, Settings, ArrowLeft, X
+  Bell, Plus, Megaphone, FileText, TrendingUp, Users, ArrowUpRight, AlertTriangle, Settings, ArrowLeft, X,
+  Cpu
 } from 'lucide-react';
 import ClubLeaderView from './ClubLeaderView';
 
 const myClubs = [
-  { id: 1, name: 'Tech & Code Society', category: 'Technology', followers: 840, icon: 'T', color: '#DBEAFE', textColor: '#1E40AF' }
+  { id: 1, name: 'RAIoT', category: 'Technology', followers: 840, icon: <Cpu size={24}/>, color: '#CFFAFE', textColor: '#0891B2' }
 ];
 
 export default function GlobalLeaderDashboard({ onSignOut }) {
