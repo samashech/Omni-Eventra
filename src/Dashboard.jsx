@@ -65,6 +65,7 @@ export default function Dashboard({ onSignOut }) {
   const [activeClub, setActiveClub] = useState(null);
   const [isLeaderView, setIsLeaderView] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [showNotifs, setShowNotifs] = useState(false);
 
   React.useEffect(() => {
     const handleKeyDown = (e) => {
@@ -128,14 +129,40 @@ export default function Dashboard({ onSignOut }) {
               <div className="search-input" style={{ width: '200px', display: 'flex', alignItems: 'center', color: '#9CA3AF' }}>Search clubs, events...</div>
               <span className="cmd-k">⌘K</span>
             </div>
-            <button onClick={() => setShowQuiz(true)} className="btn btn-ghost" style={{ padding: '8px 16px', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <Sparkles size={16} color="#EAB308" />
-              For You
-            </button>
-            <button className="btn btn-ghost btn-icon"><Bell size={20} /></button>
-            <div onClick={onSignOut} style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#FDE68A', color: '#92400E', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: '14px', marginLeft: '8px', cursor: 'pointer' }}>
-              JD
+            <motion.button whileTap={{ scale: 0.95 }} onClick={() => setShowQuiz(true)} className="btn btn-ghost" style={{ padding: '8px 16px', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Sparkles size={14} color="#EAB308" /> For You
+            </motion.button>
+
+            <div style={{ position: 'relative' }}>
+              <motion.button whileTap={{ scale: 0.9 }} onClick={() => setShowNotifs(!showNotifs)} className="btn btn-ghost btn-icon" style={{ position: 'relative' }}>
+                <Bell size={20} />
+                <span style={{ position: 'absolute', top: '6px', right: '8px', width: '8px', height: '8px', background: '#EF4444', borderRadius: '50%' }}></span>
+              </motion.button>
+
+              <AnimatePresence>
+                {showNotifs && (
+                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} style={{ position: 'absolute', top: '100%', right: 0, width: '320px', background: 'white', borderRadius: '16px', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.15)', border: '1px solid #E5E7EB', zIndex: 100, overflow: 'hidden', marginTop: '8px' }}>
+                    <div style={{ padding: '16px', borderBottom: '1px solid #F3F4F6', fontWeight: 600, fontSize: '14px' }}>Notifications</div>
+                    <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                      <div style={{ padding: '16px', borderBottom: '1px solid #F3F4F6', cursor: 'pointer' }} className="hover-bg">
+                        <div style={{ fontSize: '13px', fontWeight: 500, color: '#111827' }}>Event Reminder</div>
+                        <div style={{ fontSize: '12px', color: '#6B7280' }}>Tech & Code's Web3 Workshop starts in 2 hours!</div>
+                        <div style={{ fontSize: '10px', color: '#9CA3AF', marginTop: '4px' }}>2 hrs ago</div>
+                      </div>
+                      <div style={{ padding: '16px', cursor: 'pointer' }} className="hover-bg">
+                        <div style={{ fontSize: '13px', fontWeight: 500, color: '#111827' }}>New Announcement</div>
+                        <div style={{ fontSize: '12px', color: '#6B7280' }}>Debating Society just posted a new update.</div>
+                        <div style={{ fontSize: '10px', color: '#9CA3AF', marginTop: '4px' }}>1 day ago</div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
+
+            <motion.div whileTap={{ scale: 0.95 }} onClick={onSignOut} style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#111827', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: '14px', cursor: 'pointer' }}>
+              JD
+            </motion.div>
           </div>
         </div>
       </nav>

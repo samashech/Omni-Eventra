@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Bell, Plus, Megaphone, FileText, TrendingUp, Users, ArrowUpRight, AlertTriangle, Settings, ArrowLeft
+  Bell, Plus, Megaphone, FileText, TrendingUp, Users, ArrowUpRight, AlertTriangle, Settings, ArrowLeft, X
 } from 'lucide-react';
 import ClubLeaderView from './ClubLeaderView';
 
@@ -11,6 +11,8 @@ const myClubs = [
 
 export default function GlobalLeaderDashboard({ onSignOut }) {
   const [activeClub, setActiveClub] = useState(null);
+  const [activeModal, setActiveModal] = useState(null); // 'event', 'broadcast', 'audition', 'new_club'
+  const [showNotifs, setShowNotifs] = useState(false);
 
   if (activeClub) {
     return <ClubLeaderView club={activeClub} onBack={() => setActiveClub(null)} />;
@@ -27,11 +29,33 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
               <span style={{ fontSize: '10px', background: '#111827', color: 'white', padding: '2px 6px', borderRadius: '4px', letterSpacing: '0.1em', marginLeft: '4px' }}>LEADER</span>
             </h2>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <button className="btn btn-ghost btn-icon"><Bell size={20} /></button>
-            <div onClick={onSignOut} style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#111827', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: '14px', cursor: 'pointer' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', position: 'relative' }}>
+            <motion.button whileTap={{ scale: 0.9 }} onClick={() => setShowNotifs(!showNotifs)} className="btn btn-ghost btn-icon" style={{ position: 'relative' }}>
+              <Bell size={20} />
+              <span style={{ position: 'absolute', top: '6px', right: '8px', width: '8px', height: '8px', background: '#EF4444', borderRadius: '50%' }}></span>
+            </motion.button>
+            
+            {showNotifs && (
+              <div style={{ position: 'absolute', top: '100%', right: '50px', width: '320px', background: 'white', borderRadius: '16px', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.15)', border: '1px solid #E5E7EB', zIndex: 100, overflow: 'hidden' }}>
+                <div style={{ padding: '16px', borderBottom: '1px solid #F3F4F6', fontWeight: 600, fontSize: '14px' }}>Notifications</div>
+                <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                  <div style={{ padding: '16px', borderBottom: '1px solid #F3F4F6', cursor: 'pointer' }} className="hover-bg">
+                    <div style={{ fontSize: '13px', fontWeight: 500, color: '#111827' }}>System Update</div>
+                    <div style={{ fontSize: '12px', color: '#6B7280' }}>CampusHub v2.0 is live! Check out the new features.</div>
+                    <div style={{ fontSize: '10px', color: '#9CA3AF', marginTop: '4px' }}>2 hrs ago</div>
+                  </div>
+                  <div style={{ padding: '16px', cursor: 'pointer' }} className="hover-bg">
+                    <div style={{ fontSize: '13px', fontWeight: 500, color: '#111827' }}>Club Registration</div>
+                    <div style={{ fontSize: '12px', color: '#6B7280' }}>Your new club application is under review.</div>
+                    <div style={{ fontSize: '10px', color: '#9CA3AF', marginTop: '4px' }}>1 day ago</div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <motion.div whileTap={{ scale: 0.95 }} onClick={onSignOut} style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#111827', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: '14px', cursor: 'pointer' }}>
               JD
-            </div>
+            </motion.div>
           </div>
         </div>
       </nav>
@@ -47,7 +71,7 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
             <div>
               {/* Quick Create Dashboard */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '40px' }}>
-                <button className="glass-panel" style={{ padding: '24px', textAlign: 'left', cursor: 'pointer', border: '1px solid #E5E7EB', display: 'flex', flexDirection: 'column', gap: '12px', transition: 'all 0.2s' }}>
+                <motion.button whileTap={{ scale: 0.95 }} onClick={() => setActiveModal('event')} className="glass-panel" style={{ padding: '24px', textAlign: 'left', cursor: 'pointer', border: '1px solid #E5E7EB', display: 'flex', flexDirection: 'column', gap: '12px', transition: 'all 0.2s', background: 'white' }}>
                   <div style={{ width: '40px', height: '40px', background: '#DBEAFE', color: '#1E40AF', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Plus size={20} />
                   </div>
@@ -55,9 +79,9 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
                     <h4 style={{ fontSize: '15px', color: '#111827', margin: 0 }}>Create Event</h4>
                     <span style={{ fontSize: '12px', color: '#6B7280' }}>Schedule a new meetup</span>
                   </div>
-                </button>
+                </motion.button>
 
-                <button className="glass-panel" style={{ padding: '24px', textAlign: 'left', cursor: 'pointer', border: '1px solid #E5E7EB', display: 'flex', flexDirection: 'column', gap: '12px', transition: 'all 0.2s' }}>
+                <motion.button whileTap={{ scale: 0.95 }} onClick={() => setActiveModal('broadcast')} className="glass-panel" style={{ padding: '24px', textAlign: 'left', cursor: 'pointer', border: '1px solid #E5E7EB', display: 'flex', flexDirection: 'column', gap: '12px', transition: 'all 0.2s', background: 'white' }}>
                   <div style={{ width: '40px', height: '40px', background: '#FEF3C7', color: '#92400E', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Megaphone size={20} />
                   </div>
@@ -65,9 +89,9 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
                     <h4 style={{ fontSize: '15px', color: '#111827', margin: 0 }}>Broadcast</h4>
                     <span style={{ fontSize: '12px', color: '#6B7280' }}>Send an announcement</span>
                   </div>
-                </button>
+                </motion.button>
 
-                <button className="glass-panel" style={{ padding: '24px', textAlign: 'left', cursor: 'pointer', border: '1px solid #E5E7EB', display: 'flex', flexDirection: 'column', gap: '12px', transition: 'all 0.2s' }}>
+                <motion.button whileTap={{ scale: 0.95 }} onClick={() => setActiveModal('audition')} className="glass-panel" style={{ padding: '24px', textAlign: 'left', cursor: 'pointer', border: '1px solid #E5E7EB', display: 'flex', flexDirection: 'column', gap: '12px', transition: 'all 0.2s', background: 'white' }}>
                   <div style={{ width: '40px', height: '40px', background: '#FCE7F3', color: '#9D174D', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <FileText size={20} />
                   </div>
@@ -75,7 +99,7 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
                     <h4 style={{ fontSize: '15px', color: '#111827', margin: 0 }}>Launch Audition</h4>
                     <span style={{ fontSize: '12px', color: '#6B7280' }}>Open recruitment form</span>
                   </div>
-                </button>
+                </motion.button>
               </div>
 
               {/* My Managed Clubs */}
@@ -100,12 +124,12 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
                   </motion.div>
                 ))}
                 
-                <div className="glass-panel" style={{ padding: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px dashed #D1D5DB', background: 'transparent', cursor: 'pointer' }}>
+                <motion.div whileTap={{ scale: 0.98 }} onClick={() => setActiveModal('new_club')} className="glass-panel" style={{ padding: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px dashed #D1D5DB', background: 'transparent', cursor: 'pointer' }}>
                   <div style={{ textAlign: 'center', color: '#6B7280' }}>
                     <Plus size={24} style={{ margin: '0 auto 8px auto' }} />
                     <span style={{ fontSize: '13px', fontWeight: 500 }}>Register New Club</span>
                   </div>
-                </div>
+                </motion.div>
               </div>
 
               {/* Audience Retention Graph */}
@@ -167,6 +191,71 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
           </div>
         </motion.div>
       </main>
+
+      {/* Global Modals */}
+      <AnimatePresence>
+        {activeModal && (
+          <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} style={{ width: '90%', maxWidth: '500px', background: 'white', borderRadius: '24px', padding: '32px', position: 'relative' }}>
+              <button onClick={() => setActiveModal(null)} style={{ position: 'absolute', top: '24px', right: '24px', background: 'transparent', border: 'none', cursor: 'pointer', color: '#9CA3AF' }}><X size={20}/></button>
+              
+              {activeModal === 'new_club' && (
+                <div>
+                  <h2 style={{ fontSize: '24px', color: '#111827', marginBottom: '8px' }}>Register New Club</h2>
+                  <p style={{ fontSize: '14px', color: '#6B7280', marginBottom: '24px' }}>Submit your society for student union approval.</p>
+                  <form style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <input type="text" placeholder="Club Name" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
+                    <input type="text" placeholder="Category (e.g., Tech, Arts)" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
+                    <textarea placeholder="Description" rows="4" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%', resize: 'none' }}></textarea>
+                    <motion.button whileTap={{ scale: 0.95 }} type="button" onClick={() => setActiveModal(null)} className="btn btn-primary" style={{ padding: '12px' }}>Submit Application</motion.button>
+                  </form>
+                </div>
+              )}
+
+              {activeModal === 'event' && (
+                <div>
+                  <h2 style={{ fontSize: '24px', color: '#111827', marginBottom: '8px' }}>Create Event</h2>
+                  <form style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '24px' }}>
+                    <input type="text" placeholder="Event Title" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
+                    <div style={{ display: 'flex', gap: '16px' }}>
+                      <input type="date" className="search-input" style={{ padding: '12px', borderRadius: '8px', flex: 1 }} />
+                      <input type="time" className="search-input" style={{ padding: '12px', borderRadius: '8px', flex: 1 }} />
+                    </div>
+                    <input type="text" placeholder="Location" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
+                    <motion.button whileTap={{ scale: 0.95 }} type="button" onClick={() => setActiveModal(null)} className="btn btn-primary" style={{ padding: '12px' }}>Publish Event</motion.button>
+                  </form>
+                </div>
+              )}
+
+              {activeModal === 'broadcast' && (
+                <div>
+                  <h2 style={{ fontSize: '24px', color: '#111827', marginBottom: '8px' }}>Broadcast Message</h2>
+                  <p style={{ fontSize: '14px', color: '#6B7280', marginBottom: '24px' }}>Notify all your followers.</p>
+                  <form style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <input type="text" placeholder="Subject" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
+                    <textarea placeholder="Message content..." rows="5" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%', resize: 'none' }}></textarea>
+                    <motion.button whileTap={{ scale: 0.95 }} type="button" onClick={() => setActiveModal(null)} className="btn btn-primary" style={{ padding: '12px' }}>Send Broadcast</motion.button>
+                  </form>
+                </div>
+              )}
+
+              {activeModal === 'audition' && (
+                <div>
+                  <h2 style={{ fontSize: '24px', color: '#111827', marginBottom: '8px' }}>Launch Audition</h2>
+                  <p style={{ fontSize: '14px', color: '#6B7280', marginBottom: '24px' }}>Open a new recruitment pipeline.</p>
+                  <form style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <input type="text" placeholder="Role Title (e.g., Core Member)" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
+                    <input type="date" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
+                    <textarea placeholder="Requirements..." rows="4" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%', resize: 'none' }}></textarea>
+                    <motion.button whileTap={{ scale: 0.95 }} type="button" onClick={() => setActiveModal(null)} className="btn btn-primary" style={{ padding: '12px' }}>Open Auditions</motion.button>
+                  </form>
+                </div>
+              )}
+
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

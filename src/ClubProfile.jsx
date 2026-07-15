@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ExternalLink, Image, MessageCircle, Mail, Calendar, Info, FileText, QrCode, Trophy, Award, X, Users } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Image, MessageCircle, Mail, Calendar, Info, FileText, QrCode, Trophy, Award, X, Users, CheckCircle2 } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
 
 export default function ClubProfile({ club, onBack, onLeaderView }) {
@@ -8,6 +8,13 @@ export default function ClubProfile({ club, onBack, onLeaderView }) {
   const primaryColor = club.textColor || '#111827';
   const lightBg = club.color || '#F3F4F6';
   const [showTicket, setShowTicket] = useState(false);
+  const [showFollowModal, setShowFollowModal] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(false);
+
+  const handleFollow = () => {
+    setIsFollowing(true);
+    setShowFollowModal(true);
+  };
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-gradient)' }}>
@@ -46,9 +53,9 @@ export default function ClubProfile({ club, onBack, onLeaderView }) {
                   <h1 className="font-serif" style={{ fontSize: '48px', color: '#111827', lineHeight: 1.1, margin: '8px 0' }}>{club.name}</h1>
                   <p style={{ fontSize: '16px', color: '#6B7280' }}>{club.followers} students following</p>
                 </div>
-                <button className="btn" style={{ background: primaryColor, color: 'white', padding: '12px 32px', fontSize: '16px' }}>
-                  Follow Club
-                </button>
+                <motion.button whileTap={{ scale: 0.95 }} onClick={handleFollow} className="btn" style={{ background: isFollowing ? 'white' : primaryColor, color: isFollowing ? primaryColor : 'white', border: isFollowing ? `1px solid ${primaryColor}` : 'none', padding: '12px 32px', fontSize: '16px' }}>
+                  {isFollowing ? 'Following' : 'Follow Club'}
+                </motion.button>
               </div>
 
               <div style={{ display: 'flex', gap: '32px', borderBottom: '1px solid #E5E7EB', paddingBottom: '32px', marginBottom: '32px' }}>
@@ -178,6 +185,38 @@ export default function ClubProfile({ club, onBack, onLeaderView }) {
                   <div style={{ fontSize: '11px', color: '#9CA3AF', textTransform: 'uppercase' }}>Time</div>
                   <div style={{ fontSize: '14px', color: '#111827', fontWeight: 500 }}>4:00 PM</div>
                 </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Social Follow Modal */}
+      <AnimatePresence>
+        {showFollowModal && (
+          <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              style={{ background: 'white', padding: '32px', borderRadius: '24px', width: '90%', maxWidth: '380px', textAlign: 'center', position: 'relative', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)' }}
+            >
+              <button onClick={() => setShowFollowModal(false)} style={{ position: 'absolute', top: '16px', right: '16px', background: 'transparent', border: 'none', cursor: 'pointer', color: '#9CA3AF' }}><X size={20}/></button>
+              
+              <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: '#D1FAE5', color: '#059669', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px auto' }}>
+                <CheckCircle2 size={32} />
+              </div>
+              <h2 style={{ fontSize: '24px', color: '#111827', marginBottom: '8px' }}>Awesome! You're in.</h2>
+              <p style={{ fontSize: '14px', color: '#6B7280', marginBottom: '32px', lineHeight: 1.5 }}>
+                You'll now receive updates for <strong>{club.name}</strong> on your dashboard.<br/><br/>
+                Don't miss out on real-time updates—be sure to follow our socials too!
+              </p>
+
+              <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
+                <motion.button whileTap={{ scale: 0.95 }} className="btn" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', background: '#F9FAFB', border: '1px solid #E5E7EB', color: '#374151' }}>
+                  <Image size={18} /> Instagram
+                </motion.button>
+                <motion.button whileTap={{ scale: 0.95 }} className="btn" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', background: '#F9FAFB', border: '1px solid #E5E7EB', color: '#374151' }}>
+                  <MessageCircle size={18} /> LinkedIn
+                </motion.button>
               </div>
             </motion.div>
           </div>

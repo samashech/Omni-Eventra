@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ArrowLeft, Users, BarChart3, List, Layout, Settings, 
-  Search, Plus, Filter, MoreVertical, CheckCircle2, XCircle
+  Search, Plus, Filter, MoreVertical, CheckCircle2, XCircle, Edit, Trash2, X
 } from 'lucide-react';
 
 const candidatesData = [
@@ -19,6 +19,10 @@ const pipelineStages = ['Applied', 'Screen', 'Interview', 'Offer', 'Hired', 'Rej
 
 export default function ClubLeaderView({ club, onBack }) {
   const [activeTab, setActiveTab] = useState('Pipeline');
+  const [isAuditionOpen, setIsAuditionOpen] = useState(true);
+  const [activeModal, setActiveModal] = useState(null);
+  
+  const primaryColor = club?.textColor || '#111827';
 
   const renderBadge = (stage) => {
     const colors = {
@@ -196,17 +200,22 @@ export default function ClubLeaderView({ club, onBack }) {
             <motion.div key="pipeline" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
               
               <div className="glass-panel" style={{ background: 'white', padding: '32px', marginBottom: '32px' }}>
-                <div className="flex-between" style={{ marginBottom: '32px' }}>
-                  <div>
-                    <h1 style={{ fontSize: '28px', color: '#111827', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                      Core Team Member 
-                      <span style={{ fontSize: '12px', background: '#F3F4F6', padding: '4px 8px', borderRadius: '4px' }}>Open</span>
-                    </h1>
-                    <p style={{ color: '#6B7280', fontSize: '14px' }}>General Recruitment · Part-time · HC 5</p>
+                <div className="flex-between" style={{ marginBottom: '24px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                    <h1 style={{ fontSize: '28px', color: '#111827', margin: 0 }}>Core Team Fall Recruitment</h1>
+                    
+                    {/* Audition Open/Close Toggle */}
+                    <div onClick={() => setIsAuditionOpen(!isAuditionOpen)} style={{ display: 'flex', alignItems: 'center', gap: '8px', background: isAuditionOpen ? '#D1FAE5' : '#FEE2E2', color: isAuditionOpen ? '#065F46' : '#991B1B', padding: '4px 12px', borderRadius: '999px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', transition: 'all 0.2s' }}>
+                      <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: isAuditionOpen ? '#10B981' : '#EF4444' }}></div>
+                      {isAuditionOpen ? 'PUBLICLY OPEN' : 'CLOSED'}
+                    </div>
                   </div>
-                  <div style={{ display: 'flex', gap: '12px' }}>
-                    <button className="btn" style={{ background: 'white', border: '1px solid #E5E7EB' }}>Edit Form</button>
-                    <button className="btn" style={{ background: '#FEE2E2', color: '#991B1B', border: '1px solid #FCA5A5' }}>Close Auditions</button>
+                  
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <motion.button whileTap={{ scale: 0.95 }} onClick={() => setActiveModal('edit_form')} className="btn btn-ghost" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px' }}><Edit size={16} /> Edit Form</motion.button>
+                    <button className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', background: primaryColor }}>
+                      <Plus size={16} /> Add Candidate
+                    </button>
                   </div>
                 </div>
 
@@ -275,8 +284,13 @@ export default function ClubLeaderView({ club, onBack }) {
 
                   {['Core Management', 'Events & Outreach', 'Tech & Design', 'Content Creation'].map((team, i) => (
                     <div key={i} className="glass-panel" style={{ background: i === 0 ? '#FEF3C7' : 'white', border: i === 0 ? '1px solid #FDE047' : '1px solid #E5E7EB', padding: '16px', cursor: 'pointer', transition: 'all 0.2s' }}>
-                      <h4 style={{ fontSize: '14px', color: '#111827', marginBottom: '4px' }}>{team}</h4>
-                      <p style={{ fontSize: '12px', color: '#6B7280' }}>{i === 0 ? '5' : '3'} members</p>
+                      <div className="flex-between">
+                        <div>
+                          <h4 style={{ fontSize: '14px', color: '#111827', marginBottom: '4px' }}>{team}</h4>
+                          <p style={{ fontSize: '12px', color: '#6B7280' }}>{i === 0 ? '5' : '3'} members</p>
+                        </div>
+                        <Trash2 size={14} color="#9CA3AF" />
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -284,7 +298,9 @@ export default function ClubLeaderView({ club, onBack }) {
                 <div className="glass-panel" style={{ background: 'white', padding: '32px' }}>
                   <div className="flex-between" style={{ marginBottom: '32px' }}>
                     <h3 style={{ fontSize: '18px', color: '#111827' }}>Core Management · Members</h3>
-                    <button className="btn btn-primary" style={{ fontSize: '13px' }}>+ Invite Member</button>
+                    <motion.button whileTap={{ scale: 0.95 }} onClick={() => setActiveModal('add_member')} className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', background: primaryColor }}>
+                      <Plus size={16} /> Add Member
+                    </motion.button>
                   </div>
 
                   <table style={{ width: '100%', borderCollapse: 'collapse' }}>
@@ -300,10 +316,11 @@ export default function ClubLeaderView({ club, onBack }) {
                             <h4 style={{ fontSize: '14px', color: '#111827' }}>{m.name}</h4>
                             <p style={{ fontSize: '13px', color: '#6B7280' }}>{m.email}</p>
                           </td>
-                          <td style={{ padding: '16px 0', textAlign: 'right' }}>
+                          <td style={{ padding: '16px 0', textAlign: 'right', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '16px' }}>
                             <span style={{ background: '#F3F4F6', color: '#374151', padding: '4px 10px', borderRadius: '999px', fontSize: '12px', fontWeight: 500 }}>
                               {m.role}
                             </span>
+                            <motion.button whileTap={{ scale: 0.9 }} className="btn btn-ghost btn-icon" style={{ color: '#EF4444' }}><Trash2 size={16} /></motion.button>
                           </td>
                         </tr>
                       ))}
@@ -316,6 +333,50 @@ export default function ClubLeaderView({ club, onBack }) {
 
         </AnimatePresence>
       </main>
+
+      {/* Leader View Modals */}
+      <AnimatePresence>
+        {activeModal && (
+          <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} style={{ width: '90%', maxWidth: '500px', background: 'white', borderRadius: '24px', padding: '32px', position: 'relative' }}>
+              <button onClick={() => setActiveModal(null)} style={{ position: 'absolute', top: '24px', right: '24px', background: 'transparent', border: 'none', cursor: 'pointer', color: '#9CA3AF' }}><X size={20}/></button>
+              
+              {activeModal === 'edit_form' && (
+                <div>
+                  <h2 style={{ fontSize: '24px', color: '#111827', marginBottom: '8px' }}>Edit Application Form</h2>
+                  <p style={{ fontSize: '14px', color: '#6B7280', marginBottom: '24px' }}>Customize the questions for your audition.</p>
+                  <form style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <div>
+                      <label style={{ fontSize: '12px', fontWeight: 600, color: '#4B5563', marginBottom: '4px', display: 'block' }}>Question 1</label>
+                      <input type="text" defaultValue="Why do you want to join?" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
+                    </div>
+                    <div>
+                      <label style={{ fontSize: '12px', fontWeight: 600, color: '#4B5563', marginBottom: '4px', display: 'block' }}>Question 2</label>
+                      <input type="text" defaultValue="Portfolio Link (Optional)" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
+                    </div>
+                    <motion.button whileTap={{ scale: 0.95 }} type="button" onClick={() => setActiveModal(null)} className="btn btn-primary" style={{ padding: '12px', background: primaryColor }}>Save Form</motion.button>
+                  </form>
+                </div>
+              )}
+
+              {activeModal === 'add_member' && (
+                <div>
+                  <h2 style={{ fontSize: '24px', color: '#111827', marginBottom: '8px' }}>Add Team Member</h2>
+                  <p style={{ fontSize: '14px', color: '#6B7280', marginBottom: '24px' }}>Add a new member to the club roster.</p>
+                  <form style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <input type="text" placeholder="Full Name" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
+                    <input type="email" placeholder="University Email" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
+                    <input type="text" placeholder="Role (e.g., Tech Lead)" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
+                    <motion.button whileTap={{ scale: 0.95 }} type="button" onClick={() => setActiveModal(null)} className="btn btn-primary" style={{ padding: '12px', background: primaryColor }}>Send Invite</motion.button>
+                  </form>
+                </div>
+              )}
+
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
     </div>
   );
 }
