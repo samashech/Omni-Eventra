@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { supabase } from './supabase';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ExternalLink, Image, MessageCircle, Mail, Calendar, Info, FileText, QrCode, Trophy, Award, X, Users, CheckCircle2 } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
@@ -11,9 +12,11 @@ export default function ClubProfile({ club, onBack, onLeaderView }) {
   const [showFollowModal, setShowFollowModal] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
 
-  const handleFollow = () => {
+  const handleFollow = async () => {
+    if (isFollowing) return;
     setIsFollowing(true);
     setShowFollowModal(true);
+    await supabase.from('clubs').update({ followers: club.followers + 1 }).eq('id', club.id);
   };
 
   return (
