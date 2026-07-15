@@ -9,6 +9,7 @@ import {
 import OnboardingQuiz from './OnboardingQuiz';
 import ClubProfile from './ClubProfile';
 import ClubLeaderView from './ClubLeaderView';
+import SearchModal from './SearchModal';
 
 const stats = [
   { label: 'SUBSCRIBED CLUBS', value: '12', subtext: '3 new this week' },
@@ -63,6 +64,18 @@ export default function Dashboard({ onSignOut }) {
   const [showQuiz, setShowQuiz] = useState(true);
   const [activeClub, setActiveClub] = useState(null);
   const [isLeaderView, setIsLeaderView] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  React.useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setIsSearchOpen(true);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   if (activeClub && isLeaderView) {
     return <ClubLeaderView club={activeClub} onBack={() => setIsLeaderView(false)} />;
@@ -78,6 +91,10 @@ export default function Dashboard({ onSignOut }) {
       {showQuiz && (
         <OnboardingQuiz onComplete={() => setShowQuiz(false)} allClubs={allClubs} />
       )}
+      
+      <AnimatePresence>
+        {isSearchOpen && <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />}
+      </AnimatePresence>
 
       {/* Navigation */}
       <nav style={{ padding: '20px 0' }}>
@@ -106,9 +123,9 @@ export default function Dashboard({ onSignOut }) {
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <div className="search-input-wrapper">
+            <div className="search-input-wrapper" onClick={() => setIsSearchOpen(true)} style={{ cursor: 'pointer' }}>
               <Search className="search-icon" size={16} />
-              <input type="text" className="search-input" placeholder="Search clubs, events..." />
+              <div className="search-input" style={{ width: '200px', display: 'flex', alignItems: 'center', color: '#9CA3AF' }}>Search clubs, events...</div>
               <span className="cmd-k">⌘K</span>
             </div>
             <button onClick={() => setShowQuiz(true)} className="btn btn-ghost" style={{ padding: '8px 16px', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '6px' }}>

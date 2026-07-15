@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ExternalLink, Image, MessageCircle, Mail, Calendar, Info, FileText } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Image, MessageCircle, Mail, Calendar, Info, FileText, QrCode, Trophy, Award, X, Users } from 'lucide-react';
+import { AnimatePresence } from 'framer-motion';
 
 export default function ClubProfile({ club, onBack, onLeaderView }) {
   // Extract custom color for "vibe" customization
   const primaryColor = club.textColor || '#111827';
   const lightBg = club.color || '#F3F4F6';
+  const [showTicket, setShowTicket] = useState(false);
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-gradient)' }}>
@@ -66,6 +68,29 @@ export default function ClubProfile({ club, onBack, onLeaderView }) {
                 </div>
               </div>
 
+              {/* Achievements Archive */}
+              <div style={{ marginBottom: '40px' }}>
+                <h3 style={{ fontSize: '18px', color: '#111827', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}><Trophy size={20} color={primaryColor} /> Achievements Archive</h3>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
+                  {[
+                    { title: 'Best Campus Society 2025', desc: 'Awarded by Student Union', icon: Trophy },
+                    { title: 'Hackathon Champions', desc: 'National Tech Fest', icon: Award },
+                    { title: '1000+ Members Milestone', desc: 'Largest club on campus', icon: Users }
+                  ].map((ach, i) => {
+                    const AchIcon = ach.icon;
+                    return (
+                      <div key={i} style={{ background: '#F9FAFB', border: '1px solid #E5E7EB', borderRadius: '12px', padding: '16px' }}>
+                        <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: lightBg, color: primaryColor, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '12px' }}>
+                          <AchIcon size={16} />
+                        </div>
+                        <h4 style={{ fontSize: '14px', color: '#111827', marginBottom: '4px' }}>{ach.title}</h4>
+                        <p style={{ fontSize: '12px', color: '#6B7280' }}>{ach.desc}</p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
               {/* Recruitment / Audition Form Preview */}
               <div style={{ background: lightBg, borderRadius: '24px', padding: '32px', border: `1px solid ${primaryColor}30` }}>
                 <div className="flex-between" style={{ marginBottom: '24px' }}>
@@ -102,7 +127,7 @@ export default function ClubProfile({ club, onBack, onLeaderView }) {
                   <span style={{ fontSize: '11px', color: primaryColor, fontWeight: 600 }}>OCT 24 · 4:00 PM</span>
                   <h4 style={{ fontSize: '14px', color: '#111827', margin: '4px 0' }}>Intro Workshop</h4>
                   <p style={{ fontSize: '12px', color: '#6B7280' }}>Room 304, Main Block</p>
-                  <button className="btn" style={{ width: '100%', marginTop: '12px', padding: '6px', fontSize: '12px', background: lightBg, color: primaryColor, border: `1px solid ${primaryColor}30` }}>RSVP</button>
+                  <button onClick={() => setShowTicket(true)} className="btn" style={{ width: '100%', marginTop: '12px', padding: '6px', fontSize: '12px', background: lightBg, color: primaryColor, border: `1px solid ${primaryColor}30` }}>RSVP</button>
                 </div>
               </div>
             </div>
@@ -120,6 +145,45 @@ export default function ClubProfile({ club, onBack, onLeaderView }) {
 
         </div>
       </main>
+
+      {/* QR Ticket Modal */}
+      <AnimatePresence>
+        {showTicket && (
+          <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              style={{ background: 'white', padding: '0', borderRadius: '24px', width: '90%', maxWidth: '340px', overflow: 'hidden', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)' }}
+            >
+              <div style={{ background: primaryColor, padding: '24px', color: 'white', position: 'relative' }}>
+                <button onClick={() => setShowTicket(false)} style={{ position: 'absolute', top: '16px', right: '16px', background: 'transparent', border: 'none', color: 'white', cursor: 'pointer' }}><X size={20} /></button>
+                <div style={{ fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', opacity: 0.8, marginBottom: '8px' }}>ENTRY TICKET</div>
+                <h3 className="font-serif" style={{ fontSize: '24px', margin: 0, lineHeight: 1.1 }}>Intro Workshop</h3>
+                <p style={{ fontSize: '14px', opacity: 0.8, marginTop: '4px' }}>{club.name}</p>
+              </div>
+              
+              <div style={{ padding: '32px', display: 'flex', flexDirection: 'column', alignItems: 'center', background: '#FAFAFA' }}>
+                <div style={{ width: '180px', height: '180px', background: 'white', borderRadius: '16px', padding: '16px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  {/* Simplified mock of a QR code icon */}
+                  <QrCode size={148} color={primaryColor} />
+                </div>
+                <p style={{ fontSize: '13px', color: '#6B7280', marginTop: '24px', textAlign: 'center' }}>Show this QR code at the entrance to check in.</p>
+              </div>
+              
+              <div style={{ padding: '16px 24px', background: 'white', borderTop: '2px dashed #E5E7EB', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div>
+                  <div style={{ fontSize: '11px', color: '#9CA3AF', textTransform: 'uppercase' }}>Date</div>
+                  <div style={{ fontSize: '14px', color: '#111827', fontWeight: 500 }}>Oct 24, 2026</div>
+                </div>
+                <div style={{ textAlign: 'right' }}>
+                  <div style={{ fontSize: '11px', color: '#9CA3AF', textTransform: 'uppercase' }}>Time</div>
+                  <div style={{ fontSize: '14px', color: '#111827', fontWeight: 500 }}>4:00 PM</div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
     </div>
   );
 }

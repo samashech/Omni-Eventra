@@ -84,28 +84,50 @@ export default function Landing({ onSignIn }) {
       {/* Poetic.com Style Opening Transition / Preloader */}
       <AnimatePresence>
         {loading && (
-          <motion.div
-            key="preloader"
-            initial={{ y: 0 }}
-            exit={{ y: '-100vh' }}
-            transition={{ duration: 1, ease: [0.76, 0, 0.24, 1] }} // Cinematic curtain rise easing
-            style={{
-              position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
-              background: '#0B0F19', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center',
-              flexDirection: 'column'
-            }}
-          >
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+          <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 9999, pointerEvents: 'none' }}>
+            
+            {/* Bottom Stack Layer (Yellow) */}
+            <motion.div
+              key="preloader-3"
+              initial={{ x: 0 }}
+              exit={{ x: '100vw' }}
+              transition={{ duration: 1, ease: [0.76, 0, 0.24, 1], delay: 0.2 }}
+              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: '#FACC15', zIndex: 9997 }}
+            />
+            
+            {/* Middle Stack Layer (White) */}
+            <motion.div
+              key="preloader-2"
+              initial={{ x: 0 }}
+              exit={{ x: '100vw' }}
+              transition={{ duration: 1, ease: [0.76, 0, 0.24, 1], delay: 0.1 }}
+              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: '#FFFFFF', zIndex: 9998 }}
+            />
+
+            {/* Top Stack Layer (Dark with Logo) */}
+            <motion.div
+              key="preloader-1"
+              initial={{ x: 0 }}
+              exit={{ x: '100vw' }}
+              transition={{ duration: 1, ease: [0.76, 0, 0.24, 1], delay: 0 }}
+              style={{
+                position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+                background: '#0B0F19', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center'
+              }}
             >
-              <div style={{ width: '32px', height: '32px', background: 'white', borderRadius: '50%', color: '#0B0F19', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '18px' }} className="font-serif">C</div>
-              <span style={{ fontSize: '20px', fontWeight: 600, color: 'white', letterSpacing: '-0.02em' }}>
-                Club<span style={{ color: '#EAB308', fontStyle: 'italic' }}>hub</span>
-              </span>
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+              >
+                <div style={{ width: '32px', height: '32px', background: 'white', borderRadius: '50%', color: '#0B0F19', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '18px' }} className="font-serif">C</div>
+                <span style={{ fontSize: '20px', fontWeight: 600, color: 'white', letterSpacing: '-0.02em' }}>
+                  Club<span style={{ color: '#EAB308', fontStyle: 'italic' }}>hub</span>
+                </span>
+              </motion.div>
             </motion.div>
-          </motion.div>
+
+          </div>
         )}
       </AnimatePresence>
 
