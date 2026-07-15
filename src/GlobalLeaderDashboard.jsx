@@ -19,6 +19,8 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
   const [activeClub, setActiveClub] = useState(null);
   const [activeModal, setActiveModal] = useState(null);
   const [showNotifs, setShowNotifs] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  useEffect(() => { document.body.classList.toggle('dark', isDarkMode); }, [isDarkMode]);
   const [myClubs, setMyClubs] = useState(fallbackClubs);
 
   useEffect(() => {
@@ -62,9 +64,9 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
       <nav style={{ padding: '20px 0', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
         <div className="container flex-between">
           <div style={{ display: 'flex', alignItems: 'center', gap: '40px' }}>
-            <h2 style={{ margin: 0, letterSpacing: '-0.05em', color: '#111827', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <h2 style={{ margin: 0, letterSpacing: '-0.05em', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
               <span style={{ color: '#EAB308' }}>●</span> CAMPUS<span style={{ fontWeight: 400 }}>hub</span>
-              <span style={{ fontSize: '10px', background: '#111827', color: 'white', padding: '2px 6px', borderRadius: '4px', letterSpacing: '0.1em', marginLeft: '4px' }}>LEADER</span>
+              <span style={{ fontSize: '10px', background: 'var(--text-primary)', color: 'var(--card-bg)', padding: '2px 6px', borderRadius: '4px', letterSpacing: '0.1em', marginLeft: '4px' }}>LEADER</span>
             </h2>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', position: 'relative' }}>
@@ -74,24 +76,24 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
             </motion.button>
             
             {showNotifs && (
-              <div style={{ position: 'absolute', top: '100%', right: '50px', width: '320px', background: 'white', borderRadius: '16px', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.15)', border: '1px solid #E5E7EB', zIndex: 100, overflow: 'hidden' }}>
+              <div style={{ position: 'absolute', top: '100%', right: '50px', width: '320px', background: 'var(--card-bg)', borderRadius: '16px', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.15)', border: '1px solid #E5E7EB', zIndex: 100, overflow: 'hidden' }}>
                 <div style={{ padding: '16px', borderBottom: '1px solid #F3F4F6', fontWeight: 600, fontSize: '14px' }}>Notifications</div>
                 <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
                   <div style={{ padding: '16px', borderBottom: '1px solid #F3F4F6', cursor: 'pointer' }} className="hover-bg">
-                    <div style={{ fontSize: '13px', fontWeight: 500, color: '#111827' }}>System Update</div>
-                    <div style={{ fontSize: '12px', color: '#6B7280' }}>CampusHub v2.0 is live! Check out the new features.</div>
+                    <div style={{ fontSize: '13px', fontWeight: 500, color: 'var(--text-primary)' }}>System Update</div>
+                    <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>CampusHub v2.0 is live! Check out the new features.</div>
                     <div style={{ fontSize: '10px', color: '#9CA3AF', marginTop: '4px' }}>2 hrs ago</div>
                   </div>
                   <div style={{ padding: '16px', cursor: 'pointer' }} className="hover-bg">
-                    <div style={{ fontSize: '13px', fontWeight: 500, color: '#111827' }}>Club Registration</div>
-                    <div style={{ fontSize: '12px', color: '#6B7280' }}>Your new club application is under review.</div>
+                    <div style={{ fontSize: '13px', fontWeight: 500, color: 'var(--text-primary)' }}>Club Registration</div>
+                    <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Your new club application is under review.</div>
                     <div style={{ fontSize: '10px', color: '#9CA3AF', marginTop: '4px' }}>1 day ago</div>
                   </div>
                 </div>
               </div>
             )}
 
-            <motion.div whileTap={{ scale: 0.95 }} onClick={onSignOut} style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#111827', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: '14px', cursor: 'pointer' }}>
+            <motion.div whileTap={{ scale: 0.95 }} onClick={onSignOut} style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'var(--text-primary)', color: 'var(--card-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: '14px', cursor: 'pointer' }}>
               JD
             </motion.div>
           </div>
@@ -100,8 +102,8 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
 
       <main className="container" style={{ padding: '40px 0' }}>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-          <h1 className="font-serif" style={{ fontSize: '36px', color: '#111827', marginBottom: '8px' }}>Command Center</h1>
-          <p style={{ color: '#6B7280', fontSize: '16px', marginBottom: '40px' }}>Welcome back, John. Here is what needs your attention today.</p>
+          <h1 className="font-serif" style={{ fontSize: '36px', color: 'var(--text-primary)', marginBottom: '8px' }}>Command Center</h1>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '16px', marginBottom: '40px' }}>Welcome back, John. Here is what needs your attention today.</p>
 
           <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '32px' }}>
             
@@ -109,39 +111,39 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
             <div>
               {/* Quick Create Dashboard */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '40px' }}>
-                <motion.button whileTap={{ scale: 0.95 }} onClick={() => setActiveModal('event')} className="glass-panel" style={{ padding: '24px', textAlign: 'left', cursor: 'pointer', border: '1px solid #E5E7EB', display: 'flex', flexDirection: 'column', gap: '12px', transition: 'all 0.2s', background: 'white' }}>
+                <motion.button whileTap={{ scale: 0.95 }} onClick={() => setActiveModal('event')} className="glass-panel" style={{ padding: '24px', textAlign: 'left', cursor: 'pointer', border: '1px solid #E5E7EB', display: 'flex', flexDirection: 'column', gap: '12px', transition: 'all 0.2s', background: 'var(--card-bg)' }}>
                   <div style={{ width: '40px', height: '40px', background: '#DBEAFE', color: '#1E40AF', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Plus size={20} />
                   </div>
                   <div>
-                    <h4 style={{ fontSize: '15px', color: '#111827', margin: 0 }}>Create Event</h4>
-                    <span style={{ fontSize: '12px', color: '#6B7280' }}>Schedule a new meetup</span>
+                    <h4 style={{ fontSize: '15px', color: 'var(--text-primary)', margin: 0 }}>Create Event</h4>
+                    <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Schedule a new meetup</span>
                   </div>
                 </motion.button>
 
-                <motion.button whileTap={{ scale: 0.95 }} onClick={() => setActiveModal('broadcast')} className="glass-panel" style={{ padding: '24px', textAlign: 'left', cursor: 'pointer', border: '1px solid #E5E7EB', display: 'flex', flexDirection: 'column', gap: '12px', transition: 'all 0.2s', background: 'white' }}>
+                <motion.button whileTap={{ scale: 0.95 }} onClick={() => setActiveModal('broadcast')} className="glass-panel" style={{ padding: '24px', textAlign: 'left', cursor: 'pointer', border: '1px solid #E5E7EB', display: 'flex', flexDirection: 'column', gap: '12px', transition: 'all 0.2s', background: 'var(--card-bg)' }}>
                   <div style={{ width: '40px', height: '40px', background: '#FEF3C7', color: '#92400E', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Megaphone size={20} />
                   </div>
                   <div>
-                    <h4 style={{ fontSize: '15px', color: '#111827', margin: 0 }}>Broadcast</h4>
-                    <span style={{ fontSize: '12px', color: '#6B7280' }}>Send an announcement</span>
+                    <h4 style={{ fontSize: '15px', color: 'var(--text-primary)', margin: 0 }}>Broadcast</h4>
+                    <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Send an announcement</span>
                   </div>
                 </motion.button>
 
-                <motion.button whileTap={{ scale: 0.95 }} onClick={() => setActiveModal('audition')} className="glass-panel" style={{ padding: '24px', textAlign: 'left', cursor: 'pointer', border: '1px solid #E5E7EB', display: 'flex', flexDirection: 'column', gap: '12px', transition: 'all 0.2s', background: 'white' }}>
+                <motion.button whileTap={{ scale: 0.95 }} onClick={() => setActiveModal('audition')} className="glass-panel" style={{ padding: '24px', textAlign: 'left', cursor: 'pointer', border: '1px solid #E5E7EB', display: 'flex', flexDirection: 'column', gap: '12px', transition: 'all 0.2s', background: 'var(--card-bg)' }}>
                   <div style={{ width: '40px', height: '40px', background: '#FCE7F3', color: '#9D174D', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <FileText size={20} />
                   </div>
                   <div>
-                    <h4 style={{ fontSize: '15px', color: '#111827', margin: 0 }}>Launch Audition</h4>
-                    <span style={{ fontSize: '12px', color: '#6B7280' }}>Open recruitment form</span>
+                    <h4 style={{ fontSize: '15px', color: 'var(--text-primary)', margin: 0 }}>Launch Audition</h4>
+                    <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Open recruitment form</span>
                   </div>
                 </motion.button>
               </div>
 
               {/* My Managed Clubs */}
-              <h3 style={{ fontSize: '18px', color: '#111827', marginBottom: '16px' }}>My Managed Clubs</h3>
+              <h3 style={{ fontSize: '18px', color: 'var(--text-primary)', marginBottom: '16px' }}>My Managed Clubs</h3>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px', marginBottom: '40px' }}>
                 {myClubs.map(club => (
                   <motion.div 
@@ -149,21 +151,21 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
                     whileHover={{ y: -4 }}
                     onClick={() => setActiveClub(club)}
                     className="glass-panel" 
-                    style={{ padding: '24px', display: 'flex', alignItems: 'center', gap: '16px', cursor: 'pointer', background: 'white' }}
+                    style={{ padding: '24px', display: 'flex', alignItems: 'center', gap: '16px', cursor: 'pointer', background: 'var(--card-bg)' }}
                   >
                     <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: club.color, color: club.textColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', fontWeight: 'bold' }}>
                       {club.icon}
                     </div>
                     <div style={{ flex: 1 }}>
-                      <h4 style={{ fontSize: '16px', color: '#111827', margin: '0 0 4px 0' }}>{club.name}</h4>
-                      <p style={{ fontSize: '13px', color: '#6B7280', margin: 0 }}>{club.followers} followers</p>
+                      <h4 style={{ fontSize: '16px', color: 'var(--text-primary)', margin: '0 0 4px 0' }}>{club.name}</h4>
+                      <p style={{ fontSize: '13px', color: 'var(--text-secondary)', margin: 0 }}>{club.followers} followers</p>
                     </div>
                     <ArrowUpRight size={20} color="#9CA3AF" />
                   </motion.div>
                 ))}
                 
                 <motion.div whileTap={{ scale: 0.98 }} onClick={() => setActiveModal('new_club')} className="glass-panel" style={{ padding: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px dashed #D1D5DB', background: 'transparent', cursor: 'pointer' }}>
-                  <div style={{ textAlign: 'center', color: '#6B7280' }}>
+                  <div style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
                     <Plus size={24} style={{ margin: '0 auto 8px auto' }} />
                     <span style={{ fontSize: '13px', fontWeight: 500 }}>Register New Club</span>
                   </div>
@@ -171,10 +173,10 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
               </div>
 
               {/* Audience Retention Graph */}
-              <h3 style={{ fontSize: '18px', color: '#111827', marginBottom: '16px' }}>Audience Growth (30 Days)</h3>
-              <div className="glass-panel" style={{ background: 'white', padding: '32px', height: '240px', position: 'relative', display: 'flex', alignItems: 'flex-end', gap: '8px' }}>
+              <h3 style={{ fontSize: '18px', color: 'var(--text-primary)', marginBottom: '16px' }}>Audience Growth (30 Days)</h3>
+              <div className="glass-panel" style={{ background: 'var(--card-bg)', padding: '32px', height: '240px', position: 'relative', display: 'flex', alignItems: 'flex-end', gap: '8px' }}>
                 <div style={{ position: 'absolute', top: '24px', left: '24px' }}>
-                  <h2 style={{ fontSize: '32px', color: '#111827', margin: 0 }}>+124</h2>
+                  <h2 style={{ fontSize: '32px', color: 'var(--text-primary)', margin: 0 }}>+124</h2>
                   <span style={{ fontSize: '13px', color: '#059669', display: 'flex', alignItems: 'center', gap: '4px' }}><TrendingUp size={14}/> New followers</span>
                 </div>
                 {/* Mock Graph Bars */}
@@ -186,8 +188,8 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
 
             {/* Right Column: Action Center (Notifications) */}
             <div>
-              <div className="glass-panel" style={{ background: 'white', padding: '24px' }}>
-                <h3 style={{ fontSize: '18px', color: '#111827', marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div className="glass-panel" style={{ background: 'var(--card-bg)', padding: '24px' }}>
+                <h3 style={{ fontSize: '18px', color: 'var(--text-primary)', marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   Action Center
                   <span style={{ background: '#FEE2E2', color: '#991B1B', fontSize: '11px', padding: '2px 8px', borderRadius: '999px', fontWeight: 600 }}>3 NEW</span>
                 </h3>
@@ -198,7 +200,7 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
                       <Users size={16} />
                     </div>
                     <div>
-                      <p style={{ fontSize: '13px', color: '#111827', margin: '0 0 4px 0', lineHeight: 1.4 }}><strong>5 new students</strong> applied to your Core Team Audition.</p>
+                      <p style={{ fontSize: '13px', color: 'var(--text-primary)', margin: '0 0 4px 0', lineHeight: 1.4 }}><strong>5 new students</strong> applied to your Core Team Audition.</p>
                       <span style={{ fontSize: '11px', color: '#9CA3AF' }}>2 hours ago</span>
                     </div>
                   </div>
@@ -208,7 +210,7 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
                       <TrendingUp size={16} />
                     </div>
                     <div>
-                      <p style={{ fontSize: '13px', color: '#111827', margin: '0 0 4px 0', lineHeight: 1.4 }}>Your upcoming event <strong>Intro Workshop</strong> just hit 150 RSVPs.</p>
+                      <p style={{ fontSize: '13px', color: 'var(--text-primary)', margin: '0 0 4px 0', lineHeight: 1.4 }}>Your upcoming event <strong>Intro Workshop</strong> just hit 150 RSVPs.</p>
                       <span style={{ fontSize: '11px', color: '#9CA3AF' }}>5 hours ago</span>
                     </div>
                   </div>
@@ -218,7 +220,7 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
                       <AlertTriangle size={16} />
                     </div>
                     <div>
-                      <p style={{ fontSize: '13px', color: '#111827', margin: '0 0 4px 0', lineHeight: 1.4 }}><strong>Conflict Alert:</strong> Debate Club just scheduled a large event on Oct 24.</p>
+                      <p style={{ fontSize: '13px', color: 'var(--text-primary)', margin: '0 0 4px 0', lineHeight: 1.4 }}><strong>Conflict Alert:</strong> Debate Club just scheduled a large event on Oct 24.</p>
                       <span style={{ fontSize: '11px', color: '#9CA3AF' }}>1 day ago</span>
                     </div>
                   </div>
@@ -234,13 +236,13 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
       <AnimatePresence>
         {activeModal && (
           <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} style={{ width: '90%', maxWidth: '500px', background: 'white', borderRadius: '24px', padding: '32px', position: 'relative' }}>
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} style={{ width: '90%', maxWidth: '500px', background: 'var(--card-bg)', borderRadius: '24px', padding: '32px', position: 'relative' }}>
               <button onClick={() => setActiveModal(null)} style={{ position: 'absolute', top: '24px', right: '24px', background: 'transparent', border: 'none', cursor: 'pointer', color: '#9CA3AF' }}><X size={20}/></button>
               
               {activeModal === 'new_club' && (
                 <div>
-                  <h2 style={{ fontSize: '24px', color: '#111827', marginBottom: '8px' }}>Register New Club</h2>
-                  <p style={{ fontSize: '14px', color: '#6B7280', marginBottom: '24px' }}>Submit your society for student union approval.</p>
+                  <h2 style={{ fontSize: '24px', color: 'var(--text-primary)', marginBottom: '8px' }}>Register New Club</h2>
+                  <p style={{ fontSize: '14px', color: 'var(--text-secondary)', marginBottom: '24px' }}>Submit your society for student union approval.</p>
                   <form onSubmit={handleRegisterClub} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                     <input name="name" type="text" placeholder="Club Name" required className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
                     <input name="category" type="text" placeholder="Category (e.g., Tech, Arts)" required className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
@@ -252,7 +254,7 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
 
               {activeModal === 'event' && (
                 <div>
-                  <h2 style={{ fontSize: '24px', color: '#111827', marginBottom: '8px' }}>Create Event</h2>
+                  <h2 style={{ fontSize: '24px', color: 'var(--text-primary)', marginBottom: '8px' }}>Create Event</h2>
                   <form onSubmit={handleCreateEvent} style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '24px' }}>
                     <input name="title" type="text" placeholder="Event Title" required className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
                     <div style={{ display: 'flex', gap: '16px' }}>
@@ -267,8 +269,8 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
 
               {activeModal === 'broadcast' && (
                 <div>
-                  <h2 style={{ fontSize: '24px', color: '#111827', marginBottom: '8px' }}>Broadcast Message</h2>
-                  <p style={{ fontSize: '14px', color: '#6B7280', marginBottom: '24px' }}>Notify all your followers.</p>
+                  <h2 style={{ fontSize: '24px', color: 'var(--text-primary)', marginBottom: '8px' }}>Broadcast Message</h2>
+                  <p style={{ fontSize: '14px', color: 'var(--text-secondary)', marginBottom: '24px' }}>Notify all your followers.</p>
                   <form style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                     <input type="text" placeholder="Subject" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
                     <textarea placeholder="Message content..." rows="5" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%', resize: 'none' }}></textarea>
@@ -279,8 +281,8 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
 
               {activeModal === 'audition' && (
                 <div>
-                  <h2 style={{ fontSize: '24px', color: '#111827', marginBottom: '8px' }}>Launch Audition</h2>
-                  <p style={{ fontSize: '14px', color: '#6B7280', marginBottom: '24px' }}>Open a new recruitment pipeline.</p>
+                  <h2 style={{ fontSize: '24px', color: 'var(--text-primary)', marginBottom: '8px' }}>Launch Audition</h2>
+                  <p style={{ fontSize: '14px', color: 'var(--text-secondary)', marginBottom: '24px' }}>Open a new recruitment pipeline.</p>
                   <form style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                     <input type="text" placeholder="Role Title (e.g., Core Member)" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
                     <input type="date" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />

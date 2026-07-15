@@ -12,6 +12,10 @@
   --accent-primary-hover: #FACC15;
   --accent-light: #FEF3C7;
   --accent-text: #EAB308;
+  --card-bg: white;
+  --card-bg-alt: #F9FAFB;
+  --border-color: #E5E7EB;
+
 
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
@@ -213,4 +217,23 @@ td {
 
 tr:last-child td {
   border-bottom: none;
+}
+
+body.dark {
+  --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+  --surface: rgba(30, 41, 59, 0.65);
+  --surface-hover: rgba(30, 41, 59, 0.85);
+  --border: rgba(51, 65, 85, 0.7);
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-tertiary: #64748b;
+  --card-bg: #1e293b;
+  --card-bg-alt: #0f172a;
+  --border-color: #334155;
+}
+
+body.dark .search-input {
+  background: var(--card-bg);
+  color: var(--text-primary);
+  border-color: var(--border-color);
 }

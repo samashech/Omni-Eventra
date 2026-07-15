@@ -71,6 +71,8 @@ export default function Dashboard({ onSignOut }) {
   const [isLeaderView, setIsLeaderView] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [showNotifs, setShowNotifs] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  useEffect(() => { document.body.classList.toggle('dark', isDarkMode); }, [isDarkMode]);
   
   const [allClubs, setAllClubs] = useState(fallbackClubs);
 
@@ -127,7 +129,7 @@ export default function Dashboard({ onSignOut }) {
       <nav style={{ padding: '20px 0' }}>
         <div className="container flex-between">
           <div style={{ display: 'flex', alignItems: 'center', gap: '40px' }}>
-            <h2 style={{ margin: 0, letterSpacing: '-0.05em', color: '#111827', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <h2 style={{ margin: 0, letterSpacing: '-0.05em', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
               <span style={{ color: '#F59E0B' }}>●</span> CAMPUS<span style={{ fontWeight: 400 }}>hub</span>
             </h2>
             
@@ -138,7 +140,7 @@ export default function Dashboard({ onSignOut }) {
                   className={`btn ${activeTab === tab ? 'btn-ghost' : 'btn-ghost'}`}
                   style={{ 
                     background: activeTab === tab ? 'rgba(255,255,255,0.7)' : 'transparent',
-                    color: activeTab === tab ? '#111827' : '#6B7280',
+                    color: activeTab === tab ? 'var(--text-primary)' : 'var(--text-secondary)',
                     boxShadow: activeTab === tab ? '0 1px 3px rgba(0,0,0,0.05)' : 'none'
                   }}
                   onClick={() => setActiveTab(tab)}
@@ -167,17 +169,17 @@ export default function Dashboard({ onSignOut }) {
 
               <AnimatePresence>
                 {showNotifs && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} style={{ position: 'absolute', top: '100%', right: 0, width: '320px', background: 'white', borderRadius: '16px', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.15)', border: '1px solid #E5E7EB', zIndex: 100, overflow: 'hidden', marginTop: '8px' }}>
+                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} style={{ position: 'absolute', top: '100%', right: 0, width: '320px', background: 'var(--card-bg)', borderRadius: '16px', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.15)', border: '1px solid #E5E7EB', zIndex: 100, overflow: 'hidden', marginTop: '8px' }}>
                     <div style={{ padding: '16px', borderBottom: '1px solid #F3F4F6', fontWeight: 600, fontSize: '14px' }}>Notifications</div>
                     <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
                       <div style={{ padding: '16px', borderBottom: '1px solid #F3F4F6', cursor: 'pointer' }} className="hover-bg">
-                        <div style={{ fontSize: '13px', fontWeight: 500, color: '#111827' }}>Event Reminder</div>
-                        <div style={{ fontSize: '12px', color: '#6B7280' }}>Tech & Code's Web3 Workshop starts in 2 hours!</div>
+                        <div style={{ fontSize: '13px', fontWeight: 500, color: 'var(--text-primary)' }}>Event Reminder</div>
+                        <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Tech & Code's Web3 Workshop starts in 2 hours!</div>
                         <div style={{ fontSize: '10px', color: '#9CA3AF', marginTop: '4px' }}>2 hrs ago</div>
                       </div>
                       <div style={{ padding: '16px', cursor: 'pointer' }} className="hover-bg">
-                        <div style={{ fontSize: '13px', fontWeight: 500, color: '#111827' }}>New Announcement</div>
-                        <div style={{ fontSize: '12px', color: '#6B7280' }}>Debating Society just posted a new update.</div>
+                        <div style={{ fontSize: '13px', fontWeight: 500, color: 'var(--text-primary)' }}>New Announcement</div>
+                        <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Debating Society just posted a new update.</div>
                         <div style={{ fontSize: '10px', color: '#9CA3AF', marginTop: '4px' }}>1 day ago</div>
                       </div>
                     </div>
@@ -186,7 +188,7 @@ export default function Dashboard({ onSignOut }) {
               </AnimatePresence>
             </div>
 
-            <motion.div whileTap={{ scale: 0.95 }} onClick={onSignOut} style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#111827', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: '14px', cursor: 'pointer' }}>
+            <motion.div whileTap={{ scale: 0.95 }} onClick={onSignOut} style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'var(--text-primary)', color: 'var(--card-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: '14px', cursor: 'pointer' }}>
               JD
             </motion.div>
           </div>
@@ -201,8 +203,8 @@ export default function Dashboard({ onSignOut }) {
             
             <motion.div variants={itemVariants} initial="hidden" animate="show" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '32px' }}>
               <div>
-                <h1 style={{ fontSize: '36px', marginBottom: '8px', color: '#111827' }}>Freshers' week, 2026</h1>
-                <p style={{ color: '#6B7280', fontSize: '15px' }}>12 clubs you follow · 4 events this week</p>
+                <h1 style={{ fontSize: '36px', marginBottom: '8px', color: 'var(--text-primary)' }}>Freshers' week, 2026</h1>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '15px' }}>12 clubs you follow · 4 events this week</p>
               </div>
               <button className="btn btn-primary"><Plus size={18} /> Post event</button>
             </motion.div>
@@ -210,9 +212,9 @@ export default function Dashboard({ onSignOut }) {
             <motion.div variants={containerVariants} initial="hidden" animate="show" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px', marginBottom: '32px' }}>
               {stats.map((stat, i) => (
                 <motion.div variants={itemVariants} key={i} className="glass-panel" style={{ padding: '24px', background: stat.highlight ? '#FEF3C7' : undefined, borderColor: stat.highlight ? '#FDE68A' : undefined }}>
-                  <p style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', color: '#6B7280', letterSpacing: '0.05em', marginBottom: '16px' }}>{stat.label}</p>
-                  <h2 style={{ fontSize: '32px', color: '#111827', marginBottom: '8px' }}>{stat.value}</h2>
-                  <p style={{ fontSize: '13px', color: '#6B7280' }}>{stat.subtext}</p>
+                  <p style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', color: 'var(--text-secondary)', letterSpacing: '0.05em', marginBottom: '16px' }}>{stat.label}</p>
+                  <h2 style={{ fontSize: '32px', color: 'var(--text-primary)', marginBottom: '8px' }}>{stat.value}</h2>
+                  <p style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>{stat.subtext}</p>
                 </motion.div>
               ))}
             </motion.div>
@@ -220,8 +222,8 @@ export default function Dashboard({ onSignOut }) {
             <motion.div variants={containerVariants} initial="hidden" animate="show" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px', marginBottom: '32px' }}>
               <motion.div variants={itemVariants} className="glass-panel" style={{ padding: '24px' }}>
                 <div className="flex-between" style={{ marginBottom: '24px' }}>
-                  <h3 style={{ fontSize: '18px', color: '#111827' }}>Upcoming from your clubs</h3>
-                  <span style={{ fontSize: '13px', color: '#6B7280' }}>this week</span>
+                  <h3 style={{ fontSize: '18px', color: 'var(--text-primary)' }}>Upcoming from your clubs</h3>
+                  <span style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>this week</span>
                 </div>
                 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -235,8 +237,8 @@ export default function Dashboard({ onSignOut }) {
                         {evt.icon}
                       </div>
                       <div style={{ flex: 1 }}>
-                        <h4 style={{ fontSize: '15px', color: '#111827', marginBottom: '2px' }}>{evt.title}</h4>
-                        <p style={{ fontSize: '13px', color: '#6B7280' }}>{evt.club}</p>
+                        <h4 style={{ fontSize: '15px', color: 'var(--text-primary)', marginBottom: '2px' }}>{evt.title}</h4>
+                        <p style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>{evt.club}</p>
                       </div>
                       <span className="badge badge-yellow">{evt.time}</span>
                     </div>
@@ -246,8 +248,8 @@ export default function Dashboard({ onSignOut }) {
               
               <motion.div variants={itemVariants} className="glass-panel" style={{ padding: '24px' }}>
                 <div style={{ marginBottom: '24px' }}>
-                  <h3 style={{ fontSize: '18px', color: '#111827' }}>Recommended for you</h3>
-                  <p style={{ fontSize: '13px', color: '#6B7280' }}>based on your interests</p>
+                  <h3 style={{ fontSize: '18px', color: 'var(--text-primary)' }}>Recommended for you</h3>
+                  <p style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>based on your interests</p>
                 </div>
                 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -261,8 +263,8 @@ export default function Dashboard({ onSignOut }) {
                         {club.icon}
                       </div>
                       <div style={{ flex: 1 }}>
-                        <h4 style={{ fontSize: '14px', color: '#111827', marginBottom: '2px' }}>{club.title}</h4>
-                        <p style={{ fontSize: '12px', color: '#6B7280' }}>{club.tag}</p>
+                        <h4 style={{ fontSize: '14px', color: 'var(--text-primary)', marginBottom: '2px' }}>{club.title}</h4>
+                        <p style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{club.tag}</p>
                       </div>
                       <button className="btn" style={{ padding: '6px 12px', fontSize: '12px', border: '1px solid #E5E7EB', background: 'transparent' }}>Follow</button>
                     </div>
@@ -278,8 +280,8 @@ export default function Dashboard({ onSignOut }) {
             
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '32px' }}>
               <div>
-                <h1 style={{ fontSize: '36px', marginBottom: '8px', color: '#111827' }}>Discover Clubs</h1>
-                <p style={{ color: '#6B7280', fontSize: '15px' }}>Find your community on campus</p>
+                <h1 style={{ fontSize: '36px', marginBottom: '8px', color: 'var(--text-primary)' }}>Discover Clubs</h1>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '15px' }}>Find your community on campus</p>
               </div>
               <div style={{ display: 'flex', gap: '8px' }}>
                 {['All', 'Technology', 'Arts', 'Business', 'Culture', 'Sports'].map(cat => (
@@ -289,9 +291,9 @@ export default function Dashboard({ onSignOut }) {
                     className="btn" 
                     style={{ 
                       padding: '8px 16px', 
-                      background: clubCategory === cat ? '#111827' : 'white', 
-                      color: clubCategory === cat ? 'white' : '#6B7280',
-                      border: `1px solid ${clubCategory === cat ? '#111827' : '#E5E7EB'}`,
+                      background: clubCategory === cat ? 'var(--text-primary)' : 'var(--card-bg)', 
+                      color: clubCategory === cat ? 'var(--card-bg)' : 'var(--text-secondary)',
+                      border: `1px solid ${clubCategory === cat ? 'var(--text-primary)' : 'var(--border-color)'}`,
                       borderRadius: '999px',
                       fontSize: '13px'
                     }}
@@ -316,16 +318,16 @@ export default function Dashboard({ onSignOut }) {
                     <div style={{ width: '48px', height: '48px', borderRadius: '16px', background: club.color, color: club.textColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', fontWeight: 'bold' }}>
                       {club.icon}
                     </div>
-                    <span style={{ fontSize: '12px', fontWeight: 500, color: '#6B7280', background: '#F3F4F6', padding: '4px 10px', borderRadius: '999px' }}>
+                    <span style={{ fontSize: '12px', fontWeight: 500, color: 'var(--text-secondary)', background: '#F3F4F6', padding: '4px 10px', borderRadius: '999px' }}>
                       {club.category}
                     </span>
                   </div>
                   
-                  <h3 style={{ fontSize: '18px', color: '#111827', marginBottom: '8px' }}>{club.name}</h3>
-                  <p style={{ fontSize: '13px', color: '#6B7280', lineHeight: 1.5, marginBottom: '24px', flex: 1 }}>{club.desc}</p>
+                  <h3 style={{ fontSize: '18px', color: 'var(--text-primary)', marginBottom: '8px' }}>{club.name}</h3>
+                  <p style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '24px', flex: 1 }}>{club.desc}</p>
                   
                   <div className="flex-between" style={{ marginTop: 'auto', paddingTop: '16px', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#6B7280', fontSize: '13px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-secondary)', fontSize: '13px' }}>
                       <Users size={14} />
                       {club.followers}
                     </div>
@@ -343,11 +345,11 @@ export default function Dashboard({ onSignOut }) {
            
            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '32px' }}>
              <div>
-               <h1 style={{ fontSize: '36px', marginBottom: '8px', color: '#111827' }}>Campus Calendar</h1>
-               <p style={{ color: '#6B7280', fontSize: '15px' }}>October 2026 · 1 Schedule Conflict Detected</p>
+               <h1 style={{ fontSize: '36px', marginBottom: '8px', color: 'var(--text-primary)' }}>Campus Calendar</h1>
+               <p style={{ color: 'var(--text-secondary)', fontSize: '15px' }}>October 2026 · 1 Schedule Conflict Detected</p>
              </div>
              <div style={{ display: 'flex', gap: '12px' }}>
-               <button className="btn btn-ghost" style={{ background: 'white', border: '1px solid #E5E7EB' }}>This Week</button>
+               <button className="btn btn-ghost" style={{ background: 'var(--card-bg)', border: '1px solid #E5E7EB' }}>This Week</button>
                <button className="btn btn-primary"><Plus size={18} /> Add Event</button>
              </div>
            </div>
@@ -356,7 +358,7 @@ export default function Dashboard({ onSignOut }) {
              {/* Calendar Header Row */}
              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', borderBottom: '1px solid rgba(0,0,0,0.05)', background: 'rgba(255,255,255,0.3)' }}>
                {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-                 <div key={day} style={{ padding: '16px', textAlign: 'center', fontSize: '13px', fontWeight: 600, color: '#6B7280', textTransform: 'uppercase' }}>
+                 <div key={day} style={{ padding: '16px', textAlign: 'center', fontSize: '13px', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase' }}>
                    {day}
                  </div>
                ))}
@@ -382,8 +384,8 @@ export default function Dashboard({ onSignOut }) {
                      <span style={{ 
                        display: 'inline-block', width: '28px', height: '28px', lineHeight: '28px', 
                        textAlign: 'center', borderRadius: '50%', fontSize: '14px', fontWeight: 500,
-                       background: date === 24 ? '#111827' : 'transparent',
-                       color: date === 24 ? 'white' : '#374151',
+                       background: date === 24 ? 'var(--text-primary)' : 'transparent',
+                       color: date === 24 ? 'var(--card-bg)' : '#374151',
                        marginBottom: '4px'
                      }}>
                        {date > 0 && date <= 31 ? date : (date <= 0 ? 30 + date : date - 31)}
