@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { supabase } from './supabase';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Search, Bell, Moon, Plus, 
@@ -32,12 +33,19 @@ const calendarEvents = [
   { id: 104, title: 'Concert Setup', club: 'Cultural Fest', date: 28, time: '18:00 - 20:00', type: 'culture' },
 ];
 
-const allClubs = [
+const fallbackClubs = [
   { id: 1, name: 'RAIoT', category: 'Technology', followers: 840, icon: <Cpu size={24}/>, color: '#CFFAFE', textColor: '#0891B2', desc: 'IoT based robotics club focused on autonomous machines and hardware innovation.' },
   { id: 2, name: 'E-Cell', category: 'Business', followers: 1200, icon: <Lightbulb size={24}/>, color: '#FEF3C7', textColor: '#92400E', desc: 'Innovation incubation center for student founders and breakthrough startup ideas.' },
   { id: 3, name: 'IEEE Student Branch', category: 'Technology', followers: 650, icon: <Zap size={24}/>, color: '#E0E7FF', textColor: '#3730A3', desc: 'Advancing technology for humanity through hardware, software, and research.' },
-  { id: 4, name: 'Cultural Fest Committee', category: 'Culture', followers: 1890, icon: <PartyPopper size={24}/>, color: '#FCE7F3', textColor: '#9D174D', desc: 'Managing the university\'s biggest cultural fests, concerts, and celebrity events.' }
+  { id: 4, name: 'Cultural Fest Committee', category: 'Culture', followers: 1890, icon: <PartyPopper size={24}/>, color: '#FCE7F3', textColor: '#9D174D', desc: "Managing the university's biggest cultural fests, concerts, and celebrity events." }
 ];
+
+const iconMap = {
+  'Cpu': <Cpu size={24}/>,
+  'Lightbulb': <Lightbulb size={24}/>,
+  'Zap': <Zap size={24}/>,
+  'PartyPopper': <PartyPopper size={24}/>
+};
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -63,6 +71,27 @@ export default function Dashboard({ onSignOut }) {
   const [isLeaderView, setIsLeaderView] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [showNotifs, setShowNotifs] = useState(false);
+  
+  const [allClubs, setAllClubs] = useState(fallbackClubs);
+
+  useEffect(() => {
+    async function fetchLiveClubs() {
+      const { data, error } = await supabase.from('clubs').select('*');
+      if (data && data.length > 0) {
+        setAllClubs(data.map(c => ({
+          id: c.id,
+          name: c.name,
+          category: c.category,
+          followers: c.followers,
+          icon: iconMap[c.icon] || <Zap size={24}/>,
+          color: c.color,
+          textColor: c.text_color,
+          desc: c.description
+        })));
+      }
+    }
+    fetchLiveClubs();
+  }, []);
 
   React.useEffect(() => {
     const handleKeyDown = (e) => {
