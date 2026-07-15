@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { supabase } from './supabase';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ArrowLeft, Users, BarChart3, List, Layout, Settings, 
   Search, Plus, Filter, MoreVertical, CheckCircle2, XCircle, Edit, Trash2, X
 } from 'lucide-react';
 
-const candidatesData = [
+const fallbackCandidates = [
   { id: 1, name: 'Atharva', role: 'Creative Director', stage: 'Applied', source: 'Google Form', email: 'xyz@gmail.com', phone: '123456789' },
   { id: 2, name: 'Amey', role: 'Creative Director', stage: 'Applied', source: 'Google Form', email: 'amey@gmail.com', phone: '' },
   { id: 3, name: 'Aaditya Lobo', role: 'Creative Director', stage: 'Applied', source: 'Careers site', email: 'realaadityalobo@gmail.com', phone: '123456789' },
@@ -22,7 +23,41 @@ export default function ClubLeaderView({ club, onBack }) {
   const [isAuditionOpen, setIsAuditionOpen] = useState(true);
   const [activeModal, setActiveModal] = useState(null);
   
+  const [candidatesData, setCandidatesData] = useState(fallbackCandidates);
   const primaryColor = club?.textColor || '#111827';
+
+  useEffect(() => {
+    if (!club?.id) return;
+    
+    const fetchApps = async () => {
+      const { data } = await supabase.from('applications').select('*').eq('club_id', club.id);
+      if (data && data.length > 0) {
+        setCandidatesData(data.map(d => ({
+          id: d.id, name: d.candidate_name, role: d.role, stage: d.stage, 
+          source: d.source, email: d.email, phone: d.phone
+        })));
+      }
+    };
+    
+    fetchApps();
+
+    const channel = supabase.channel('realtime_applications')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'applications', filter: `club_id=eq.${club.id}` }, () => {
+         fetchApps();
+      }).subscribe();
+
+    return () => { supabase.removeChannel(channel); };
+  }, [club]);
+
+  const handleAddCandidate = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const newApp = { club_id: club.id, candidate_name: formData.get('name'), role: formData.get('role'), stage: 'Applied', source: 'Manual Entry', email: formData.get('email') };
+    
+    setCandidatesData([...candidatesData, { ...newApp, id: Date.now(), name: newApp.candidate_name }]);
+    setActiveModal(null);
+    await supabase.from('applications').insert(newApp);
+  };
 
   const renderBadge = (stage) => {
     const colors = {
@@ -213,7 +248,7 @@ export default function ClubLeaderView({ club, onBack }) {
                   
                   <div style={{ display: 'flex', gap: '8px' }}>
                     <motion.button whileTap={{ scale: 0.95 }} onClick={() => setActiveModal('edit_form')} className="btn btn-ghost" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px' }}><Edit size={16} /> Edit Form</motion.button>
-                    <button className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', background: primaryColor }}>
+                    <button onClick={() => setActiveModal('add_candidate')} className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', background: primaryColor }}>
                       <Plus size={16} /> Add Candidate
                     </button>
                   </div>
@@ -368,6 +403,19 @@ export default function ClubLeaderView({ club, onBack }) {
                     <input type="email" placeholder="University Email" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
                     <input type="text" placeholder="Role (e.g., Tech Lead)" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
                     <motion.button whileTap={{ scale: 0.95 }} type="button" onClick={() => setActiveModal(null)} className="btn btn-primary" style={{ padding: '12px', background: primaryColor }}>Send Invite</motion.button>
+                  </form>
+                </div>
+              )}
+
+              {activeModal === 'add_candidate' && (
+                <div>
+                  <h2 style={{ fontSize: '24px', color: '#111827', marginBottom: '8px' }}>Add Candidate</h2>
+                  <p style={{ fontSize: '14px', color: '#6B7280', marginBottom: '24px' }}>Manually add an application to the pipeline.</p>
+                  <form onSubmit={handleAddCandidate} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <input name="name" type="text" placeholder="Full Name" required className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
+                    <input name="email" type="email" placeholder="Email" required className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
+                    <input name="role" type="text" placeholder="Role Applying For" required className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
+                    <motion.button whileTap={{ scale: 0.95 }} type="submit" className="btn btn-primary" style={{ padding: '12px', background: primaryColor }}>Add to Pipeline</motion.button>
                   </form>
                 </div>
               )}
