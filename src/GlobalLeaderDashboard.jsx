@@ -1,19 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { supabase } from './supabase';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Bell, Plus, Megaphone, FileText, TrendingUp, Users, ArrowUpRight, AlertTriangle, Settings, ArrowLeft, X,
-  Cpu
+  Cpu, Lightbulb, Zap, PartyPopper
 } from 'lucide-react';
 import ClubLeaderView from './ClubLeaderView';
 
-const myClubs = [
+const iconMap = {
+  Cpu: <Cpu size={24}/>, Lightbulb: <Lightbulb size={24}/>, Zap: <Zap size={24}/>, PartyPopper: <PartyPopper size={24}/>
+};
+
+const fallbackClubs = [
   { id: 1, name: 'RAIoT', category: 'Technology', followers: 840, icon: <Cpu size={24}/>, color: '#CFFAFE', textColor: '#0891B2' }
 ];
 
 export default function GlobalLeaderDashboard({ onSignOut }) {
   const [activeClub, setActiveClub] = useState(null);
-  const [activeModal, setActiveModal] = useState(null); // 'event', 'broadcast', 'audition', 'new_club'
+  const [activeModal, setActiveModal] = useState(null);
   const [showNotifs, setShowNotifs] = useState(false);
+  const [myClubs, setMyClubs] = useState(fallbackClubs);
+
+  useEffect(() => {
+    async function fetchClubs() {
+      const { data } = await supabase.from('clubs').select('*');
+      if (data && data.length > 0) {
+        setMyClubs(data.map(c => ({
+          id: c.id, name: c.name, category: c.category, followers: c.followers,
+          icon: iconMap[c.icon] || <Cpu size={24}/>, color: c.color, textColor: c.text_color
+        })));
+      }
+    }
+    fetchClubs();
+  }, []);
+
+  const handleRegisterClub = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const newClub = { name: formData.get('name'), category: formData.get('category'), description: formData.get('description'), color: '#F3F4F6', text_color: '#374151', icon: 'Cpu', followers: 0 };
+    await supabase.from('clubs').insert(newClub);
+    setActiveModal(null);
+    setMyClubs([...myClubs, { ...newClub, id: Date.now(), icon: <Cpu size={24}/>, textColor: newClub.text_color }]);
+  };
+
+  const handleCreateEvent = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    if (!myClubs[0]) return;
+    const newEvent = { club_id: myClubs[0].id, title: formData.get('title'), event_date: formData.get('date'), time_range: formData.get('time'), event_type: 'General' };
+    await supabase.from('events').insert(newEvent);
+    setActiveModal(null);
+  };
 
   if (activeClub) {
     return <ClubLeaderView club={activeClub} onBack={() => setActiveClub(null)} />;
@@ -204,11 +241,11 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
                 <div>
                   <h2 style={{ fontSize: '24px', color: '#111827', marginBottom: '8px' }}>Register New Club</h2>
                   <p style={{ fontSize: '14px', color: '#6B7280', marginBottom: '24px' }}>Submit your society for student union approval.</p>
-                  <form style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                    <input type="text" placeholder="Club Name" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
-                    <input type="text" placeholder="Category (e.g., Tech, Arts)" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
-                    <textarea placeholder="Description" rows="4" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%', resize: 'none' }}></textarea>
-                    <motion.button whileTap={{ scale: 0.95 }} type="button" onClick={() => setActiveModal(null)} className="btn btn-primary" style={{ padding: '12px' }}>Submit Application</motion.button>
+                  <form onSubmit={handleRegisterClub} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <input name="name" type="text" placeholder="Club Name" required className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
+                    <input name="category" type="text" placeholder="Category (e.g., Tech, Arts)" required className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
+                    <textarea name="description" placeholder="Description" required rows="4" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%', resize: 'none' }}></textarea>
+                    <motion.button whileTap={{ scale: 0.95 }} type="submit" className="btn btn-primary" style={{ padding: '12px' }}>Submit Application</motion.button>
                   </form>
                 </div>
               )}
@@ -216,14 +253,14 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
               {activeModal === 'event' && (
                 <div>
                   <h2 style={{ fontSize: '24px', color: '#111827', marginBottom: '8px' }}>Create Event</h2>
-                  <form style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '24px' }}>
-                    <input type="text" placeholder="Event Title" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
+                  <form onSubmit={handleCreateEvent} style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '24px' }}>
+                    <input name="title" type="text" placeholder="Event Title" required className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
                     <div style={{ display: 'flex', gap: '16px' }}>
-                      <input type="date" className="search-input" style={{ padding: '12px', borderRadius: '8px', flex: 1 }} />
-                      <input type="time" className="search-input" style={{ padding: '12px', borderRadius: '8px', flex: 1 }} />
+                      <input name="date" type="date" required className="search-input" style={{ padding: '12px', borderRadius: '8px', flex: 1 }} />
+                      <input name="time" type="time" required className="search-input" style={{ padding: '12px', borderRadius: '8px', flex: 1 }} />
                     </div>
-                    <input type="text" placeholder="Location" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
-                    <motion.button whileTap={{ scale: 0.95 }} type="button" onClick={() => setActiveModal(null)} className="btn btn-primary" style={{ padding: '12px' }}>Publish Event</motion.button>
+                    <input name="location" type="text" placeholder="Location" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
+                    <motion.button whileTap={{ scale: 0.95 }} type="submit" className="btn btn-primary" style={{ padding: '12px' }}>Publish Event</motion.button>
                   </form>
                 </div>
               )}
