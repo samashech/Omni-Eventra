@@ -8,18 +8,14 @@ export default function Login({ onSignIn }) {
   const [role, setRole] = useState('student'); // 'student' or 'leader'
 
   const handleGoogleSignIn = async () => {
-    // ⚠️ Supabase attempts to redirect the browser to the project URL for OAuth.
-    // Since the project URL provided doesn't exist, this causes a DNS error.
-    // For now, we will just bypass it so you can see the dashboard UI!
-    
-
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-    });
-    if (error) throw error;
-
-    
-    onSignIn('student');
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+      });
+      if (error) throw error;
+    } catch (err) {
+      console.error("OAuth error:", err.message);
+    }
   };
 
   const handleLeaderSignIn = async (e) => {
