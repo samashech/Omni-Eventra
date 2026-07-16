@@ -61,7 +61,7 @@ export default function ClubLeaderView({ club, onBack }) {
 
   const renderBadge = (stage) => {
     const colors = {
-      Applied: { bg: '#F3F4F6', text: '#374151' },
+      Applied: { bg: '#F3F4F6', text: 'var(--text-primary)' },
       Screen: { bg: '#DBEAFE', text: '#1E40AF' },
       Interview: { bg: '#FEF3C7', text: '#92400E' },
       Offer: { bg: '#FCE7F3', text: '#9D174D' },
@@ -155,7 +155,7 @@ export default function ClubLeaderView({ club, onBack }) {
               <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '24px' }}>
                 <div className="glass-panel" style={{ padding: '24px', background: 'var(--card-bg)' }}>
                   <h3 style={{ fontSize: '16px', color: 'var(--text-primary)', marginBottom: '32px' }}>Candidate pipeline</h3>
-                  <div style={{ display: 'flex', alignItems: 'flex-end', gap: '24px', height: '200px', paddingBottom: '24px', borderBottom: '1px solid #E5E7EB' }}>
+                  <div style={{ display: 'flex', alignItems: 'flex-end', gap: '24px', height: '200px', paddingBottom: '24px', borderBottom: '1px solid var(--border-color)' }}>
                     {[10, 8, 10, 2, 1, 1].map((val, i) => (
                       <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
                         <div style={{ width: '100%', background: club.color === '#FCE7F3' ? '#F472B6' : '#FDE047', height: `${val * 15}px`, borderRadius: '4px 4px 0 0', transition: 'height 1s ease-out' }}></div>
@@ -192,7 +192,7 @@ export default function ClubLeaderView({ club, onBack }) {
                   <h1 style={{ fontSize: '28px', color: 'var(--text-primary)', marginBottom: '4px' }}>Candidates</h1>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '14px' }}>32 candidates across all open roles.</p>
                 </div>
-                <button className="btn" style={{ background: 'var(--card-bg)', border: '1px solid #E5E7EB', padding: '8px 16px', fontSize: '13px' }}>
+                <button className="btn" style={{ background: 'var(--card-bg)', border: '1px solid var(--border-color)', padding: '8px 16px', fontSize: '13px' }}>
                   Sync Data
                 </button>
               </div>
@@ -200,7 +200,7 @@ export default function ClubLeaderView({ club, onBack }) {
               <div className="glass-panel" style={{ background: 'var(--card-bg)', overflow: 'hidden' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <thead>
-                    <tr style={{ borderBottom: '1px solid #E5E7EB', background: 'var(--card-bg-alt)' }}>
+                    <tr style={{ borderBottom: '1px solid var(--border-color)', background: 'var(--card-bg-alt)' }}>
                       <th style={{ textAlign: 'left', padding: '16px 24px', fontSize: '11px', color: 'var(--text-secondary)', fontWeight: 600 }}>CANDIDATE</th>
                       <th style={{ textAlign: 'left', padding: '16px 24px', fontSize: '11px', color: 'var(--text-secondary)', fontWeight: 600 }}>ROLE</th>
                       <th style={{ textAlign: 'left', padding: '16px 24px', fontSize: '11px', color: 'var(--text-secondary)', fontWeight: 600 }}>STAGE</th>
@@ -213,9 +213,9 @@ export default function ClubLeaderView({ club, onBack }) {
                       <tr key={c.id} style={{ borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
                         <td style={{ padding: '16px 24px' }}>
                           <h4 style={{ fontSize: '14px', color: 'var(--text-primary)', marginBottom: '2px' }}>{c.name}</h4>
-                          <span style={{ fontSize: '12px', color: '#9CA3AF' }}>Experience: 1 yr</span>
+                          <span style={{ fontSize: '12px', color: 'var(--text-tertiary)' }}>Experience: 1 yr</span>
                         </td>
-                        <td style={{ padding: '16px 24px', fontSize: '14px', color: '#374151', fontWeight: 500 }}>{c.role}</td>
+                        <td style={{ padding: '16px 24px', fontSize: '14px', color: 'var(--text-primary)', fontWeight: 500 }}>{c.role}</td>
                         <td style={{ padding: '16px 24px' }}>{renderBadge(c.stage)}</td>
                         <td style={{ padding: '16px 24px', fontSize: '13px', color: 'var(--text-secondary)' }}>{c.source}</td>
                         <td style={{ padding: '16px 24px', fontSize: '13px', color: 'var(--text-secondary)' }}>
@@ -256,16 +256,16 @@ export default function ClubLeaderView({ club, onBack }) {
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
                   <div>
-                    <p style={{ fontSize: '11px', color: '#9CA3AF', textTransform: 'uppercase', marginBottom: '4px' }}>DEPARTMENT</p>
-                    <p style={{ fontSize: '14px', color: '#374151', fontWeight: 500 }}>Management</p>
+                    <p style={{ fontSize: '11px', color: 'var(--text-tertiary)', textTransform: 'uppercase', marginBottom: '4px' }}>DEPARTMENT</p>
+                    <p style={{ fontSize: '14px', color: 'var(--text-primary)', fontWeight: 500 }}>Management</p>
                   </div>
                   <div>
-                    <p style={{ fontSize: '11px', color: '#9CA3AF', textTransform: 'uppercase', marginBottom: '4px' }}>TARGET CLOSE</p>
-                    <p style={{ fontSize: '14px', color: '#374151', fontWeight: 500 }}>2026-10-30</p>
+                    <p style={{ fontSize: '11px', color: 'var(--text-tertiary)', textTransform: 'uppercase', marginBottom: '4px' }}>TARGET CLOSE</p>
+                    <p style={{ fontSize: '14px', color: 'var(--text-primary)', fontWeight: 500 }}>2026-10-30</p>
                   </div>
                   <div>
-                    <p style={{ fontSize: '11px', color: '#9CA3AF', textTransform: 'uppercase', marginBottom: '4px' }}>HIRING MANAGER</p>
-                    <p style={{ fontSize: '14px', color: '#374151', fontWeight: 500 }}>John Doe</p>
+                    <p style={{ fontSize: '11px', color: 'var(--text-tertiary)', textTransform: 'uppercase', marginBottom: '4px' }}>HIRING MANAGER</p>
+                    <p style={{ fontSize: '14px', color: 'var(--text-primary)', fontWeight: 500 }}>John Doe</p>
                   </div>
                 </div>
               </div>
@@ -279,12 +279,12 @@ export default function ClubLeaderView({ club, onBack }) {
                     <div key={stage} className="glass-panel" style={{ background: 'var(--card-bg-alt)', width: '280px', flexShrink: 0, padding: '16px', display: 'flex', flexDirection: 'column', height: '400px' }}>
                       <div className="flex-between" style={{ marginBottom: '16px' }}>
                         <span style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{stage}</span>
-                        <span style={{ fontSize: '12px', color: '#9CA3AF' }}>{stageCandidates.length}</span>
+                        <span style={{ fontSize: '12px', color: 'var(--text-tertiary)' }}>{stageCandidates.length}</span>
                       </div>
                       
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', flex: 1, overflowY: 'auto' }}>
                         {stageCandidates.map(c => (
-                          <div key={c.id} style={{ background: 'var(--card-bg)', padding: '16px', borderRadius: '12px', border: '1px solid #E5E7EB', cursor: 'grab', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
+                          <div key={c.id} style={{ background: 'var(--card-bg)', padding: '16px', borderRadius: '12px', border: '1px solid var(--border-color)', cursor: 'grab', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
                             <h4 style={{ fontSize: '14px', color: 'var(--text-primary)', marginBottom: '4px' }}>{c.name}</h4>
                             <p style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{c.role}</p>
                           </div>
@@ -318,13 +318,13 @@ export default function ClubLeaderView({ club, onBack }) {
                   </div>
 
                   {['Core Management', 'Events & Outreach', 'Tech & Design', 'Content Creation'].map((team, i) => (
-                    <div key={i} className="glass-panel" style={{ background: i === 0 ? '#FEF3C7' : 'var(--card-bg)', border: i === 0 ? '1px solid #FDE047' : '1px solid #E5E7EB', padding: '16px', cursor: 'pointer', transition: 'all 0.2s' }}>
+                    <div key={i} className="glass-panel" style={{ background: i === 0 ? '#FEF3C7' : 'var(--card-bg)', border: i === 0 ? '1px solid #FDE047' : '1px solid var(--border-color)', padding: '16px', cursor: 'pointer', transition: 'all 0.2s' }}>
                       <div className="flex-between">
                         <div>
                           <h4 style={{ fontSize: '14px', color: 'var(--text-primary)', marginBottom: '4px' }}>{team}</h4>
                           <p style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{i === 0 ? '5' : '3'} members</p>
                         </div>
-                        <Trash2 size={14} color="#9CA3AF" />
+                        <Trash2 size={14} color="var(--text-tertiary)" />
                       </div>
                     </div>
                   ))}
@@ -352,7 +352,7 @@ export default function ClubLeaderView({ club, onBack }) {
                             <p style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>{m.email}</p>
                           </td>
                           <td style={{ padding: '16px 0', textAlign: 'right', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '16px' }}>
-                            <span style={{ background: '#F3F4F6', color: '#374151', padding: '4px 10px', borderRadius: '999px', fontSize: '12px', fontWeight: 500 }}>
+                            <span style={{ background: 'var(--bg-subtle)', color: 'var(--text-primary)', padding: '4px 10px', borderRadius: '999px', fontSize: '12px', fontWeight: 500 }}>
                               {m.role}
                             </span>
                             <motion.button whileTap={{ scale: 0.9 }} className="btn btn-ghost btn-icon" style={{ color: '#EF4444' }}><Trash2 size={16} /></motion.button>
@@ -374,7 +374,7 @@ export default function ClubLeaderView({ club, onBack }) {
         {activeModal && (
           <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} style={{ width: '90%', maxWidth: '500px', background: 'var(--card-bg)', borderRadius: '24px', padding: '32px', position: 'relative' }}>
-              <button onClick={() => setActiveModal(null)} style={{ position: 'absolute', top: '24px', right: '24px', background: 'transparent', border: 'none', cursor: 'pointer', color: '#9CA3AF' }}><X size={20}/></button>
+              <button onClick={() => setActiveModal(null)} style={{ position: 'absolute', top: '24px', right: '24px', background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--text-tertiary)' }}><X size={20}/></button>
               
               {activeModal === 'edit_form' && (
                 <div>
@@ -382,11 +382,11 @@ export default function ClubLeaderView({ club, onBack }) {
                   <p style={{ fontSize: '14px', color: 'var(--text-secondary)', marginBottom: '24px' }}>Customize the questions for your audition.</p>
                   <form style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                     <div>
-                      <label style={{ fontSize: '12px', fontWeight: 600, color: '#4B5563', marginBottom: '4px', display: 'block' }}>Question 1</label>
+                      <label style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '4px', display: 'block' }}>Question 1</label>
                       <input type="text" defaultValue="Why do you want to join?" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
                     </div>
                     <div>
-                      <label style={{ fontSize: '12px', fontWeight: 600, color: '#4B5563', marginBottom: '4px', display: 'block' }}>Question 2</label>
+                      <label style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '4px', display: 'block' }}>Question 2</label>
                       <input type="text" defaultValue="Portfolio Link (Optional)" className="search-input" style={{ padding: '12px', borderRadius: '8px', width: '100%' }} />
                     </div>
                     <motion.button whileTap={{ scale: 0.95 }} type="button" onClick={() => setActiveModal(null)} className="btn btn-primary" style={{ padding: '12px', background: primaryColor }}>Save Form</motion.button>

@@ -14,6 +14,7 @@
   --accent-text: #EAB308;
   --card-bg: white;
   --card-bg-alt: #F9FAFB;
+  --bg-subtle: #F3F4F6;
   --border-color: #E5E7EB;
 
 
@@ -229,6 +230,7 @@ body.dark {
   --text-tertiary: #64748b;
   --card-bg: #1e293b;
   --card-bg-alt: #0f172a;
+  --bg-subtle: #334155;
   --border-color: #334155;
 }
 

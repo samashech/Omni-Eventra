@@ -101,12 +101,12 @@ export default function OnboardingQuiz({ onComplete, allClubs }) {
                 </span>
                 <div style={{ display: 'flex', gap: '4px' }}>
                   {questions.map((_, i) => (
-                    <div key={i} style={{ width: '32px', height: '4px', borderRadius: '2px', background: i <= step ? '#111827' : 'rgba(0,0,0,0.1)' }} />
+                    <div key={i} style={{ width: '32px', height: '4px', borderRadius: '2px', background: i <= step ? 'var(--text-primary)' : 'rgba(0,0,0,0.1)' }} />
                   ))}
                 </div>
               </div>
 
-              <h2 className="font-serif" style={{ fontSize: '36px', color: '#111827', marginBottom: '40px', lineHeight: 1.2 }}>
+              <h2 className="font-serif" style={{ fontSize: '36px', color: 'var(--text-primary)', marginBottom: '40px', lineHeight: 1.2 }}>
                 {questions[step].title}
               </h2>
 
@@ -118,16 +118,16 @@ export default function OnboardingQuiz({ onComplete, allClubs }) {
                     onClick={() => handleSelect(opt.category)}
                     style={{
                       padding: '20px 24px', background: 'rgba(255,255,255,0.8)',
-                      border: '1px solid #E5E7EB', borderRadius: '16px',
-                      textAlign: 'left', fontSize: '16px', color: '#374151',
+                      border: '1px solid var(--border-color)', borderRadius: '16px',
+                      textAlign: 'left', fontSize: '16px', color: 'var(--text-primary)',
                       display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                       cursor: 'pointer', transition: 'all 0.2s'
                     }}
                     onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#FACC15'; e.currentTarget.style.background = '#FEF3C7'; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#E5E7EB'; e.currentTarget.style.background = 'rgba(255,255,255,0.8)'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-color)'; e.currentTarget.style.background = 'rgba(255,255,255,0.8)'; }}
                   >
                     {opt.text}
-                    <ChevronRight size={18} color="#9CA3AF" />
+                    <ChevronRight size={18} color="var(--text-tertiary)" />
                   </motion.button>
                 ))}
               </div>
@@ -146,8 +146,8 @@ export default function OnboardingQuiz({ onComplete, allClubs }) {
               >
                 <Sparkles size={48} />
               </motion.div>
-              <h2 className="font-serif" style={{ fontSize: '28px', color: '#111827', marginBottom: '8px' }}>Curating your campus experience...</h2>
-              <p style={{ color: '#6B7280' }}>Finding the perfect clubs for you.</p>
+              <h2 className="font-serif" style={{ fontSize: '28px', color: 'var(--text-primary)', marginBottom: '8px' }}>Curating your campus experience...</h2>
+              <p style={{ color: 'var(--text-secondary)' }}>Finding the perfect clubs for you.</p>
             </motion.div>
           )}
 
@@ -160,18 +160,18 @@ export default function OnboardingQuiz({ onComplete, allClubs }) {
               <div style={{ width: '64px', height: '64px', background: '#D1FAE5', color: '#059669', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px auto' }}>
                 <CheckCircle2 size={32} />
               </div>
-              <h2 className="font-serif" style={{ fontSize: '36px', color: '#111827', marginBottom: '16px' }}>Your Perfect Matches</h2>
-              <p style={{ color: '#6B7280', marginBottom: '40px' }}>Based on your interests, we highly recommend following these clubs.</p>
+              <h2 className="font-serif" style={{ fontSize: '36px', color: 'var(--text-primary)', marginBottom: '16px' }}>Your Perfect Matches</h2>
+              <p style={{ color: 'var(--text-secondary)', marginBottom: '40px' }}>Based on your interests, we highly recommend following these clubs.</p>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '40px', textAlign: 'left' }}>
                 {getRecommendations().map(club => (
-                  <div key={club.id} style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '16px', background: 'rgba(255,255,255,0.8)', borderRadius: '16px', border: '1px solid #E5E7EB' }}>
+                  <div key={club.id} style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '16px', background: 'rgba(255,255,255,0.8)', borderRadius: '16px', border: '1px solid var(--border-color)' }}>
                     <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: club.color, color: club.textColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', fontWeight: 'bold' }}>
                       {club.icon}
                     </div>
                     <div style={{ flex: 1 }}>
-                      <h4 style={{ fontSize: '16px', color: '#111827', marginBottom: '2px' }}>{club.name}</h4>
-                      <p style={{ fontSize: '13px', color: '#6B7280' }}>{club.category} · {club.followers} followers</p>
+                      <h4 style={{ fontSize: '16px', color: 'var(--text-primary)', marginBottom: '2px' }}>{club.name}</h4>
+                      <p style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>{club.category} · {club.followers} followers</p>
                     </div>
                     <button className="btn btn-primary" style={{ padding: '8px 16px', fontSize: '13px' }}>Follow</button>
                   </div>

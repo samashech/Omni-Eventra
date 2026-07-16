@@ -63,21 +63,21 @@ export default function Login({ onSignIn }) {
         transition={{ duration: 2.5, ease: "easeInOut" }}
       >
         {/* Wire */}
-        <div style={{ width: '3px', height: '100px', background: isOn ? '#4B5563' : '#111827', transition: 'background 1s' }} />
+        <div style={{ width: '3px', height: '100px', background: isOn ? 'var(--text-secondary)' : 'var(--text-primary)', transition: 'background 1s' }} />
         
         {/* Lampshade */}
         <div style={{ 
           width: '140px', height: '70px', 
           background: isOn ? '#1F2937' : '#0a0a0a', 
           borderTopLeftRadius: '70px', borderTopRightRadius: '70px',
-          borderBottom: isOn ? '3px solid #FBBF24' : '3px solid #111827',
+          borderBottom: isOn ? '3px solid #FBBF24' : '3px solid var(--text-primary)',
           display: 'flex', justifyContent: 'center', alignItems: 'flex-end',
           position: 'relative', zIndex: 3, transition: 'all 1s'
         }}>
            {/* The glowing bulb */}
            <div style={{ 
             width: '44px', height: '44px', borderRadius: '50%', marginBottom: '-22px',
-            background: isOn ? '#FEF08A' : '#111827',
+            background: isOn ? '#FEF08A' : 'var(--text-primary)',
             boxShadow: isOn ? '0 30px 100px 50px rgba(253, 224, 71, 0.4), 0 0 30px 10px rgba(255, 255, 255, 0.6)' : 'none',
             transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
           }} />
@@ -96,8 +96,8 @@ export default function Login({ onSignIn }) {
           style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'grab', position: 'absolute', top: '140px', right: '30px', zIndex: 1 }}
           whileTap={{ cursor: 'grabbing' }}
         >
-          <div style={{ width: '2px', height: '80px', background: isOn ? '#9CA3AF' : '#1F2937', transition: 'background 1s' }} />
-          <div style={{ width: '14px', height: '14px', borderRadius: '50%', background: isOn ? '#F59E0B' : '#374151', marginTop: '-2px', transition: 'background 1s' }} />
+          <div style={{ width: '2px', height: '80px', background: isOn ? 'var(--text-tertiary)' : '#1F2937', transition: 'background 1s' }} />
+          <div style={{ width: '14px', height: '14px', borderRadius: '50%', background: isOn ? '#F59E0B' : 'var(--text-primary)', marginTop: '-2px', transition: 'background 1s' }} />
         </motion.div>
       </motion.div>
 
@@ -105,7 +105,7 @@ export default function Login({ onSignIn }) {
       {!isOn && (
         <motion.div 
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}
-          style={{ position: 'absolute', top: '350px', color: '#4B5563', fontSize: '13px', letterSpacing: '0.1em', fontWeight: 500 }}
+          style={{ position: 'absolute', top: '350px', color: 'var(--text-secondary)', fontSize: '13px', letterSpacing: '0.1em', fontWeight: 500 }}
         >
           PULL CORD TO POWER ON
         </motion.div>
@@ -129,11 +129,11 @@ export default function Login({ onSignIn }) {
             <div style={{ textAlign: 'center', marginBottom: '32px' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', marginBottom: '8px' }}>
                 <span style={{ color: '#EAB308' }}>●</span>
-                <span style={{ fontSize: '20px', fontWeight: 600, color: '#111827', letterSpacing: '-0.02em' }}>
+                <span style={{ fontSize: '20px', fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
                   CAMPUS<span style={{ fontWeight: 400 }}>hub</span>
                 </span>
               </div>
-              <h1 className="font-serif" style={{ fontSize: '28px', color: '#111827' }}>Welcome back.</h1>
+              <h1 className="font-serif" style={{ fontSize: '28px', color: 'var(--text-primary)' }}>Welcome back.</h1>
             </div>
 
             {/* Role Toggle */}
@@ -141,14 +141,14 @@ export default function Login({ onSignIn }) {
               <button 
                 type="button"
                 onClick={() => setRole('student')}
-                style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '12px', borderRadius: '12px', border: 'none', cursor: 'pointer', background: role === 'student' ? 'white' : 'transparent', color: role === 'student' ? '#111827' : '#6B7280', fontWeight: 600, boxShadow: role === 'student' ? '0 1px 3px rgba(0,0,0,0.1)' : 'none', transition: 'all 0.2s' }}
+                style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '12px', borderRadius: '12px', border: 'none', cursor: 'pointer', background: role === 'student' ? 'white' : 'transparent', color: role === 'student' ? 'var(--text-primary)' : 'var(--text-secondary)', fontWeight: 600, boxShadow: role === 'student' ? '0 1px 3px rgba(0,0,0,0.1)' : 'none', transition: 'all 0.2s' }}
               >
                 <User size={18} /> Student
               </button>
               <button 
                 type="button" 
                 onClick={() => setRole('leader')}
-                style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '12px', borderRadius: '12px', border: 'none', cursor: 'pointer', background: role === 'leader' ? '#111827' : 'transparent', color: role === 'leader' ? 'white' : '#6B7280', fontWeight: 600, boxShadow: role === 'leader' ? '0 4px 6px rgba(0,0,0,0.2)' : 'none', transition: 'all 0.2s' }}
+                style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '12px', borderRadius: '12px', border: 'none', cursor: 'pointer', background: role === 'leader' ? 'var(--text-primary)' : 'transparent', color: role === 'leader' ? 'white' : 'var(--text-secondary)', fontWeight: 600, boxShadow: role === 'leader' ? '0 4px 6px rgba(0,0,0,0.2)' : 'none', transition: 'all 0.2s' }}
               >
                 <Shield size={18} /> Leader
               </button>
@@ -157,7 +157,7 @@ export default function Login({ onSignIn }) {
             <AnimatePresence mode="wait">
               {role === 'student' ? (
                 <motion.div key="student-form" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.2 }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px', padding: '8px 0' }}>
-                  <p style={{ fontSize: '14px', color: '#4B5563', textAlign: 'center', marginBottom: '8px', lineHeight: 1.5 }}>
+                  <p style={{ fontSize: '14px', color: 'var(--text-secondary)', textAlign: 'center', marginBottom: '8px', lineHeight: 1.5 }}>
                     Sign in with your university Google account to discover, join, and follow clubs.
                   </p>
                   <motion.button 
@@ -166,7 +166,7 @@ export default function Login({ onSignIn }) {
                     type="button" 
                     style={{ 
                       width: '100%', padding: '14px', borderRadius: '12px', fontSize: '15px', fontWeight: 500,
-                      background: 'white', color: '#374151', border: '1px solid #D1D5DB', 
+                      background: 'var(--card-bg)', color: 'var(--text-primary)', border: '1px solid #D1D5DB', 
                       display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px',
                       boxShadow: '0 2px 4px rgba(0,0,0,0.05)', cursor: 'pointer', transition: 'all 0.2s'
                     }}
@@ -183,14 +183,14 @@ export default function Login({ onSignIn }) {
               ) : (
                 <motion.form key="leader-form" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.2 }} onSubmit={handleLeaderSignIn} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                   <div>
-                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#374151', marginBottom: '8px' }}>Leader ID</label>
-                    <input name="leaderId" type="text" placeholder="e.g., john@raiot" className="search-input" style={{ width: '100%', borderRadius: '12px', padding: '14px 16px', background: '#F9FAFB', border: '1px solid #E5E7EB' }} required />
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '8px' }}>Leader ID</label>
+                    <input name="leaderId" type="text" placeholder="e.g., john@raiot" className="search-input" style={{ width: '100%', borderRadius: '12px', padding: '14px 16px', background: 'var(--card-bg-alt)', border: '1px solid var(--border-color)' }} required />
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#374151', marginBottom: '8px' }}>
-                      Access Token <span style={{ fontWeight: 400, color: '#9CA3AF' }}>(Issued by Union)</span>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '8px' }}>
+                      Access Token <span style={{ fontWeight: 400, color: 'var(--text-tertiary)' }}>(Issued by Union)</span>
                     </label>
-                    <input name="token" type="password" placeholder="••••••••" className="search-input" style={{ width: '100%', borderRadius: '12px', padding: '14px 16px', background: '#F9FAFB', border: '1px solid #E5E7EB' }} required />
+                    <input name="token" type="password" placeholder="••••••••" className="search-input" style={{ width: '100%', borderRadius: '12px', padding: '14px 16px', background: 'var(--card-bg-alt)', border: '1px solid var(--border-color)' }} required />
                   </div>
                   <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '14px', borderRadius: '12px', fontSize: '15px', marginTop: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
                     Authenticate <ArrowRight size={18} />
@@ -200,7 +200,7 @@ export default function Login({ onSignIn }) {
             </AnimatePresence>
 
             <div style={{ textAlign: 'center', marginTop: '32px' }}>
-              <a href="#" style={{ fontSize: '13px', color: '#6B7280', textDecoration: 'none', fontWeight: 500 }}>Having trouble logging in?</a>
+              <a href="#" style={{ fontSize: '13px', color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: 500 }}>Having trouble logging in?</a>
             </div>
           </motion.div>
         )}

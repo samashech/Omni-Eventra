@@ -6,7 +6,7 @@ import { AnimatePresence } from 'framer-motion';
 
 export default function ClubProfile({ club, onBack, onLeaderView }) {
   // Extract custom color for "vibe" customization
-  const primaryColor = club.textColor || '#111827';
+  const primaryColor = club.textColor || 'var(--text-primary)';
   const lightBg = club.color || '#F3F4F6';
   const [showTicket, setShowTicket] = useState(false);
   const [showFollowModal, setShowFollowModal] = useState(false);
@@ -46,41 +46,41 @@ export default function ClubProfile({ club, onBack, onLeaderView }) {
           
           {/* Main Column */}
           <div>
-            <div className="glass-panel" style={{ background: 'white', padding: '40px', marginBottom: '32px' }}>
+            <div className="glass-panel" style={{ background: 'var(--card-bg)', padding: '40px', marginBottom: '32px' }}>
               <div style={{ display: 'flex', alignItems: 'flex-end', gap: '24px', marginBottom: '32px' }}>
                 <div style={{ width: '120px', height: '120px', borderRadius: '24px', background: lightBg, color: primaryColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '48px', fontWeight: 'bold', border: '4px solid white', boxShadow: '0 4px 20px rgba(0,0,0,0.1)' }}>
                   {club.icon}
                 </div>
                 <div style={{ flex: 1, paddingBottom: '8px' }}>
                   <span style={{ fontSize: '13px', fontWeight: 600, color: primaryColor, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{club.category}</span>
-                  <h1 className="font-serif" style={{ fontSize: '48px', color: '#111827', lineHeight: 1.1, margin: '8px 0' }}>{club.name}</h1>
-                  <p style={{ fontSize: '16px', color: '#6B7280' }}>{club.followers} students following</p>
+                  <h1 className="font-serif" style={{ fontSize: '48px', color: 'var(--text-primary)', lineHeight: 1.1, margin: '8px 0' }}>{club.name}</h1>
+                  <p style={{ fontSize: '16px', color: 'var(--text-secondary)' }}>{club.followers} students following</p>
                 </div>
                 <motion.button whileTap={{ scale: 0.95 }} onClick={handleFollow} className="btn" style={{ background: isFollowing ? 'white' : primaryColor, color: isFollowing ? primaryColor : 'white', border: isFollowing ? `1px solid ${primaryColor}` : 'none', padding: '12px 32px', fontSize: '16px' }}>
                   {isFollowing ? 'Following' : 'Follow Club'}
                 </motion.button>
               </div>
 
-              <div style={{ display: 'flex', gap: '32px', borderBottom: '1px solid #E5E7EB', paddingBottom: '32px', marginBottom: '32px' }}>
+              <div style={{ display: 'flex', gap: '32px', borderBottom: '1px solid var(--border-color)', paddingBottom: '32px', marginBottom: '32px' }}>
                 <div style={{ flex: 2 }}>
-                  <h3 style={{ fontSize: '18px', color: '#111827', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}><Info size={20} color={primaryColor} /> About Us</h3>
-                  <p style={{ color: '#4B5563', lineHeight: 1.7, fontSize: '15px' }}>
+                  <h3 style={{ fontSize: '18px', color: 'var(--text-primary)', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}><Info size={20} color={primaryColor} /> About Us</h3>
+                  <p style={{ color: 'var(--text-secondary)', lineHeight: 1.7, fontSize: '15px' }}>
                     {club.desc} We are a community of passionate students dedicated to learning, building, and growing together. Join us for weekly workshops, guest speaker events, and our flagship annual symposium.
                   </p>
                 </div>
                 <div style={{ flex: 1 }}>
-                  <h3 style={{ fontSize: '18px', color: '#111827', marginBottom: '16px' }}>Links</h3>
+                  <h3 style={{ fontSize: '18px', color: 'var(--text-primary)', marginBottom: '16px' }}>Links</h3>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                    <a href="#" style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#4B5563', textDecoration: 'none', fontSize: '14px' }}><ExternalLink size={16} /> officialwebsite.com</a>
-                    <a href="#" style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#4B5563', textDecoration: 'none', fontSize: '14px' }}><Image size={16} /> @{club.name.replace(/\s+/g, '').toLowerCase()}</a>
-                    <a href="#" style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#4B5563', textDecoration: 'none', fontSize: '14px' }}><MessageCircle size={16} /> Contact Page</a>
+                    <a href="#" style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-secondary)', textDecoration: 'none', fontSize: '14px' }}><ExternalLink size={16} /> officialwebsite.com</a>
+                    <a href="#" style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-secondary)', textDecoration: 'none', fontSize: '14px' }}><Image size={16} /> @{club.name.replace(/\s+/g, '').toLowerCase()}</a>
+                    <a href="#" style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-secondary)', textDecoration: 'none', fontSize: '14px' }}><MessageCircle size={16} /> Contact Page</a>
                   </div>
                 </div>
               </div>
 
               {/* Achievements Archive */}
               <div style={{ marginBottom: '40px' }}>
-                <h3 style={{ fontSize: '18px', color: '#111827', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}><Trophy size={20} color={primaryColor} /> Achievements Archive</h3>
+                <h3 style={{ fontSize: '18px', color: 'var(--text-primary)', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}><Trophy size={20} color={primaryColor} /> Achievements Archive</h3>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
                   {[
                     { title: 'Best Campus Society 2025', desc: 'Awarded by Student Union', icon: Trophy },
@@ -89,12 +89,12 @@ export default function ClubProfile({ club, onBack, onLeaderView }) {
                   ].map((ach, i) => {
                     const AchIcon = ach.icon;
                     return (
-                      <div key={i} style={{ background: '#F9FAFB', border: '1px solid #E5E7EB', borderRadius: '12px', padding: '16px' }}>
+                      <div key={i} style={{ background: 'var(--card-bg-alt)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '16px' }}>
                         <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: lightBg, color: primaryColor, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '12px' }}>
                           <AchIcon size={16} />
                         </div>
-                        <h4 style={{ fontSize: '14px', color: '#111827', marginBottom: '4px' }}>{ach.title}</h4>
-                        <p style={{ fontSize: '12px', color: '#6B7280' }}>{ach.desc}</p>
+                        <h4 style={{ fontSize: '14px', color: 'var(--text-primary)', marginBottom: '4px' }}>{ach.title}</h4>
+                        <p style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{ach.desc}</p>
                       </div>
                     );
                   })}
@@ -130,25 +130,25 @@ export default function ClubProfile({ club, onBack, onLeaderView }) {
 
           {/* Right Sidebar */}
           <div>
-            <div className="glass-panel" style={{ background: 'white', padding: '24px', marginBottom: '24px' }}>
-              <h3 style={{ fontSize: '16px', color: '#111827', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}><Calendar size={18} color={primaryColor} /> Upcoming Events</h3>
+            <div className="glass-panel" style={{ background: 'var(--card-bg)', padding: '24px', marginBottom: '24px' }}>
+              <h3 style={{ fontSize: '16px', color: 'var(--text-primary)', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}><Calendar size={18} color={primaryColor} /> Upcoming Events</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                <div style={{ padding: '16px', border: '1px solid #E5E7EB', borderRadius: '12px' }}>
+                <div style={{ padding: '16px', border: '1px solid var(--border-color)', borderRadius: '12px' }}>
                   <span style={{ fontSize: '11px', color: primaryColor, fontWeight: 600 }}>OCT 24 · 4:00 PM</span>
-                  <h4 style={{ fontSize: '14px', color: '#111827', margin: '4px 0' }}>Intro Workshop</h4>
-                  <p style={{ fontSize: '12px', color: '#6B7280' }}>Room 304, Main Block</p>
+                  <h4 style={{ fontSize: '14px', color: 'var(--text-primary)', margin: '4px 0' }}>Intro Workshop</h4>
+                  <p style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Room 304, Main Block</p>
                   <button onClick={() => setShowTicket(true)} className="btn" style={{ width: '100%', marginTop: '12px', padding: '6px', fontSize: '12px', background: lightBg, color: primaryColor, border: `1px solid ${primaryColor}30` }}>RSVP</button>
                 </div>
               </div>
             </div>
             
-            <div className="glass-panel" style={{ background: 'white', padding: '24px' }}>
-              <h3 style={{ fontSize: '16px', color: '#111827', marginBottom: '20px' }}>Recent Announcements</h3>
+            <div className="glass-panel" style={{ background: 'var(--card-bg)', padding: '24px' }}>
+              <h3 style={{ fontSize: '16px', color: 'var(--text-primary)', marginBottom: '20px' }}>Recent Announcements</h3>
               <div style={{ paddingLeft: '16px', borderLeft: `2px solid ${lightBg}` }}>
-                <p style={{ fontSize: '13px', color: '#374151', lineHeight: 1.5, marginBottom: '8px' }}>
+                <p style={{ fontSize: '13px', color: 'var(--text-primary)', lineHeight: 1.5, marginBottom: '8px' }}>
                   "Welcome freshers! Make sure to drop by our booth during the club fair tomorrow!"
                 </p>
-                <span style={{ fontSize: '11px', color: '#9CA3AF' }}>2 days ago</span>
+                <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>2 days ago</span>
               </div>
             </div>
           </div>
@@ -162,7 +162,7 @@ export default function ClubProfile({ club, onBack, onLeaderView }) {
           <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <motion.div 
               initial={{ opacity: 0, scale: 0.9, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              style={{ background: 'white', padding: '0', borderRadius: '24px', width: '90%', maxWidth: '340px', overflow: 'hidden', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)' }}
+              style={{ background: 'var(--card-bg)', padding: '0', borderRadius: '24px', width: '90%', maxWidth: '340px', overflow: 'hidden', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)' }}
             >
               <div style={{ background: primaryColor, padding: '24px', color: 'white', position: 'relative' }}>
                 <button onClick={() => setShowTicket(false)} style={{ position: 'absolute', top: '16px', right: '16px', background: 'transparent', border: 'none', color: 'white', cursor: 'pointer' }}><X size={20} /></button>
@@ -172,21 +172,21 @@ export default function ClubProfile({ club, onBack, onLeaderView }) {
               </div>
               
               <div style={{ padding: '32px', display: 'flex', flexDirection: 'column', alignItems: 'center', background: '#FAFAFA' }}>
-                <div style={{ width: '180px', height: '180px', background: 'white', borderRadius: '16px', padding: '16px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ width: '180px', height: '180px', background: 'var(--card-bg)', borderRadius: '16px', padding: '16px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   {/* Simplified mock of a QR code icon */}
                   <QrCode size={148} color={primaryColor} />
                 </div>
-                <p style={{ fontSize: '13px', color: '#6B7280', marginTop: '24px', textAlign: 'center' }}>Show this QR code at the entrance to check in.</p>
+                <p style={{ fontSize: '13px', color: 'var(--text-secondary)', marginTop: '24px', textAlign: 'center' }}>Show this QR code at the entrance to check in.</p>
               </div>
               
-              <div style={{ padding: '16px 24px', background: 'white', borderTop: '2px dashed #E5E7EB', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ padding: '16px 24px', background: 'var(--card-bg)', borderTop: '2px dashed var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
-                  <div style={{ fontSize: '11px', color: '#9CA3AF', textTransform: 'uppercase' }}>Date</div>
-                  <div style={{ fontSize: '14px', color: '#111827', fontWeight: 500 }}>Oct 24, 2026</div>
+                  <div style={{ fontSize: '11px', color: 'var(--text-tertiary)', textTransform: 'uppercase' }}>Date</div>
+                  <div style={{ fontSize: '14px', color: 'var(--text-primary)', fontWeight: 500 }}>Oct 24, 2026</div>
                 </div>
                 <div style={{ textAlign: 'right' }}>
-                  <div style={{ fontSize: '11px', color: '#9CA3AF', textTransform: 'uppercase' }}>Time</div>
-                  <div style={{ fontSize: '14px', color: '#111827', fontWeight: 500 }}>4:00 PM</div>
+                  <div style={{ fontSize: '11px', color: 'var(--text-tertiary)', textTransform: 'uppercase' }}>Time</div>
+                  <div style={{ fontSize: '14px', color: 'var(--text-primary)', fontWeight: 500 }}>4:00 PM</div>
                 </div>
               </div>
             </motion.div>
@@ -200,24 +200,24 @@ export default function ClubProfile({ club, onBack, onLeaderView }) {
           <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <motion.div 
               initial={{ opacity: 0, scale: 0.9, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              style={{ background: 'white', padding: '32px', borderRadius: '24px', width: '90%', maxWidth: '380px', textAlign: 'center', position: 'relative', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)' }}
+              style={{ background: 'var(--card-bg)', padding: '32px', borderRadius: '24px', width: '90%', maxWidth: '380px', textAlign: 'center', position: 'relative', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)' }}
             >
-              <button onClick={() => setShowFollowModal(false)} style={{ position: 'absolute', top: '16px', right: '16px', background: 'transparent', border: 'none', cursor: 'pointer', color: '#9CA3AF' }}><X size={20}/></button>
+              <button onClick={() => setShowFollowModal(false)} style={{ position: 'absolute', top: '16px', right: '16px', background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--text-tertiary)' }}><X size={20}/></button>
               
               <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: '#D1FAE5', color: '#059669', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px auto' }}>
                 <CheckCircle2 size={32} />
               </div>
-              <h2 style={{ fontSize: '24px', color: '#111827', marginBottom: '8px' }}>Awesome! You're in.</h2>
-              <p style={{ fontSize: '14px', color: '#6B7280', marginBottom: '32px', lineHeight: 1.5 }}>
+              <h2 style={{ fontSize: '24px', color: 'var(--text-primary)', marginBottom: '8px' }}>Awesome! You're in.</h2>
+              <p style={{ fontSize: '14px', color: 'var(--text-secondary)', marginBottom: '32px', lineHeight: 1.5 }}>
                 You'll now receive updates for <strong>{club.name}</strong> on your dashboard.<br/><br/>
                 Don't miss out on real-time updates—be sure to follow our socials too!
               </p>
 
               <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
-                <motion.button whileTap={{ scale: 0.95 }} className="btn" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', background: '#F9FAFB', border: '1px solid #E5E7EB', color: '#374151' }}>
+                <motion.button whileTap={{ scale: 0.95 }} className="btn" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', background: 'var(--card-bg-alt)', border: '1px solid var(--border-color)', color: 'var(--text-primary)' }}>
                   <Image size={18} /> Instagram
                 </motion.button>
-                <motion.button whileTap={{ scale: 0.95 }} className="btn" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', background: '#F9FAFB', border: '1px solid #E5E7EB', color: '#374151' }}>
+                <motion.button whileTap={{ scale: 0.95 }} className="btn" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', background: 'var(--card-bg-alt)', border: '1px solid var(--border-color)', color: 'var(--text-primary)' }}>
                   <MessageCircle size={18} /> LinkedIn
                 </motion.button>
               </div>

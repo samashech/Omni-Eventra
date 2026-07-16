@@ -39,7 +39,7 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
   const handleRegisterClub = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const newClub = { name: formData.get('name'), category: formData.get('category'), description: formData.get('description'), color: '#F3F4F6', text_color: '#374151', icon: 'Cpu', followers: 0 };
+    const newClub = { name: formData.get('name'), category: formData.get('category'), description: formData.get('description'), color: '#F3F4F6', text_color: 'var(--text-primary)', icon: 'Cpu', followers: 0 };
     await supabase.from('clubs').insert(newClub);
     setActiveModal(null);
     setMyClubs([...myClubs, { ...newClub, id: Date.now(), icon: <Cpu size={24}/>, textColor: newClub.text_color }]);
@@ -76,18 +76,18 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
             </motion.button>
             
             {showNotifs && (
-              <div style={{ position: 'absolute', top: '100%', right: '50px', width: '320px', background: 'var(--card-bg)', borderRadius: '16px', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.15)', border: '1px solid #E5E7EB', zIndex: 100, overflow: 'hidden' }}>
+              <div style={{ position: 'absolute', top: '100%', right: '50px', width: '320px', background: 'var(--card-bg)', borderRadius: '16px', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.15)', border: '1px solid var(--border-color)', zIndex: 100, overflow: 'hidden' }}>
                 <div style={{ padding: '16px', borderBottom: '1px solid #F3F4F6', fontWeight: 600, fontSize: '14px' }}>Notifications</div>
                 <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
                   <div style={{ padding: '16px', borderBottom: '1px solid #F3F4F6', cursor: 'pointer' }} className="hover-bg">
                     <div style={{ fontSize: '13px', fontWeight: 500, color: 'var(--text-primary)' }}>System Update</div>
                     <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>CampusHub v2.0 is live! Check out the new features.</div>
-                    <div style={{ fontSize: '10px', color: '#9CA3AF', marginTop: '4px' }}>2 hrs ago</div>
+                    <div style={{ fontSize: '10px', color: 'var(--text-tertiary)', marginTop: '4px' }}>2 hrs ago</div>
                   </div>
                   <div style={{ padding: '16px', cursor: 'pointer' }} className="hover-bg">
                     <div style={{ fontSize: '13px', fontWeight: 500, color: 'var(--text-primary)' }}>Club Registration</div>
                     <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Your new club application is under review.</div>
-                    <div style={{ fontSize: '10px', color: '#9CA3AF', marginTop: '4px' }}>1 day ago</div>
+                    <div style={{ fontSize: '10px', color: 'var(--text-tertiary)', marginTop: '4px' }}>1 day ago</div>
                   </div>
                 </div>
               </div>
@@ -111,7 +111,7 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
             <div>
               {/* Quick Create Dashboard */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '40px' }}>
-                <motion.button whileTap={{ scale: 0.95 }} onClick={() => setActiveModal('event')} className="glass-panel" style={{ padding: '24px', textAlign: 'left', cursor: 'pointer', border: '1px solid #E5E7EB', display: 'flex', flexDirection: 'column', gap: '12px', transition: 'all 0.2s', background: 'var(--card-bg)' }}>
+                <motion.button whileTap={{ scale: 0.95 }} onClick={() => setActiveModal('event')} className="glass-panel" style={{ padding: '24px', textAlign: 'left', cursor: 'pointer', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', gap: '12px', transition: 'all 0.2s', background: 'var(--card-bg)' }}>
                   <div style={{ width: '40px', height: '40px', background: '#DBEAFE', color: '#1E40AF', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Plus size={20} />
                   </div>
@@ -121,7 +121,7 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
                   </div>
                 </motion.button>
 
-                <motion.button whileTap={{ scale: 0.95 }} onClick={() => setActiveModal('broadcast')} className="glass-panel" style={{ padding: '24px', textAlign: 'left', cursor: 'pointer', border: '1px solid #E5E7EB', display: 'flex', flexDirection: 'column', gap: '12px', transition: 'all 0.2s', background: 'var(--card-bg)' }}>
+                <motion.button whileTap={{ scale: 0.95 }} onClick={() => setActiveModal('broadcast')} className="glass-panel" style={{ padding: '24px', textAlign: 'left', cursor: 'pointer', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', gap: '12px', transition: 'all 0.2s', background: 'var(--card-bg)' }}>
                   <div style={{ width: '40px', height: '40px', background: '#FEF3C7', color: '#92400E', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Megaphone size={20} />
                   </div>
@@ -131,7 +131,7 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
                   </div>
                 </motion.button>
 
-                <motion.button whileTap={{ scale: 0.95 }} onClick={() => setActiveModal('audition')} className="glass-panel" style={{ padding: '24px', textAlign: 'left', cursor: 'pointer', border: '1px solid #E5E7EB', display: 'flex', flexDirection: 'column', gap: '12px', transition: 'all 0.2s', background: 'var(--card-bg)' }}>
+                <motion.button whileTap={{ scale: 0.95 }} onClick={() => setActiveModal('audition')} className="glass-panel" style={{ padding: '24px', textAlign: 'left', cursor: 'pointer', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', gap: '12px', transition: 'all 0.2s', background: 'var(--card-bg)' }}>
                   <div style={{ width: '40px', height: '40px', background: '#FCE7F3', color: '#9D174D', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <FileText size={20} />
                   </div>
@@ -160,7 +160,7 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
                       <h4 style={{ fontSize: '16px', color: 'var(--text-primary)', margin: '0 0 4px 0' }}>{club.name}</h4>
                       <p style={{ fontSize: '13px', color: 'var(--text-secondary)', margin: 0 }}>{club.followers} followers</p>
                     </div>
-                    <ArrowUpRight size={20} color="#9CA3AF" />
+                    <ArrowUpRight size={20} color="var(--text-tertiary)" />
                   </motion.div>
                 ))}
                 
@@ -201,7 +201,7 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
                     </div>
                     <div>
                       <p style={{ fontSize: '13px', color: 'var(--text-primary)', margin: '0 0 4px 0', lineHeight: 1.4 }}><strong>5 new students</strong> applied to your Core Team Audition.</p>
-                      <span style={{ fontSize: '11px', color: '#9CA3AF' }}>2 hours ago</span>
+                      <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>2 hours ago</span>
                     </div>
                   </div>
 
@@ -211,7 +211,7 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
                     </div>
                     <div>
                       <p style={{ fontSize: '13px', color: 'var(--text-primary)', margin: '0 0 4px 0', lineHeight: 1.4 }}>Your upcoming event <strong>Intro Workshop</strong> just hit 150 RSVPs.</p>
-                      <span style={{ fontSize: '11px', color: '#9CA3AF' }}>5 hours ago</span>
+                      <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>5 hours ago</span>
                     </div>
                   </div>
 
@@ -221,7 +221,7 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
                     </div>
                     <div>
                       <p style={{ fontSize: '13px', color: 'var(--text-primary)', margin: '0 0 4px 0', lineHeight: 1.4 }}><strong>Conflict Alert:</strong> Debate Club just scheduled a large event on Oct 24.</p>
-                      <span style={{ fontSize: '11px', color: '#9CA3AF' }}>1 day ago</span>
+                      <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>1 day ago</span>
                     </div>
                   </div>
                 </div>
@@ -237,7 +237,7 @@ export default function GlobalLeaderDashboard({ onSignOut }) {
         {activeModal && (
           <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} style={{ width: '90%', maxWidth: '500px', background: 'var(--card-bg)', borderRadius: '24px', padding: '32px', position: 'relative' }}>
-              <button onClick={() => setActiveModal(null)} style={{ position: 'absolute', top: '24px', right: '24px', background: 'transparent', border: 'none', cursor: 'pointer', color: '#9CA3AF' }}><X size={20}/></button>
+              <button onClick={() => setActiveModal(null)} style={{ position: 'absolute', top: '24px', right: '24px', background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--text-tertiary)' }}><X size={20}/></button>
               
               {activeModal === 'new_club' && (
                 <div>

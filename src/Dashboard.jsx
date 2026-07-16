@@ -154,7 +154,7 @@ export default function Dashboard({ onSignOut }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <div className="search-input-wrapper" onClick={() => setIsSearchOpen(true)} style={{ cursor: 'pointer' }}>
               <Search className="search-icon" size={16} />
-              <div className="search-input" style={{ width: '200px', display: 'flex', alignItems: 'center', color: '#9CA3AF' }}>Search clubs, events...</div>
+              <div className="search-input" style={{ width: '200px', display: 'flex', alignItems: 'center', color: 'var(--text-tertiary)' }}>Search clubs, events...</div>
               <span className="cmd-k">⌘K</span>
             </div>
             <motion.button whileTap={{ scale: 0.95 }} onClick={() => setShowQuiz(true)} className="btn btn-ghost" style={{ padding: '8px 16px', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -173,18 +173,18 @@ export default function Dashboard({ onSignOut }) {
 
               <AnimatePresence>
                 {showNotifs && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} style={{ position: 'absolute', top: '100%', right: 0, width: '320px', background: 'var(--card-bg)', borderRadius: '16px', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.15)', border: '1px solid #E5E7EB', zIndex: 100, overflow: 'hidden', marginTop: '8px' }}>
+                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} style={{ position: 'absolute', top: '100%', right: 0, width: '320px', background: 'var(--card-bg)', borderRadius: '16px', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.15)', border: '1px solid var(--border-color)', zIndex: 100, overflow: 'hidden', marginTop: '8px' }}>
                     <div style={{ padding: '16px', borderBottom: '1px solid #F3F4F6', fontWeight: 600, fontSize: '14px' }}>Notifications</div>
                     <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
                       <div style={{ padding: '16px', borderBottom: '1px solid #F3F4F6', cursor: 'pointer' }} className="hover-bg">
                         <div style={{ fontSize: '13px', fontWeight: 500, color: 'var(--text-primary)' }}>Event Reminder</div>
                         <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Tech & Code's Web3 Workshop starts in 2 hours!</div>
-                        <div style={{ fontSize: '10px', color: '#9CA3AF', marginTop: '4px' }}>2 hrs ago</div>
+                        <div style={{ fontSize: '10px', color: 'var(--text-tertiary)', marginTop: '4px' }}>2 hrs ago</div>
                       </div>
                       <div style={{ padding: '16px', cursor: 'pointer' }} className="hover-bg">
                         <div style={{ fontSize: '13px', fontWeight: 500, color: 'var(--text-primary)' }}>New Announcement</div>
                         <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Debating Society just posted a new update.</div>
-                        <div style={{ fontSize: '10px', color: '#9CA3AF', marginTop: '4px' }}>1 day ago</div>
+                        <div style={{ fontSize: '10px', color: 'var(--text-tertiary)', marginTop: '4px' }}>1 day ago</div>
                       </div>
                     </div>
                   </motion.div>
@@ -210,7 +210,6 @@ export default function Dashboard({ onSignOut }) {
                 <h1 style={{ fontSize: '36px', marginBottom: '8px', color: 'var(--text-primary)' }}>Freshers' week, 2026</h1>
                 <p style={{ color: 'var(--text-secondary)', fontSize: '15px' }}>12 clubs you follow · 4 events this week</p>
               </div>
-              <button className="btn btn-primary"><Plus size={18} /> Post event</button>
             </motion.div>
 
             <motion.div variants={containerVariants} initial="hidden" animate="show" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px', marginBottom: '32px' }}>
@@ -237,7 +236,7 @@ export default function Dashboard({ onSignOut }) {
                     { title: 'Concert Setup', club: 'Cultural Fest', time: 'Sat · 8pm', icon: <PartyPopper size={20}/> }
                   ].map((evt, i) => (
                     <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '16px', paddingBottom: '16px', borderBottom: i === 2 ? 'none' : '1px solid rgba(0,0,0,0.05)' }}>
-                      <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#F3F4F6', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, color: '#374151' }}>
+                      <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'var(--bg-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, color: 'var(--text-primary)' }}>
                         {evt.icon}
                       </div>
                       <div style={{ flex: 1 }}>
@@ -270,7 +269,7 @@ export default function Dashboard({ onSignOut }) {
                         <h4 style={{ fontSize: '14px', color: 'var(--text-primary)', marginBottom: '2px' }}>{club.title}</h4>
                         <p style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{club.tag}</p>
                       </div>
-                      <button className="btn" style={{ padding: '6px 12px', fontSize: '12px', border: '1px solid #E5E7EB', background: 'transparent' }}>Follow</button>
+                      <button className="btn" style={{ padding: '6px 12px', fontSize: '12px', border: '1px solid var(--border-color)', background: 'transparent' }}>Follow</button>
                     </div>
                   ))}
                 </div>
@@ -322,7 +321,7 @@ export default function Dashboard({ onSignOut }) {
                     <div style={{ width: '48px', height: '48px', borderRadius: '16px', background: club.color, color: club.textColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', fontWeight: 'bold' }}>
                       {club.icon}
                     </div>
-                    <span style={{ fontSize: '12px', fontWeight: 500, color: 'var(--text-secondary)', background: '#F3F4F6', padding: '4px 10px', borderRadius: '999px' }}>
+                    <span style={{ fontSize: '12px', fontWeight: 500, color: 'var(--text-secondary)', background: 'var(--bg-subtle)', padding: '4px 10px', borderRadius: '999px' }}>
                       {club.category}
                     </span>
                   </div>
@@ -353,8 +352,7 @@ export default function Dashboard({ onSignOut }) {
                <p style={{ color: 'var(--text-secondary)', fontSize: '15px' }}>October 2026 · 1 Schedule Conflict Detected</p>
              </div>
              <div style={{ display: 'flex', gap: '12px' }}>
-               <button className="btn btn-ghost" style={{ background: 'var(--card-bg)', border: '1px solid #E5E7EB' }}>This Week</button>
-               <button className="btn btn-primary"><Plus size={18} /> Add Event</button>
+               <button className="btn btn-ghost" style={{ background: 'var(--card-bg)', border: '1px solid var(--border-color)' }}>This Week</button>
              </div>
            </div>
 
@@ -389,7 +387,7 @@ export default function Dashboard({ onSignOut }) {
                        display: 'inline-block', width: '28px', height: '28px', lineHeight: '28px', 
                        textAlign: 'center', borderRadius: '50%', fontSize: '14px', fontWeight: 500,
                        background: date === 24 ? 'var(--text-primary)' : 'transparent',
-                       color: date === 24 ? 'var(--card-bg)' : '#374151',
+                       color: date === 24 ? 'var(--card-bg)' : 'var(--text-primary)',
                        marginBottom: '4px'
                      }}>
                        {date > 0 && date <= 31 ? date : (date <= 0 ? 30 + date : date - 31)}

@@ -40,12 +40,12 @@ export default function SearchModal({ isOpen, onClose }) {
         exit={{ opacity: 0, scale: 0.95, y: -20 }}
         transition={{ duration: 0.15 }}
         style={{
-          width: '90%', maxWidth: '600px', background: 'white', borderRadius: '16px',
+          width: '90%', maxWidth: '600px', background: 'var(--card-bg)', borderRadius: '16px',
           boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)', overflow: 'hidden'
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', padding: '16px 24px', borderBottom: '1px solid #E5E7EB' }}>
-          <Search size={20} color="#9CA3AF" />
+        <div style={{ display: 'flex', alignItems: 'center', padding: '16px 24px', borderBottom: '1px solid var(--border-color)' }}>
+          <Search size={20} color="var(--text-tertiary)" />
           <input
             autoFocus
             type="text"
@@ -54,21 +54,21 @@ export default function SearchModal({ isOpen, onClose }) {
             onChange={(e) => setQuery(e.target.value)}
             style={{
               flex: 1, border: 'none', outline: 'none', background: 'transparent',
-              padding: '8px 16px', fontSize: '18px', color: '#111827'
+              padding: '8px 16px', fontSize: '18px', color: 'var(--text-primary)'
             }}
           />
-          <button onClick={onClose} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#9CA3AF' }}>
+          <button onClick={onClose} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--text-tertiary)' }}>
             <X size={20} />
           </button>
         </div>
 
         <div style={{ maxHeight: '60vh', overflowY: 'auto', padding: '16px 0' }}>
           {query.length === 0 ? (
-            <div style={{ padding: '32px', textAlign: 'center', color: '#6B7280' }}>
+            <div style={{ padding: '32px', textAlign: 'center', color: 'var(--text-secondary)' }}>
               <p style={{ fontSize: '14px', marginBottom: '16px' }}>Try searching for a club, event, or announcement.</p>
               <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
                 {['Tech', 'Debate', 'Hackathon', 'E-Cell'].map(tag => (
-                  <button key={tag} onClick={() => setQuery(tag)} style={{ background: '#F3F4F6', border: 'none', padding: '4px 12px', borderRadius: '999px', fontSize: '12px', color: '#374151', cursor: 'pointer' }}>
+                  <button key={tag} onClick={() => setQuery(tag)} style={{ background: 'var(--bg-subtle)', border: 'none', padding: '4px 12px', borderRadius: '999px', fontSize: '12px', color: 'var(--text-primary)', cursor: 'pointer' }}>
                     {tag}
                   </button>
                 ))}
@@ -76,24 +76,24 @@ export default function SearchModal({ isOpen, onClose }) {
             </div>
           ) : results.length > 0 ? (
             <div>
-              <span style={{ fontSize: '11px', fontWeight: 600, color: '#9CA3AF', padding: '0 24px', marginBottom: '8px', display: 'block', textTransform: 'uppercase' }}>Results</span>
+              <span style={{ fontSize: '11px', fontWeight: 600, color: 'var(--text-tertiary)', padding: '0 24px', marginBottom: '8px', display: 'block', textTransform: 'uppercase' }}>Results</span>
               {results.map(res => {
                 const Icon = res.icon;
                 return (
                   <motion.div
                     key={res.id}
-                    whileHover={{ background: '#F9FAFB' }}
+                    whileHover={{ background: 'var(--card-bg-alt)' }}
                     style={{ padding: '12px 24px', display: 'flex', alignItems: 'center', gap: '16px', cursor: 'pointer', borderLeft: '3px solid transparent' }}
                     onMouseEnter={(e) => e.currentTarget.style.borderLeftColor = '#FACC15'}
                     onMouseLeave={(e) => e.currentTarget.style.borderLeftColor = 'transparent'}
                     onClick={onClose}
                   >
-                    <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: '#F3F4F6', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#4B5563' }}>
+                    <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'var(--bg-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)' }}>
                       <Icon size={18} />
                     </div>
                     <div style={{ flex: 1 }}>
-                      <h4 style={{ fontSize: '15px', color: '#111827', margin: 0 }}>{res.title}</h4>
-                      <p style={{ fontSize: '13px', color: '#6B7280', margin: 0 }}>{res.subtitle}</p>
+                      <h4 style={{ fontSize: '15px', color: 'var(--text-primary)', margin: 0 }}>{res.title}</h4>
+                      <p style={{ fontSize: '13px', color: 'var(--text-secondary)', margin: 0 }}>{res.subtitle}</p>
                     </div>
                     <ArrowRight size={16} color="#D1D5DB" />
                   </motion.div>
@@ -101,17 +101,17 @@ export default function SearchModal({ isOpen, onClose }) {
               })}
             </div>
           ) : (
-            <div style={{ padding: '32px', textAlign: 'center', color: '#6B7280' }}>
+            <div style={{ padding: '32px', textAlign: 'center', color: 'var(--text-secondary)' }}>
               <p>No results found for "{query}"</p>
             </div>
           )}
         </div>
         
-        <div style={{ background: '#F9FAFB', padding: '12px 24px', borderTop: '1px solid #E5E7EB', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontSize: '12px', color: '#9CA3AF' }}>Search powered by CampusHub</span>
+        <div style={{ background: 'var(--card-bg-alt)', padding: '12px 24px', borderTop: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ fontSize: '12px', color: 'var(--text-tertiary)' }}>Search powered by CampusHub</span>
           <div style={{ display: 'flex', gap: '8px' }}>
-            <span style={{ fontSize: '11px', background: 'white', border: '1px solid #E5E7EB', padding: '2px 6px', borderRadius: '4px', color: '#6B7280' }}>esc</span>
-            <span style={{ fontSize: '11px', color: '#9CA3AF' }}>to close</span>
+            <span style={{ fontSize: '11px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', padding: '2px 6px', borderRadius: '4px', color: 'var(--text-secondary)' }}>esc</span>
+            <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>to close</span>
           </div>
         </div>
       </motion.div>
