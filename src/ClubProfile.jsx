@@ -19,6 +19,22 @@ export default function ClubProfile({ club, onBack, onLeaderView }) {
     await supabase.from('clubs').update({ followers: club.followers + 1 }).eq('id', club.id);
   };
 
+  const handleApply = async (e) => {
+    e.preventDefault();
+    const { data: { session } } = await supabase.auth.getSession();
+    const email = session?.user?.email || 'Anonymous Student';
+    
+    await supabase.from('applications').insert([{
+      club_id: club.id,
+      candidate_name: email.split('@')[0], // Use part of email as name
+      role: 'Member',
+      status: 'new'
+    }]);
+    
+    alert('Application submitted successfully! Club leaders will review it shortly.');
+    e.target.reset();
+  };
+
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-gradient)' }}>
       {/* Dynamic Header */}
@@ -101,29 +117,31 @@ export default function ClubProfile({ club, onBack, onLeaderView }) {
                 </div>
               </div>
 
-              {/* Recruitment / Audition Form Preview */}
-              <div style={{ background: lightBg, borderRadius: '24px', padding: '32px', border: `1px solid ${primaryColor}30` }}>
-                <div className="flex-between" style={{ marginBottom: '24px' }}>
-                  <div>
-                    <span style={{ background: primaryColor, color: 'white', padding: '4px 12px', borderRadius: '999px', fontSize: '12px', fontWeight: 600, letterSpacing: '0.05em' }}>WE ARE RECRUITING</span>
-                    <h3 className="font-serif" style={{ fontSize: '28px', color: '#111827', marginTop: '16px' }}>Core Team Auditions</h3>
-                    <p style={{ color: '#4B5563', fontSize: '14px', marginTop: '8px' }}>Applications close Oct 30, 2026. Open to all years.</p>
+              {/* Recruitment / Audition Form Preview - Only visible if following */}
+              {isFollowing && (
+                <div style={{ background: lightBg, borderRadius: '24px', padding: '32px', border: `1px solid ${primaryColor}30` }}>
+                  <div className="flex-between" style={{ marginBottom: '24px' }}>
+                    <div>
+                      <span style={{ background: primaryColor, color: 'white', padding: '4px 12px', borderRadius: '999px', fontSize: '12px', fontWeight: 600, letterSpacing: '0.05em' }}>WE ARE RECRUITING</span>
+                      <h3 className="font-serif" style={{ fontSize: '28px', color: 'var(--text-primary)', marginTop: '16px' }}>Auditions are Open</h3>
+                      <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginTop: '8px' }}>Applications close soon. Open to all years.</p>
+                    </div>
+                    <FileText size={48} color={primaryColor} style={{ opacity: 0.5 }} />
                   </div>
-                  <FileText size={48} color={primaryColor} style={{ opacity: 0.5 }} />
+                  
+                  <form onSubmit={handleApply} style={{ display: 'flex', flexDirection: 'column', gap: '16px', background: 'var(--card-bg)', padding: '24px', borderRadius: '16px' }}>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: 'var(--text-primary)', marginBottom: '8px' }}>Why do you want to join?</label>
+                      <textarea required rows="3" className="search-input" style={{ width: '100%', borderRadius: '8px', resize: 'none' }} placeholder="Tell us about your passion..."></textarea>
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: 'var(--text-primary)', marginBottom: '8px' }}>Portfolio Link (Optional)</label>
+                      <input type="text" className="search-input" style={{ width: '100%', borderRadius: '8px' }} placeholder="https://" />
+                    </div>
+                    <button type="submit" className="btn" style={{ background: primaryColor, color: 'white', marginTop: '8px' }}>Submit Application</button>
+                  </form>
                 </div>
-                
-                <form style={{ display: 'flex', flexDirection: 'column', gap: '16px', background: 'white', padding: '24px', borderRadius: '16px' }}>
-                  <div>
-                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: '#374151', marginBottom: '8px' }}>Why do you want to join?</label>
-                    <textarea rows="3" className="search-input" style={{ width: '100%', borderRadius: '8px', resize: 'none' }} placeholder="Tell us about your passion..."></textarea>
-                  </div>
-                  <div>
-                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: '#374151', marginBottom: '8px' }}>Portfolio Link (Optional)</label>
-                    <input type="text" className="search-input" style={{ width: '100%', borderRadius: '8px' }} placeholder="https://" />
-                  </div>
-                  <button type="button" className="btn" style={{ background: primaryColor, color: 'white', marginTop: '8px' }}>Submit Application</button>
-                </form>
-              </div>
+              )}
 
             </div>
           </div>
