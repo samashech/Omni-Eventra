@@ -161,6 +161,10 @@ export default function Dashboard({ onSignOut }) {
               <Sparkles size={14} color="#EAB308" /> For You
             </motion.button>
 
+            <motion.button whileTap={{ scale: 0.9 }} onClick={() => setIsDarkMode(!isDarkMode)} className="btn btn-ghost btn-icon" style={{ padding: '8px', color: 'var(--text-secondary)' }}>
+              <Moon size={20} />
+            </motion.button>
+
             <div style={{ position: 'relative' }}>
               <motion.button whileTap={{ scale: 0.9 }} onClick={() => setShowNotifs(!showNotifs)} className="btn btn-ghost btn-icon" style={{ position: 'relative' }}>
                 <Bell size={20} />
