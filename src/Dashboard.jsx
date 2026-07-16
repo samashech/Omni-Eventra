@@ -74,7 +74,7 @@ export default function Dashboard({ onSignOut }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
   useEffect(() => { document.body.classList.toggle('dark', isDarkMode); }, [isDarkMode]);
   
-  const [allClubs, setAllClubs] = useState([]);
+  const [allClubs, setAllClubs] = useState(fallbackClubs);
 
   useEffect(() => {
     async function fetchLiveClubs() {
