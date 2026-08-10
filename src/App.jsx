@@ -3,7 +3,6 @@ import { supabase } from './supabase';
 import Landing from './Landing';
 import Dashboard from './Dashboard';
 import Login from './Login';
-import GlobalLeaderDashboard from './GlobalLeaderDashboard';
 
 export default function App() {
   const [page, setPage] = useState('landing'); 
@@ -15,11 +14,10 @@ export default function App() {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       if (session) {
-        const isLeader = session.user?.email?.endsWith('@campushub.app');
-        setPage(isLeader ? 'leader-dashboard' : 'student-dashboard');
+        setPage('student-dashboard');
       } else {
         // Only reset to landing if we are currently on a protected route
-        if (page === 'student-dashboard' || page === 'leader-dashboard') {
+        if (page === 'student-dashboard') {
           setPage('landing');
         }
       }
@@ -32,8 +30,7 @@ export default function App() {
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
       if (session) {
-        const isLeader = session.user?.email?.endsWith('@campushub.app');
-        setPage(isLeader ? 'leader-dashboard' : 'student-dashboard');
+        setPage('student-dashboard');
       } else {
         setPage('landing');
       }
@@ -55,10 +52,7 @@ export default function App() {
     return <Landing onSignIn={() => setPage('login')} />;
   }
   if (page === 'login') {
-    return <Login onSignIn={(role) => setPage(role === 'leader' ? 'leader-dashboard' : 'student-dashboard')} />;
-  }
-  if (page === 'leader-dashboard') {
-    return <GlobalLeaderDashboard onSignOut={() => supabase.auth.signOut()} />;
+    return <Login onSignIn={() => setPage('student-dashboard')} />;
   }
   
   return <Dashboard onSignOut={() => supabase.auth.signOut()} />;
