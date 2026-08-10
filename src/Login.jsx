@@ -1,40 +1,19 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, User, Shield } from 'lucide-react';
-import { supabase } from './supabase'; // Real Supabase auth integration
 
 export default function Login({ onSignIn }) {
   const [isOn, setIsOn] = useState(false);
   const [role, setRole] = useState('student'); // 'student' or 'leader'
 
   const handleGoogleSignIn = async () => {
-    // Bypassing Supabase for now to easily test student dashboard
+    // Bypassing Auth for prototyping
     onSignIn('student');
   };
 
   const handleLeaderSignIn = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const leaderId = formData.get('leaderId');
-    const token = formData.get('token');
-    
-    // Trick to make custom username fit email validation rule under the hood
-    const formattedEmail = leaderId.includes('@') && (leaderId.endsWith('.com') || leaderId.endsWith('.edu')) 
-      ? leaderId 
-      : `${leaderId}@campushub.app`;
-
-    try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email: formattedEmail,
-        password: token
-      });
-      if (error) throw error;
-      onSignIn('leader'); // Success!
-    } catch (err) {
-      console.error("Login error:", err.message);
-      // Fallback for prototyping if account isn't actually provisioned yet
-      onSignIn('leader');
-    }
+    onSignIn('leader'); // Bypassing Auth for prototyping
   };
 
   return (
