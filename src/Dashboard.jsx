@@ -38,6 +38,8 @@ export default function Dashboard({ onSignOut }) {
   const [showShareModal, setShowShareModal] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileBadges, setShowProfileBadges] = useState(false);
+  const [showAddFriendModal, setShowAddFriendModal] = useState(false);
+  const [newFriendName, setNewFriendName] = useState('');
 
   
   useEffect(() => {
@@ -80,7 +82,7 @@ export default function Dashboard({ onSignOut }) {
             </h2>
             
             <div className="glass-panel flex-center" style={{ padding: '6px 12px', borderRadius: '999px', gap: '8px' }}>
-              {['Discover', 'My Tickets', 'Saved Events', 'Friends'].map(tab => (
+              {['Discover', 'Calendar', 'My Tickets', 'Saved Events', 'Friends'].map(tab => (
                 <button 
                   key={tab}
                   className={`btn ₹{activeTab === tab ? 'btn-primary' : 'btn-ghost'}`}
@@ -91,6 +93,7 @@ export default function Dashboard({ onSignOut }) {
                   onClick={() => { setActiveTab(tab); setSelectedEvent(null); setCheckoutStep(null); }}
                 >
                   {tab === 'Discover' && <Sparkles size={16}/>}
+                  {tab === 'Calendar' && <CalendarIcon size={16}/>}
                   {tab === 'My Tickets' && <Ticket size={16}/>}
                   {tab === 'Saved Events' && <Bookmark size={16}/>}
                   {tab === 'Friends' && <Users size={16}/>}
@@ -133,7 +136,7 @@ export default function Dashboard({ onSignOut }) {
                       <div style={{ padding: '16px', display: 'flex', gap: '12px', background: 'var(--bg-subtle)', borderBottom: '1px solid var(--border-color)' }}>
                         <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#FEF3C7', color: '#92400E', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Users size={16}/></div>
                         <div>
-                          <p style={{ fontSize: '13px', lineHeight: 1.4 }}><span style={{ fontWeight: 600 }}>Alex</span> invited you to <span style={{ fontWeight: 600 }}>Oblivion Neon Night</span>.</p>
+                          <p style={{ fontSize: '13px', lineHeight: 1.4 }}><span style={{ fontWeight: 600 }}>Rahul</span> invited you to <span style={{ fontWeight: 600 }}>Oblivion Neon Night</span>.</p>
                           <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>2 mins ago</span>
                         </div>
                         <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#EF4444', marginTop: '4px' }}></div>
@@ -162,7 +165,7 @@ export default function Dashboard({ onSignOut }) {
 
             <div style={{ position: 'relative' }} onMouseEnter={() => setShowProfileBadges(true)} onMouseLeave={() => setShowProfileBadges(false)}>
               <motion.div whileTap={{ scale: 0.95 }} onClick={onSignOut} style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'var(--text-primary)', color: 'var(--card-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: '14px', cursor: 'pointer', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
-                JD
+                RD
               </motion.div>
               
               <AnimatePresence>
@@ -172,8 +175,8 @@ export default function Dashboard({ onSignOut }) {
                     style={{ position: 'absolute', top: '100%', right: 0, marginTop: '12px', width: '220px', background: 'var(--card-bg)', borderRadius: '16px', boxShadow: '0 10px 40px rgba(0,0,0,0.1)', border: '1px solid var(--border-color)', zIndex: 100, padding: '16px' }}
                   >
                     <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-                      <p style={{ fontWeight: 600, fontSize: '16px' }}>Jordan Doe</p>
-                      <p style={{ color: 'var(--text-secondary)', fontSize: '12px' }}>jordan@example.com</p>
+                      <p style={{ fontWeight: 600, fontSize: '16px' }}>Rahul Desai</p>
+                      <p style={{ color: 'var(--text-secondary)', fontSize: '12px' }}>rahul@example.com</p>
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '16px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: 'var(--bg-subtle)', padding: '8px 12px', borderRadius: '8px' }}>
@@ -373,7 +376,7 @@ export default function Dashboard({ onSignOut }) {
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                          <div style={{ display: 'flex' }}>
-                           {['Alex', 'Sam', 'Jordan'].map((name, i) => (
+                           {['Rahul', 'Priya', 'Amit'].map((name, i) => (
                              <div key={name} style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'var(--card-bg)', border: '2px solid var(--accent-text)', marginLeft: i > 0 ? '-10px' : 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px' }}>{name[0]}</div>
                            ))}
                          </div>
@@ -392,7 +395,7 @@ export default function Dashboard({ onSignOut }) {
                          <div style={{ color: 'var(--text-secondary)', fontSize: '12px', textTransform: 'uppercase', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}><MessageSquare size={12}/> Event Squad Chat</div>
                          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px' }}>
                            <div style={{ display: 'flex', gap: '8px' }}>
-                             <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: 'var(--bg-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px' }}>A</div>
+                             <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: 'var(--bg-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px' }}>R</div>
                              <div style={{ background: 'var(--bg-subtle)', padding: '8px 12px', borderRadius: '0 12px 12px 12px', fontSize: '13px' }}>I got the VIP tickets!</div>
                            </div>
                            <div style={{ display: 'flex', gap: '8px', alignSelf: 'flex-end', flexDirection: 'row-reverse' }}>
@@ -500,7 +503,7 @@ export default function Dashboard({ onSignOut }) {
                           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                               <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#FEE2E2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>👤</div>
-                              <span style={{ fontWeight: 500 }}>Alex</span>
+                              <span style={{ fontWeight: 500 }}>Rahul</span>
                             </div>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                               <input type="text" className="search-input" value={`₹${(totalPrice/2).toFixed(2)}`} style={{ width: '80px', padding: '8px', textAlign: 'center' }} readOnly />
@@ -619,10 +622,10 @@ export default function Dashboard({ onSignOut }) {
              
              <h3 style={{ fontSize: '20px', marginBottom: '16px' }}>Your Squad</h3>
              <div style={{ display: 'flex', gap: '16px', overflowX: 'auto', paddingBottom: '16px', marginBottom: '40px' }}>
-               <button className="btn btn-ghost flex-center" style={{ minWidth: '64px', height: '64px', borderRadius: '50%', border: '1px dashed var(--border-color)', flexDirection: 'column', gap: '4px' }}>
+               <button onClick={() => setShowAddFriendModal(true)} className="btn btn-ghost flex-center" style={{ minWidth: '64px', height: '64px', borderRadius: '50%', border: '1px dashed var(--border-color)', flexDirection: 'column', gap: '4px' }}>
                  <UserPlus size={20} />
                </button>
-               {['Alex', 'Sam', 'Jordan', 'Casey', 'Taylor'].map(name => (
+               {['Rahul', 'Priya', 'Amit', 'Neha', 'Vikram'].map(name => (
                  <div key={name} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
                    <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: '#FEF3C7', color: '#92400E', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', fontWeight: 600 }}>{name[0]}</div>
                    <span style={{ fontSize: '13px', fontWeight: 500 }}>{name}</span>
@@ -642,12 +645,75 @@ export default function Dashboard({ onSignOut }) {
                  </div>
                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px', background: 'var(--bg-subtle)', borderRadius: '12px' }}>
                    <div style={{ display: 'flex' }}>
-                     {['A', 'S', 'J'].map((initial, i) => (
+                     {['R', 'P', 'A'].map((initial, i) => (
                        <div key={i} style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'var(--card-bg)', border: '2px solid var(--border-color)', marginLeft: i > 0 ? '-8px' : 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px' }}>{initial}</div>
                      ))}
                    </div>
                    <span style={{ fontSize: '13px', fontWeight: 600 }}>3 friends going</span>
                  </div>
+               </div>
+             </div>
+           </motion.main>
+        )}
+
+        
+        {/* Phase 5.5: Calendar View */}
+        {activeTab === 'Calendar' && (
+           <motion.main key="calendar" variants={pageVariants} initial="initial" animate="animate" exit="exit" className="container" style={{ marginTop: '40px', flex: 1, paddingBottom: '80px' }}>
+             <div className="flex-between" style={{ marginBottom: '32px' }}>
+               <h1 className="font-serif" style={{ fontSize: '48px', color: 'var(--text-primary)' }}>YOUR <span style={{ color: 'var(--accent-text)' }}>CALENDAR.</span></h1>
+               <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+                 <button className="btn btn-ghost" style={{ border: '1px solid var(--border-color)', borderRadius: '8px', fontSize: '14px', padding: '6px 16px' }}>Today</button>
+                 <div style={{ display: 'flex', gap: '16px', fontSize: '16px', fontWeight: 600, alignItems: 'center' }}>
+                   <span style={{ cursor: 'pointer' }}>&lt;</span> <span style={{ width: '130px', textAlign: 'center' }}>November 2026</span> <span style={{ cursor: 'pointer' }}>&gt;</span>
+                 </div>
+                 <div style={{ display: 'flex', background: 'var(--card-bg)', borderRadius: '8px', border: '1px solid var(--border-color)', overflow: 'hidden' }}>
+                   <button style={{ padding: '6px 16px', background: 'var(--text-primary)', color: 'var(--card-bg)', border: 'none', fontWeight: 600, fontSize: '13px' }}>Month</button>
+                   <button style={{ padding: '6px 16px', background: 'transparent', border: 'none', color: 'var(--text-secondary)', fontSize: '13px' }}>Week</button>
+                 </div>
+               </div>
+             </div>
+
+             <div className="glass-panel" style={{ background: 'var(--card-bg)', borderRadius: '16px', overflow: 'hidden', border: '1px solid var(--border-color)' }}>
+               {/* Header */}
+               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', borderBottom: '1px solid var(--border-color)', background: 'var(--bg-subtle)' }}>
+                 {['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'].map(day => (
+                   <div key={day} style={{ padding: '12px', fontSize: '12px', fontWeight: 600, color: 'var(--text-secondary)', textAlign: 'left' }}>{day}</div>
+                 ))}
+               </div>
+               {/* Grid */}
+               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gridAutoRows: '120px' }}>
+                 {[...Array(30)].map((_, i) => {
+                   const date = i + 1;
+                   const dateStr = `Nov ${date < 10 ? '0' + date : date}, 2026`; // Assuming format Nov 12, 2026
+                   const simpleDateStr = `Nov ${date}, 2026`;
+                   
+                   // Find tickets and saved events for this date
+                   const ticketsOnDay = myTickets.filter(t => t.eventDate === simpleDateStr || t.eventDate === dateStr);
+                   const savedOnDay = mockEvents.filter(e => savedEvents.includes(e.id) && (e.date === simpleDateStr || e.date === dateStr));
+
+                   return (
+                     <div key={date} style={{ padding: '8px', borderRight: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', gap: '4px', background: 'var(--card-bg)' }}>
+                       <span style={{ fontSize: '14px', fontWeight: 500, color: 'var(--text-secondary)', marginBottom: '4px' }}>{date}</span>
+                       {ticketsOnDay.map(t => (
+                         <div key={t.id} style={{ background: '#10B981', color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: '11px', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', boxShadow: '0 2px 4px rgba(16,185,129,0.2)' }}>
+                           {t.eventTime} {t.eventTitle}
+                         </div>
+                       ))}
+                       {savedOnDay.map(e => (
+                         <div key={e.id} style={{ background: 'var(--bg-subtle)', color: 'var(--text-primary)', border: '1px solid var(--border-color)', padding: '4px 8px', borderRadius: '4px', fontSize: '11px', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                           ⭐ {e.title}
+                         </div>
+                       ))}
+                     </div>
+                   );
+                 })}
+                 {/* Fill remainder of the grid (35 cells total for a 5-week block) */}
+                 {[...Array(5)].map((_, i) => (
+                   <div key={`empty-${i}`} style={{ padding: '8px', borderRight: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)', background: 'var(--bg-subtle)', opacity: 0.5 }}>
+                     <span style={{ fontSize: '14px', fontWeight: 500, color: 'var(--text-tertiary)' }}>{i + 1}</span>
+                   </div>
+                 ))}
                </div>
              </div>
            </motion.main>
@@ -784,7 +850,7 @@ export default function Dashboard({ onSignOut }) {
                  <button className="btn btn-ghost btn-icon" onClick={() => setShowInviteModal(false)}><X size={20}/></button>
                </div>
                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                 {['Alex', 'Sam', 'Jordan', 'Casey'].map(name => (
+                 {['Rahul', 'Priya', 'Amit', 'Neha'].map(name => (
                    <div key={name} className="flex-between">
                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                        <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'var(--bg-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600 }}>{name[0]}</div>
@@ -812,16 +878,55 @@ export default function Dashboard({ onSignOut }) {
                  Securely transfer or duplicate your ticket for a friend. This revokes screenshots and guarantees authentic access.
                </p>
                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                 {['Alex', 'Sam', 'Jordan'].map(name => (
+                 {['Rahul', 'Priya', 'Amit'].map(name => (
                    <div key={name} className="flex-between">
                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                        <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#FEF3C7', color: '#92400E', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600 }}>{name[0]}</div>
                        <span style={{ fontWeight: 500 }}>{name}</span>
                      </div>
-                     <button className="btn btn-ghost" style={{ border: '1px solid var(--border-color)', fontSize: '12px', padding: '6px 12px' }}>Transfer</button>
+                     <button className="btn btn-ghost" onClick={() => { alert('Ticket transferred successfully to ' + name + '!'); setShowShareModal(false); }} style={{ border: '1px solid var(--border-color)', fontSize: '12px', padding: '6px 12px' }}>Transfer</button>
                    </div>
                  ))}
                </div>
+             </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+
+      {/* Add Friend Modal */}
+      <AnimatePresence>
+        {showAddFriendModal && (
+          <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.5)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+             <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }} style={{ background: 'var(--card-bg)', padding: '32px', borderRadius: '24px', width: '400px', maxWidth: '90%', boxShadow: '0 20px 40px rgba(0,0,0,0.2)' }}>
+               <div className="flex-between" style={{ marginBottom: '24px' }}>
+                 <h3 style={{ fontSize: '20px' }}>Add a Friend</h3>
+                 <button className="btn btn-ghost btn-icon" onClick={() => setShowAddFriendModal(false)}><X size={20}/></button>
+               </div>
+               <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '24px' }}>
+                 Enter your friend's Eventra username or email to add them to your squad.
+               </p>
+               <input 
+                 type="text" 
+                 className="search-input" 
+                 placeholder="Username or email" 
+                 value={newFriendName}
+                 onChange={(e) => setNewFriendName(e.target.value)}
+                 style={{ width: '100%', marginBottom: '24px', borderRadius: '8px' }} 
+               />
+               <button 
+                 className="btn btn-primary" 
+                 onClick={() => {
+                   if(newFriendName) {
+                     alert('Friend request sent to ' + newFriendName + '!');
+                     setShowAddFriendModal(false);
+                     setNewFriendName('');
+                   }
+                 }} 
+                 style={{ width: '100%', display: 'flex', justifyContent: 'center', padding: '12px' }}
+               >
+                 Send Request
+               </button>
              </motion.div>
           </div>
         )}
