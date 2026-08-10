@@ -1,0 +1,10 @@
+#!/bin/bash
+echo "Starting Eventra Backend Server..."
+node server/index.js &
+SERVER_PID=$!
+
+echo "Starting Eventra Frontend..."
+npm run dev
+
+# Trap SIGINT to kill the backend server when the frontend stops
+trap "kill $SERVER_PID" EXIT

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Search, Bell, MapPin, Calendar as CalendarIcon, Ticket, Users, 
@@ -8,10 +8,10 @@ import {
 } from 'lucide-react';
 
 const mockEvents = [
-  { id: 1, title: 'Oblivion Neon Night', category: 'Concert', date: 'Nov 12, 2026', time: '8:00 PM', location: 'Main Arena', price: 45, icon: Music, banner: 'linear-gradient(135deg, rgba(30,58,138,0.2), rgba(59,130,246,0.1))', tag: 'Selling Fast', countdown: 'Starts in 2d 14h' },
+  { id: 1, title: 'Oblivion Neon Night', category: 'Concert', date: 'Nov 12, 2026', time: '8:00 PM', location: 'Main Arena', price: 4500, icon: Music, banner: 'linear-gradient(135deg, rgba(30,58,138,0.2), rgba(59,130,246,0.1))', tag: 'Selling Fast', countdown: 'Starts in 2d 14h' },
   { id: 2, title: 'TechNova Fest 2026', category: 'College Fest', date: 'Nov 15, 2026', time: '10:00 AM', location: 'Campus Grounds', price: 0, icon: Rocket, banner: 'linear-gradient(135deg, rgba(6,95,70,0.2), rgba(16,185,129,0.1))', tag: 'Trending', countdown: 'Starts in 5d 2h' },
-  { id: 3, title: 'AI & Future Workshop', category: 'Workshop', date: 'Nov 18, 2026', time: '2:00 PM', location: 'Innovation Lab', price: 15, icon: Bot, banner: 'linear-gradient(135deg, rgba(112,26,117,0.2), rgba(217,70,239,0.1))', tag: 'Few Seats Left' },
-  { id: 4, title: 'Indie Rock Local', category: 'Concert', date: 'Nov 20, 2026', time: '7:30 PM', location: 'Downtown Club', price: 25, icon: Guitar, banner: 'linear-gradient(135deg, rgba(127,29,29,0.2), rgba(239,68,68,0.1))', tag: 'New' }
+  { id: 3, title: 'AI & Future Workshop', category: 'Workshop', date: 'Nov 18, 2026', time: '2:00 PM', location: 'Innovation Lab', price: 1500, icon: Bot, banner: 'linear-gradient(135deg, rgba(112,26,117,0.2), rgba(217,70,239,0.1))', tag: 'Few Seats Left' },
+  { id: 4, title: 'Indie Rock Local', category: 'Concert', date: 'Nov 20, 2026', time: '7:30 PM', location: 'Downtown Club', price: 2500, icon: Guitar, banner: 'linear-gradient(135deg, rgba(127,29,29,0.2), rgba(239,68,68,0.1))', tag: 'New' }
 ];
 
 const categories = ['All', 'Concerts', 'College Fests', 'Workshops', 'Free Events'];
@@ -26,6 +26,7 @@ export default function Dashboard({ onSignOut }) {
   const [activeCategory, setActiveCategory] = useState('All');
   const [viewMode, setViewMode] = useState('List');
   const [savedEvents, setSavedEvents] = useState([]);
+  const [myTickets, setMyTickets] = useState([]);
   
   // Checkout State
   const [checkoutStep, setCheckoutStep] = useState(null); // 'seats', 'payment', 'confirmation'
@@ -37,6 +38,16 @@ export default function Dashboard({ onSignOut }) {
   const [showShareModal, setShowShareModal] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileBadges, setShowProfileBadges] = useState(false);
+
+  
+  useEffect(() => {
+    if (activeTab === 'My Tickets') {
+      fetch('http://localhost:3001/api/tickets')
+        .then(res => res.json())
+        .then(data => setMyTickets(data))
+        .catch(e => console.error('Error fetching tickets:', e));
+    }
+  }, [activeTab]);
 
   const toggleSave = (e, id) => {
     e.stopPropagation();
@@ -55,7 +66,7 @@ export default function Dashboard({ onSignOut }) {
     );
   };
   
-  const totalPrice = selectedSeats.length * (selectedEvent?.price || 0) + (selectedSeats.length > 0 ? 2 : 0);
+  const totalPrice = selectedSeats.length * (selectedEvent?.price || 0) + (selectedSeats.length > 0 ? 150 : 0);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', paddingBottom: '40px' }}>
@@ -72,7 +83,7 @@ export default function Dashboard({ onSignOut }) {
               {['Discover', 'My Tickets', 'Saved Events', 'Friends'].map(tab => (
                 <button 
                   key={tab}
-                  className={`btn ${activeTab === tab ? 'btn-primary' : 'btn-ghost'}`}
+                  className={`btn ₹{activeTab === tab ? 'btn-primary' : 'btn-ghost'}`}
                   style={{ 
                     padding: '8px 16px',
                     boxShadow: activeTab === tab ? '0 4px 12px rgba(234, 179, 8, 0.2)' : 'none'
@@ -229,7 +240,7 @@ export default function Dashboard({ onSignOut }) {
                       padding: '8px 16px', fontSize: '13px', borderRadius: '999px',
                       background: activeCategory === cat ? 'var(--accent-text)' : 'transparent',
                       color: activeCategory === cat ? '#000' : 'var(--text-secondary)',
-                      border: `1px solid ${activeCategory === cat ? 'var(--accent-text)' : 'var(--border-color)'}`
+                      border: `1px solid ₹{activeCategory === cat ? 'var(--accent-text)' : 'var(--border-color)'}`
                     }}
                   >
                     {cat}
@@ -265,7 +276,7 @@ export default function Dashboard({ onSignOut }) {
                          {evt.countdown && (
                            <span className="badge badge-yellow" style={{ boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>{evt.countdown}</span>
                          )}
-                         <span className={`badge ${evt.tag === 'Selling Fast' ? 'badge-red' : 'badge-yellow'}`} style={{ boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
+                         <span className={`badge ₹{evt.tag === 'Selling Fast' ? 'badge-red' : 'badge-yellow'}`} style={{ boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
                            {evt.tag}
                          </span>
                       </div>
@@ -288,7 +299,7 @@ export default function Dashboard({ onSignOut }) {
                       </div>
                       
                       <div className="flex-between" style={{ paddingTop: '16px', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
-                        <span style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text-primary)' }}>{evt.price === 0 ? 'Free' : `$${evt.price}`}</span>
+                        <span style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text-primary)' }}>{evt.price === 0 ? 'Free' : `₹${evt.price}`}</span>
                         <button className="btn btn-primary" style={{ padding: '8px 16px', fontSize: '12px' }}>Book Now</button>
                       </div>
                     </div>
@@ -406,7 +417,7 @@ export default function Dashboard({ onSignOut }) {
                   
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '32px', color: 'var(--text-secondary)' }}>
                     <span>Base Price</span>
-                    <span style={{ color: 'var(--text-primary)', fontWeight: 600, fontSize: '24px' }}>{selectedEvent.price === 0 ? 'Free' : `$${selectedEvent.price}`}</span>
+                    <span style={{ color: 'var(--text-primary)', fontWeight: 600, fontSize: '24px' }}>{selectedEvent.price === 0 ? 'Free' : `₹${selectedEvent.price}`}</span>
                   </div>
 
                   <button onClick={() => setCheckoutStep('seats')} className="btn btn-primary" style={{ width: '100%', padding: '16px', fontSize: '16px', display: 'flex', justifyContent: 'center' }}>
@@ -422,8 +433,8 @@ export default function Dashboard({ onSignOut }) {
                  <div className="flex-between" style={{ marginBottom: '32px' }}>
                    <h2 style={{ fontSize: '28px' }}>Select your seats</h2>
                    <div style={{ display: 'flex', gap: '16px' }}>
-                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px' }}><div style={{ width: '16px', height: '16px', borderRadius: '4px', background: 'var(--bg-subtle)', border: '1px solid var(--border-color)' }}></div> General (${selectedEvent.price})</div>
-                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px' }}><div style={{ width: '16px', height: '16px', borderRadius: '4px', background: '#FEF3C7', border: '1px solid #FDE047' }}></div> VIP (${selectedEvent.price + 20})</div>
+                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px' }}><div style={{ width: '16px', height: '16px', borderRadius: '4px', background: 'var(--bg-subtle)', border: '1px solid var(--border-color)' }}></div> General (₹{selectedEvent.price})</div>
+                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px' }}><div style={{ width: '16px', height: '16px', borderRadius: '4px', background: '#FEF3C7', border: '1px solid #FDE047' }}></div> VIP (₹{selectedEvent.price + 2000})</div>
                    </div>
                  </div>
 
@@ -442,11 +453,11 @@ export default function Dashboard({ onSignOut }) {
                              whileHover={{ scale: 1.2, zIndex: 10 }}
                              whileTap={{ scale: 0.9 }}
                              onClick={() => handleSeatClick(seatId)}
-                             title={`${seatId} - ${isVIP ? 'VIP' : 'General'} - $${isVIP ? selectedEvent.price + 20 : selectedEvent.price}`}
+                             title={`${seatId} - ₹{isVIP ? 'VIP' : 'General'} - ₹${isVIP ? selectedEvent.price + 2000 : selectedEvent.price}`}
                              style={{ 
                                width: '24px', height: '24px', borderRadius: '6px', cursor: 'pointer',
                                background: isSelected ? 'var(--text-primary)' : (isVIP ? '#FEF3C7' : 'var(--bg-subtle)'),
-                               border: `1px solid ${isSelected ? 'var(--text-primary)' : (isVIP ? '#FDE047' : 'var(--border-color)')}`,
+                               border: `1px solid ₹{isSelected ? 'var(--text-primary)' : (isVIP ? '#FDE047' : 'var(--border-color)')}`,
                                boxShadow: isSelected ? '0 4px 12px rgba(0,0,0,0.2)' : 'none'
                              }}
                            />
@@ -460,7 +471,7 @@ export default function Dashboard({ onSignOut }) {
                    <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 0 }}>
                      <div>
                        <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '4px' }}>{selectedSeats.length} Seats Selected</p>
-                       <p style={{ color: 'var(--text-primary)', fontSize: '24px', fontWeight: 600 }}>${totalPrice}</p>
+                       <p style={{ color: 'var(--text-primary)', fontSize: '24px', fontWeight: 600 }}>₹{totalPrice}</p>
                      </div>
                      <button className="btn btn-primary" disabled={selectedSeats.length === 0} onClick={() => setCheckoutStep('payment')} style={{ padding: '16px 32px', fontSize: '16px', opacity: selectedSeats.length === 0 ? 0.5 : 1 }}>
                        Continue to Payment <ArrowUpRight size={18} />
@@ -477,7 +488,7 @@ export default function Dashboard({ onSignOut }) {
                      <div className="flex-between" style={{ marginBottom: '24px' }}>
                        <div>
                          <h3 style={{ fontSize: '20px', marginBottom: '4px' }}>Split with friends</h3>
-                         <p style={{ color: 'var(--text-secondary)', fontSize: '13px' }}>Easily split the ${totalPrice} bill right now.</p>
+                         <p style={{ color: 'var(--text-secondary)', fontSize: '13px' }}>Easily split the ₹{totalPrice} bill right now.</p>
                        </div>
                        <button className="btn" onClick={() => setSplitPayment(!splitPayment)} style={{ background: splitPayment ? 'var(--accent-text)' : 'var(--bg-subtle)', color: splitPayment ? '#000' : 'var(--text-primary)' }}>
                          {splitPayment ? 'Splitting' : 'Enable Split'}
@@ -492,7 +503,7 @@ export default function Dashboard({ onSignOut }) {
                               <span style={{ fontWeight: 500 }}>Alex</span>
                             </div>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                              <input type="text" className="search-input" value={`$${(totalPrice/2).toFixed(2)}`} style={{ width: '80px', padding: '8px', textAlign: 'center' }} readOnly />
+                              <input type="text" className="search-input" value={`₹${(totalPrice/2).toFixed(2)}`} style={{ width: '80px', padding: '8px', textAlign: 'center' }} readOnly />
                               <button className="btn btn-ghost" style={{ border: '1px solid var(--border-color)', fontSize: '12px' }}>Send Request</button>
                             </div>
                           </div>
@@ -501,7 +512,7 @@ export default function Dashboard({ onSignOut }) {
                               <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#E0E7FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>👤</div>
                               <span style={{ fontWeight: 500 }}>You</span>
                             </div>
-                            <span style={{ fontWeight: 600, paddingRight: '12px' }}>${(totalPrice/2).toFixed(2)}</span>
+                            <span style={{ fontWeight: 600, paddingRight: '12px' }}>₹{(totalPrice/2).toFixed(2)}</span>
                           </div>
                        </motion.div>
                      )}
@@ -535,20 +546,41 @@ export default function Dashboard({ onSignOut }) {
                     
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px', color: 'var(--text-secondary)' }}>
                       <span>Seats ({selectedSeats.length})</span>
-                      <span>${selectedSeats.length * selectedEvent.price}</span>
+                      <span>₹{selectedSeats.length * selectedEvent.price}</span>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '24px', color: 'var(--text-secondary)', borderBottom: '1px solid var(--border-color)', paddingBottom: '16px' }}>
                       <span>Processing Fee</span>
-                      <span>$2.00</span>
+                      <span>₹2.00</span>
                     </div>
                     
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '32px' }}>
                       <span style={{ fontWeight: 600 }}>Total</span>
-                      <span style={{ fontSize: '24px', fontWeight: 700 }}>${totalPrice}</span>
+                      <span style={{ fontSize: '24px', fontWeight: 700 }}>₹{totalPrice}</span>
                     </div>
 
-                    <button onClick={() => setCheckoutStep('confirmation')} className="btn btn-primary" style={{ width: '100%', padding: '16px', fontSize: '16px', display: 'flex', justifyContent: 'center', marginBottom: '12px' }}>
-                      Pay ${splitPayment ? (totalPrice/2).toFixed(2) : totalPrice} securely
+                    <button onClick={async () => {
+                      try {
+                        await fetch('http://localhost:3001/api/tickets', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({
+                            eventId: selectedEvent.id,
+                            eventTitle: selectedEvent.title,
+                            eventCategory: selectedEvent.category,
+                            eventDate: selectedEvent.date,
+                            eventTime: selectedEvent.time,
+                            eventLocation: selectedEvent.location,
+                            seats: selectedSeats,
+                            totalPrice: totalPrice
+                          })
+                        });
+                        setCheckoutStep('confirmation');
+                      } catch (e) {
+                        console.error(e);
+                        setCheckoutStep('confirmation');
+                      }
+                    }} className="btn btn-primary" style={{ width: '100%', padding: '16px', fontSize: '16px', display: 'flex', justifyContent: 'center', marginBottom: '12px' }}>
+                      Pay ₹{splitPayment ? (totalPrice/2).toFixed(2) : totalPrice} securely
                     </button>
                     
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', color: 'var(--text-tertiary)', fontSize: '11px' }}>
@@ -650,77 +682,96 @@ export default function Dashboard({ onSignOut }) {
            <motion.main key="tickets" variants={pageVariants} initial="initial" animate="animate" exit="exit" className="container" style={{ marginTop: '40px', flex: 1, paddingBottom: '80px' }}>
              <h1 className="font-serif" style={{ fontSize: '48px', color: 'var(--text-primary)', marginBottom: '32px' }}>MY <span style={{ color: 'var(--accent-text)' }}>TICKETS.</span></h1>
              
-             <div style={{ display: 'flex', justifyContent: 'center' }}>
-               {/* Realistic Digital Ticket Card */}
-               <motion.div 
-                 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} 
-                 style={{ 
-                   width: '100%', maxWidth: '400px', 
-                   background: 'var(--card-bg)', borderRadius: '24px', 
-                   overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
-                   position: 'relative'
-                 }}
-               >
-                 {/* Green Verified Ribbon */}
-                 <div style={{ position: 'absolute', top: '20px', right: '-30px', background: '#34D399', color: '#065F46', fontSize: '10px', fontWeight: 700, padding: '4px 30px', transform: 'rotate(45deg)', zIndex: 10, letterSpacing: '0.1em' }}>
-                   VERIFIED
-                 </div>
+             {myTickets.length === 0 ? (
+               <div className="glass-panel" style={{ padding: '40px', textAlign: 'center', background: 'var(--card-bg)' }}>
+                 <Ticket size={48} color="var(--text-secondary)" style={{ margin: '0 auto 16px auto', opacity: 0.5 }} />
+                 <h3 style={{ fontSize: '24px', color: 'var(--text-secondary)' }}>No active tickets</h3>
+                 <p style={{ color: 'var(--text-tertiary)', marginTop: '8px', marginBottom: '24px' }}>Explore events and book your first secure ticket.</p>
+                 <button className="btn btn-primary" onClick={() => setActiveTab('Discover')}>Discover Events</button>
+               </div>
+             ) : (
+               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '32px' }}>
+                 {myTickets.map(ticket => {
+                    const eventData = mockEvents.find(e => e.id === ticket.eventId) || mockEvents[0];
+                    return (
+                       <motion.div 
+                         key={ticket.id}
+                         initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} 
+                         style={{ 
+                           width: '100%', 
+                           background: 'var(--card-bg)', borderRadius: '24px', 
+                           overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
+                           position: 'relative'
+                         }}
+                       >
+                         {/* Green Verified Ribbon */}
+                         <div style={{ position: 'absolute', top: '20px', right: '-30px', background: '#34D399', color: '#065F46', fontSize: '10px', fontWeight: 700, padding: '4px 30px', transform: 'rotate(45deg)', zIndex: 10, letterSpacing: '0.1em' }}>
+                           VERIFIED
+                         </div>
 
-                 {/* Ticket Header Image */}
-                 <div style={{ height: '120px', background: mockEvents[0].banner, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
-                   <div style={{ width: '64px', height: '64px', borderRadius: '16px', background: 'var(--card-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
-                     {React.createElement(mockEvents[0].icon, { size: 32, color: "var(--text-primary)" })}
-                   </div>
-                 </div>
+                         {/* Ticket Header Image */}
+                         <div style={{ height: '120px', background: eventData.banner, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+                           <div style={{ width: '64px', height: '64px', borderRadius: '16px', background: 'var(--card-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+                             {React.createElement(eventData.icon, { size: 32, color: "var(--text-primary)" })}
+                           </div>
+                         </div>
 
-                 {/* Ticket Info */}
-                 <div style={{ padding: '32px 24px', borderBottom: '2px dashed var(--border-color)', position: 'relative' }}>
-                   {/* Cutout notches */}
-                   <div style={{ position: 'absolute', bottom: '-12px', left: '-12px', width: '24px', height: '24px', borderRadius: '50%', background: 'var(--bg-gradient)', boxShadow: 'inset -2px 0 4px rgba(0,0,0,0.05)' }}></div>
-                   <div style={{ position: 'absolute', bottom: '-12px', right: '-12px', width: '24px', height: '24px', borderRadius: '50%', background: 'var(--bg-gradient)', boxShadow: 'inset 2px 0 4px rgba(0,0,0,0.05)' }}></div>
-                   
-                   <p style={{ color: 'var(--accent-text)', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px', textAlign: 'center' }}>{mockEvents[0].category}</p>
-                   <h2 className="font-serif" style={{ fontSize: '28px', color: 'var(--text-primary)', textAlign: 'center', marginBottom: '24px' }}>{mockEvents[0].title}</h2>
-                   
-                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px' }}>
-                     <div>
-                       <p style={{ color: 'var(--text-secondary)', fontSize: '11px', textTransform: 'uppercase', marginBottom: '4px' }}>Date</p>
-                       <p style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{mockEvents[0].date}</p>
-                     </div>
-                     <div>
-                       <p style={{ color: 'var(--text-secondary)', fontSize: '11px', textTransform: 'uppercase', marginBottom: '4px' }}>Time</p>
-                       <p style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{mockEvents[0].time}</p>
-                     </div>
-                     <div style={{ gridColumn: 'span 2' }}>
-                       <p style={{ color: 'var(--text-secondary)', fontSize: '11px', textTransform: 'uppercase', marginBottom: '4px' }}>Venue</p>
-                       <p style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{mockEvents[0].location}</p>
-                     </div>
-                   </div>
-                 </div>
+                         {/* Ticket Info */}
+                         <div style={{ padding: '32px 24px', borderBottom: '2px dashed var(--border-color)', position: 'relative' }}>
+                           {/* Cutout notches */}
+                           <div style={{ position: 'absolute', bottom: '-12px', left: '-12px', width: '24px', height: '24px', borderRadius: '50%', background: 'var(--bg-gradient)', boxShadow: 'inset -2px 0 4px rgba(0,0,0,0.05)' }}></div>
+                           <div style={{ position: 'absolute', bottom: '-12px', right: '-12px', width: '24px', height: '24px', borderRadius: '50%', background: 'var(--bg-gradient)', boxShadow: 'inset 2px 0 4px rgba(0,0,0,0.05)' }}></div>
+                           
+                           <p style={{ color: 'var(--accent-text)', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px', textAlign: 'center' }}>{ticket.eventCategory}</p>
+                           <h2 className="font-serif" style={{ fontSize: '28px', color: 'var(--text-primary)', textAlign: 'center', marginBottom: '16px' }}>{ticket.eventTitle}</h2>
+                           
+                           <p style={{ textAlign: 'center', color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '24px' }}>
+                             {ticket.seats.length} Seats • ₹{ticket.totalPrice}
+                           </p>
 
-                 {/* QR & Actions */}
-                 <div style={{ padding: '32px 24px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                   <div style={{ padding: '16px', background: 'white', borderRadius: '16px', marginBottom: '24px', border: '1px solid #E5E7EB' }}>
-                     <QrCode size={120} color="#000" strokeWidth={1} />
-                   </div>
-                   
-                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', width: '100%', marginBottom: '12px' }}>
-                     <button className="btn btn-ghost flex-center" style={{ border: '1px solid var(--border-color)', fontSize: '12px', padding: '10px' }}>
-                       <Wallet size={16} /> Add to Wallet
-                     </button>
-                     <button className="btn btn-ghost flex-center" style={{ border: '1px solid var(--border-color)', fontSize: '12px', padding: '10px' }}>
-                       <CalendarPlus size={16} /> Add to Calendar
-                     </button>
-                   </div>
-                   
-                   <button onClick={() => setShowShareModal(true)} className="btn btn-primary" style={{ width: '100%', display: 'flex', justifyContent: 'center', padding: '12px', fontSize: '14px' }}>
-                     <Share size={16} /> Share with friend
-                   </button>
-                 </div>
-               </motion.div>
-             </div>
+                           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px' }}>
+                             <div>
+                               <p style={{ color: 'var(--text-secondary)', fontSize: '11px', textTransform: 'uppercase', marginBottom: '4px' }}>Date</p>
+                               <p style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{ticket.eventDate}</p>
+                             </div>
+                             <div>
+                               <p style={{ color: 'var(--text-secondary)', fontSize: '11px', textTransform: 'uppercase', marginBottom: '4px' }}>Time</p>
+                               <p style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{ticket.eventTime}</p>
+                             </div>
+                             <div style={{ gridColumn: 'span 2' }}>
+                               <p style={{ color: 'var(--text-secondary)', fontSize: '11px', textTransform: 'uppercase', marginBottom: '4px' }}>Venue</p>
+                               <p style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{ticket.eventLocation}</p>
+                             </div>
+                           </div>
+                         </div>
+
+                         {/* QR & Actions */}
+                         <div style={{ padding: '32px 24px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                           <div style={{ padding: '16px', background: 'white', borderRadius: '16px', marginBottom: '24px', border: '1px solid #E5E7EB' }}>
+                             <QrCode size={120} color="#000" strokeWidth={1} />
+                           </div>
+                           
+                           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', width: '100%', marginBottom: '12px' }}>
+                             <button className="btn btn-ghost flex-center" style={{ border: '1px solid var(--border-color)', fontSize: '12px', padding: '10px' }}>
+                               <Wallet size={16} /> Add to Wallet
+                             </button>
+                             <button className="btn btn-ghost flex-center" style={{ border: '1px solid var(--border-color)', fontSize: '12px', padding: '10px' }}>
+                               <CalendarPlus size={16} /> Add to Calendar
+                             </button>
+                           </div>
+                           
+                           <button onClick={() => setShowShareModal(true)} className="btn btn-primary" style={{ width: '100%', display: 'flex', justifyContent: 'center', padding: '12px', fontSize: '14px' }}>
+                             <Share size={16} /> Share with friend
+                           </button>
+                         </div>
+                       </motion.div>
+                    )
+                 })}
+               </div>
+             )}
            </motion.main>
         )}
+
       </AnimatePresence>
 
       {/* Phase 3: Invite Modal */}
