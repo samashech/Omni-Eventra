@@ -8,14 +8,8 @@ export default function Login({ onSignIn }) {
   const [role, setRole] = useState('student'); // 'student' or 'leader'
 
   const handleGoogleSignIn = async () => {
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-      });
-      if (error) throw error;
-    } catch (err) {
-      console.error("OAuth error:", err.message);
-    }
+    // Bypassing Supabase for now to easily test student dashboard
+    onSignIn('student');
   };
 
   const handleLeaderSignIn = async (e) => {
@@ -129,8 +123,8 @@ export default function Login({ onSignIn }) {
             <div style={{ textAlign: 'center', marginBottom: '32px' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', marginBottom: '8px' }}>
                 <span style={{ color: '#EAB308' }}>●</span>
-                <span style={{ fontSize: '20px', fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
-                  CAMPUS<span style={{ fontWeight: 400 }}>hub</span>
+                <span style={{ fontSize: '24px', fontWeight: 700, color: 'var(--text-primary)', letterSpacing: '0.1em' }} className="font-serif">
+                  EVENTRA
                 </span>
               </div>
               <h1 className="font-serif" style={{ fontSize: '28px', color: 'var(--text-primary)' }}>Welcome back.</h1>
@@ -158,7 +152,7 @@ export default function Login({ onSignIn }) {
               {role === 'student' ? (
                 <motion.div key="student-form" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.2 }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px', padding: '8px 0' }}>
                   <p style={{ fontSize: '14px', color: 'var(--text-secondary)', textAlign: 'center', marginBottom: '8px', lineHeight: 1.5 }}>
-                    Sign in with your university Google account to discover, join, and follow clubs.
+                    Sign in with your Google account to discover events and book tickets securely.
                   </p>
                   <motion.button 
                     whileTap={{ scale: 0.97 }}
