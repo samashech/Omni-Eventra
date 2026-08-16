@@ -44,7 +44,7 @@ export default function Dashboard({ onSignOut }) {
   
   useEffect(() => {
     if (activeTab === 'My Tickets') {
-      fetch('http://localhost:3001/api/tickets')
+      fetch(import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/api/tickets` : 'http://localhost:3001/api/tickets')
         .then(res => res.json())
         .then(data => setMyTickets(data))
         .catch(e => console.error('Error fetching tickets:', e));
@@ -563,7 +563,7 @@ export default function Dashboard({ onSignOut }) {
 
                     <button onClick={async () => {
                       try {
-                        await fetch('http://localhost:3001/api/tickets', {
+                        await fetch(import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/api/tickets` : 'http://localhost:3001/api/tickets', {
                           method: 'POST',
                           headers: { 'Content-Type': 'application/json' },
                           body: JSON.stringify({
