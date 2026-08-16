@@ -1,61 +1,57 @@
-# CampusHub (clubs@mity) 🎓
+# Eventra 🎟️
 
-CampusHub is a premium, beautifully-designed platform that bridges the gap between university students and campus organizations. It provides a centralized ecosystem for students to discover clubs, RSVP to events, and apply for core team positions, while giving club leaders a powerful CRM/ATS dashboard to manage their community.
+Eventra is a premium event discovery and booking platform designed for seamless event browsing, secure ticket purchasing, and squad coordination. With an emphasis on user trust and group planning, Eventra replaces the hassle of screenshots and external messaging with a unified, elegant platform.
 
 ## ✨ Key Features
 
-- **Dual-Role Authentication:** 
-  - Seamless **Google OAuth** for quick student onboarding.
-  - Secure, internal custom login credentials for Club Leaders.
-- **Dynamic Student Dashboard:** Personalized event feeds, calendar conflict detection, and curated club recommendations.
-- **Interactive Club Profiles:** 
-  - Real-time follower counts tracked via Supabase.
-  - Conditional Recruitment blocks that unlock when a student follows a club.
-- **Leader Command Center (ATS/CRM):** 
-  - Manage live applications and recruiting pipelines.
-  - Broadcast announcements and post upcoming events.
-- **Premium Aesthetics:** 
-  - Smooth micro-animations powered by Framer Motion.
-  - A breathtaking, pure-black **True Dark Mode** utilizing CSS variable injection and glassmorphism.
+- **Event Discovery & Trust:** Curated event feeds with verified organizers, category filters, map views, and clear trust badges for safe bookings.
+- **Secure Ticket Booking:** Smooth seat selection, a polished 3-step checkout flow, split payment options, and encrypted checkout.
+- **In-App Squad Planning:** Coordinate with friends, share meetup points, invite friends to events, and organize your squad directly within the app.
+- **Digital Tickets:** Shareable, verified digital tickets with a unified "My Tickets" section.
+- **Engaging UI:** Smooth animations, premium aesthetics, Gamified badges, and real-time notifications.
 
 ## 🛠️ Technology Stack
 
-- **Frontend Framework:** React (via Vite)
-- **Styling:** Vanilla CSS (CSS Variables, Glassmorphism, Custom Theme Toggles)
+- **Frontend:** React (via Vite)
+- **Styling:** Vanilla CSS 
 - **Animations:** Framer Motion
-- **Backend & Database:** Supabase (PostgreSQL)
-- **Authentication:** Supabase Auth (Google Provider + Email/Password)
+- **Backend:** Node.js, Express.js
+- **Database:** SQLite (`better-sqlite3`)
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 Make sure you have [Node.js](https://nodejs.org/) installed on your machine.
 
-### Installation
+### Installation & Setup
 
-1. **Clone the repository and install dependencies:**
+1. **Clone the repository and install frontend dependencies:**
    ```bash
    npm install
    ```
 
-2. **Environment Setup:**
-   Create a `.env` file in the root directory and add your Supabase credentials:
-   ```env
-   VITE_SUPABASE_URL=your_supabase_project_url
-   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-   ```
-   *(Note: Ensure your Supabase project has Google OAuth enabled in the Auth providers settings).*
-
-3. **Run the Development Server:**
+2. **Setup the backend server:**
    ```bash
-   npm run dev
+   cd server
+   npm install
    ```
-   Open `http://localhost:5173` in your browser to view the application.
+
+3. **Run the Development Servers:**
+   - **Start Backend:**
+     Open a terminal, navigate to the `server` directory, and run:
+     ```bash
+     node index.js
+     ```
+     (Runs on http://localhost:3001)
+
+   - **Start Frontend:**
+     Open another terminal in the root directory and run:
+     ```bash
+     npm run dev
+     ```
+     (Open `http://localhost:5173` in your browser)
 
 ## 🗄️ Database Schema Overview
 
-The app relies on the following core Supabase tables:
-- `clubs`: Stores club profiles, followers count, categories, and theme colors.
-- `applications`: Acts as an Applicant Tracking System (ATS), capturing student applications for club roles.
-
-*(If you are setting this up from scratch, ensure RLS policies allow the necessary read/insert operations for authenticated users).*
+The backend uses a local SQLite database (`eventra.db`). Core tables include:
+- `tickets`: Stores event bookings with details on event, time, seats, and total price.
