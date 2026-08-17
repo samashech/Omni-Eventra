@@ -4,16 +4,14 @@ import {
   Search, Bell, MapPin, Calendar as CalendarIcon, Ticket, Users, 
   ArrowUpRight, Sparkles, Share2, ShieldCheck, Lock, CheckCircle2, Bookmark, BookmarkCheck,
   Music, Rocket, Bot, Guitar, Map, List, QrCode, CreditCard, Smartphone, Check, UserPlus,
-  MessageSquare, X, Wallet, CalendarPlus, Share, TrendingDown, Clock, Medal, Zap, LogOut,
-  SlidersHorizontal, Star, Accessibility, Ear, Navigation, Image as ImageIcon, Flame, Info, SearchX
+  MessageSquare, X, Wallet, CalendarPlus, Share, TrendingDown, Clock, Medal, Zap, LogOut
 } from 'lucide-react';
 
 const mockEvents = [
-  { id: 1, title: 'Oblivion Neon Night', category: 'Concert', date: 'Nov 12, 2026', time: '8:00 PM', location: 'Main Arena', price: 4500, icon: Music, banner: 'linear-gradient(135deg, rgba(30,58,138,0.2), rgba(59,130,246,0.1))', tag: 'Selling Fast', countdown: 'Starts in 2d 14h', capacity: 82, viewers: 24, accessibility: ['Wheelchair', 'ASL'] },
-  { id: 2, title: 'TechNova Fest 2026', category: 'College Fest', date: 'Nov 15, 2026', time: '10:00 AM', location: 'Campus Grounds', price: 0, icon: Rocket, banner: 'linear-gradient(135deg, rgba(6,95,70,0.2), rgba(16,185,129,0.1))', tag: 'Trending', countdown: 'Starts in 5d 2h', capacity: 45, viewers: 12, accessibility: ['Wheelchair'] },
-  { id: 3, title: 'AI & Future Workshop', category: 'Workshop', date: 'Nov 18, 2026', time: '2:00 PM', location: 'Innovation Lab', price: 1500, icon: Bot, banner: 'linear-gradient(135deg, rgba(112,26,117,0.2), rgba(217,70,239,0.1))', tag: 'Sold Out', capacity: 100, viewers: 0, accessibility: [] },
-  { id: 4, title: 'Indie Rock Local', category: 'Concert', date: 'Nov 20, 2026', time: '7:30 PM', location: 'Downtown Club', price: 2500, icon: Guitar, banner: 'linear-gradient(135deg, rgba(127,29,29,0.2), rgba(239,68,68,0.1))', tag: 'New', capacity: 15, viewers: 5, accessibility: ['Wheelchair'] },
-  { id: 5, title: 'Startup Pitch Night', category: 'Workshop', date: 'Dec 02, 2026', time: '6:00 PM', location: 'Tech Hub', price: 500, icon: Rocket, banner: 'linear-gradient(135deg, rgba(234,179,8,0.2), rgba(250,204,21,0.1))', tag: 'Selling Fast', capacity: 90, viewers: 45, accessibility: ['ASL'] }
+  { id: 1, title: 'Oblivion Neon Night', category: 'Concert', date: 'Nov 12, 2026', time: '8:00 PM', location: 'Main Arena', price: 4500, icon: Music, banner: 'linear-gradient(135deg, rgba(30,58,138,0.2), rgba(59,130,246,0.1))', tag: 'Selling Fast', countdown: 'Starts in 2d 14h' },
+  { id: 2, title: 'TechNova Fest 2026', category: 'College Fest', date: 'Nov 15, 2026', time: '10:00 AM', location: 'Campus Grounds', price: 0, icon: Rocket, banner: 'linear-gradient(135deg, rgba(6,95,70,0.2), rgba(16,185,129,0.1))', tag: 'Trending', countdown: 'Starts in 5d 2h' },
+  { id: 3, title: 'AI & Future Workshop', category: 'Workshop', date: 'Nov 18, 2026', time: '2:00 PM', location: 'Innovation Lab', price: 1500, icon: Bot, banner: 'linear-gradient(135deg, rgba(112,26,117,0.2), rgba(217,70,239,0.1))', tag: 'Few Seats Left' },
+  { id: 4, title: 'Indie Rock Local', category: 'Concert', date: 'Nov 20, 2026', time: '7:30 PM', location: 'Downtown Club', price: 2500, icon: Guitar, banner: 'linear-gradient(135deg, rgba(127,29,29,0.2), rgba(239,68,68,0.1))', tag: 'New' }
 ];
 
 const categories = ['All', 'Concerts', 'College Fests', 'Workshops', 'Free Events'];
@@ -30,26 +28,6 @@ export default function Dashboard({ onSignOut }) {
   const [savedEvents, setSavedEvents] = useState([]);
   const [myTickets, setMyTickets] = useState([]);
   
-  // New States
-  const [searchQuery, setSearchQuery] = useState('');
-  const [showSearchDropdown, setShowSearchDropdown] = useState(false);
-  const [showFilterPopover, setShowFilterPopover] = useState(false);
-  const [sortOption, setSortOption] = useState('Date');
-  const [priceRange, setPriceRange] = useState(5000);
-  const [isLoading, setIsLoading] = useState(false);
-  
-  const [ticketTab, setTicketTab] = useState('Upcoming');
-  const [showRatingModal, setShowRatingModal] = useState(false);
-  const [ratingEvent, setRatingEvent] = useState(null);
-  const [ratingValue, setRatingValue] = useState(0);
-  const [ratingText, setRatingText] = useState('');
-  
-  const [showOnboarding, setShowOnboarding] = useState(true);
-  const [onboardingStep, setOnboardingStep] = useState(1);
-  const [onboardingInterests, setOnboardingInterests] = useState([]);
-  const [darkMode, setDarkMode] = useState(false);
-  const [recentlyViewed, setRecentlyViewed] = useState([]);
-  
   // Checkout State
   const [checkoutStep, setCheckoutStep] = useState(null); // 'seats', 'payment', 'confirmation'
   const [selectedSeats, setSelectedSeats] = useState([]);
@@ -62,26 +40,6 @@ export default function Dashboard({ onSignOut }) {
   const [showProfileBadges, setShowProfileBadges] = useState(false);
   const [showAddFriendModal, setShowAddFriendModal] = useState(false);
   const [newFriendName, setNewFriendName] = useState('');
-
-  useEffect(() => {
-    if (darkMode) {
-      document.body.classList.add('dark');
-    } else {
-      document.body.classList.remove('dark');
-    }
-  }, [darkMode]);
-
-  useEffect(() => {
-    if (selectedEvent && !recentlyViewed.find(e => e.id === selectedEvent.id)) {
-      setRecentlyViewed(prev => [selectedEvent, ...prev].slice(0, 5));
-    }
-  }, [selectedEvent, recentlyViewed]);
-
-  useEffect(() => {
-    setIsLoading(true);
-    const timer = setTimeout(() => setIsLoading(false), 800);
-    return () => clearTimeout(timer);
-  }, [activeCategory, searchQuery, sortOption, priceRange]);
 
   
   useEffect(() => {
@@ -99,15 +57,9 @@ export default function Dashboard({ onSignOut }) {
   };
 
   const filteredEvents = mockEvents.filter(evt => {
-    const matchesCategory = activeCategory === 'All' || 
-                            (activeCategory === 'Free Events' ? evt.price === 0 : (evt.category === activeCategory.slice(0, -1) || evt.category === activeCategory));
-    const matchesSearch = evt.title.toLowerCase().includes(searchQuery.toLowerCase()) || evt.location.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesPrice = evt.price <= priceRange;
-    return matchesCategory && matchesSearch && matchesPrice;
-  }).sort((a, b) => {
-    if (sortOption === 'Price: Low to High') return a.price - b.price;
-    if (sortOption === 'Popularity') return b.viewers - a.viewers;
-    return 0; // Default Date sort is pre-sorted in mock
+    if (activeCategory === 'All') return true;
+    if (activeCategory === 'Free Events') return evt.price === 0;
+    return evt.category === activeCategory.slice(0, -1) || evt.category === activeCategory;
   });
 
   const handleSeatClick = (seatId) => {
@@ -152,53 +104,10 @@ export default function Dashboard({ onSignOut }) {
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <div className="search-input-wrapper" style={{ position: 'relative' }}>
+            <div className="search-input-wrapper">
               <Search className="search-icon" size={16} />
-              <input 
-                type="text" 
-                className="search-input" 
-                placeholder="Search events..." 
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onFocus={() => setShowSearchDropdown(true)}
-                onBlur={() => setTimeout(() => setShowSearchDropdown(false), 200)}
-              />
-              {!searchQuery && <span className="cmd-k">⌘K</span>}
-              {searchQuery && <X size={14} className="cmd-k" style={{cursor: 'pointer'}} onClick={() => setSearchQuery('')} />}
-              
-              <AnimatePresence>
-                {showSearchDropdown && (
-                  <motion.div 
-                    initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }}
-                    style={{ position: 'absolute', top: '100%', left: 0, marginTop: '8px', width: '320px', background: 'var(--card-bg)', borderRadius: '16px', boxShadow: 'var(--shadow-lg)', border: '1px solid var(--border-color)', zIndex: 100, overflow: 'hidden' }}
-                  >
-                    {!searchQuery ? (
-                      <div style={{ padding: '16px' }}>
-                        <h4 style={{ fontSize: '12px', color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '12px' }}>Trending Searches</h4>
-                        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                          {['TechNova', 'Concerts near me', 'Free Workshop'].map(t => (
-                            <span key={t} onMouseDown={() => setSearchQuery(t)} style={{ padding: '6px 12px', background: 'var(--bg-subtle)', borderRadius: '999px', fontSize: '12px', cursor: 'pointer', border: '1px solid var(--border-color)' }}>{t}</span>
-                          ))}
-                        </div>
-                      </div>
-                    ) : (
-                      <div style={{ padding: '8px 0' }}>
-                        {mockEvents.filter(e => e.title.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 3).map(e => (
-                          <div key={e.id} onMouseDown={() => { setSelectedEvent(e); setSearchQuery(''); setActiveTab('Discover'); }} style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }} className="search-result-item">
-                            <div style={{ width: '40px', height: '40px', borderRadius: '8px', background: e.banner, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-primary)' }}>
-                              <e.icon size={20} />
-                            </div>
-                            <div>
-                              <div style={{ fontWeight: 600, fontSize: '14px' }}>{e.title}</div>
-                              <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{e.date} • {e.location}</div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              <input type="text" className="search-input" placeholder="Search events..." />
+              <span className="cmd-k">⌘K</span>
             </div>
             
             <div style={{ position: 'relative' }}>
@@ -255,7 +164,7 @@ export default function Dashboard({ onSignOut }) {
             </div>
 
             <div style={{ position: 'relative' }} onMouseEnter={() => setShowProfileBadges(true)} onMouseLeave={() => setShowProfileBadges(false)}>
-              <motion.div whileTap={{ scale: 0.95 }} onClick={() => { setActiveTab('Profile'); setSelectedEvent(null); }} style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'var(--text-primary)', color: 'var(--card-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: '14px', cursor: 'pointer', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+              <motion.div whileTap={{ scale: 0.95 }} onClick={onSignOut} style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'var(--text-primary)', color: 'var(--card-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: '14px', cursor: 'pointer', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
                 RD
               </motion.div>
               
@@ -323,8 +232,8 @@ export default function Dashboard({ onSignOut }) {
               </div>
             </motion.div>
 
-            <motion.div variants={itemVariants} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '16px' }}>
-              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
+            <motion.div variants={itemVariants} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+              <div style={{ display: 'flex', gap: '12px' }}>
                 {categories.map(cat => (
                   <button 
                     key={cat}
@@ -340,29 +249,6 @@ export default function Dashboard({ onSignOut }) {
                     {cat}
                   </button>
                 ))}
-                
-                <div style={{ width: '1px', height: '24px', background: 'var(--border-color)', margin: '0 8px' }} />
-                
-                <select value={sortOption} onChange={e => setSortOption(e.target.value)} style={{ padding: '8px 16px', borderRadius: '999px', border: '1px solid var(--border-color)', background: 'var(--card-bg)', color: 'var(--text-primary)', fontSize: '13px', outline: 'none', cursor: 'pointer' }}>
-                  <option>Date</option>
-                  <option>Price: Low to High</option>
-                  <option>Popularity</option>
-                </select>
-                
-                <div style={{ position: 'relative' }}>
-                  <button className="btn btn-ghost" onClick={() => setShowFilterPopover(!showFilterPopover)} style={{ border: '1px solid var(--border-color)', borderRadius: '999px', padding: '8px 16px', fontSize: '13px', background: showFilterPopover ? 'var(--bg-subtle)' : 'transparent' }}>
-                    <SlidersHorizontal size={14} /> Filters
-                  </button>
-                  <AnimatePresence>
-                    {showFilterPopover && (
-                      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} style={{ position: 'absolute', top: '100%', left: 0, marginTop: '8px', width: '260px', background: 'var(--card-bg)', borderRadius: '16px', boxShadow: 'var(--shadow-lg)', border: '1px solid var(--border-color)', zIndex: 100, padding: '16px' }}>
-                        <h4 style={{ fontSize: '14px', marginBottom: '16px' }}>Max Price: ₹{priceRange}</h4>
-                        <input type="range" min="0" max="10000" step="100" value={priceRange} onChange={(e) => setPriceRange(Number(e.target.value))} style={{ width: '100%', accentColor: 'var(--accent-text)' }} />
-                        <div className="flex-between" style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '8px' }}><span>₹0</span><span>₹10,000+</span></div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
               </div>
               
               <div style={{ display: 'flex', background: 'var(--card-bg)', borderRadius: '999px', border: '1px solid var(--border-color)', padding: '4px' }}>
@@ -376,51 +262,9 @@ export default function Dashboard({ onSignOut }) {
             </motion.div>
 
             {viewMode === 'List' ? (
-              <>
-              {recentlyViewed.length > 0 && !searchQuery && (
-                <div style={{ marginBottom: '32px' }}>
-                  <h3 style={{ fontSize: '16px', marginBottom: '12px', color: 'var(--text-secondary)' }}>Recently Viewed</h3>
-                  <div style={{ display: 'flex', gap: '12px', overflowX: 'auto', paddingBottom: '8px' }}>
-                    {recentlyViewed.map(e => (
-                      <div key={e.id} onClick={() => { setSelectedEvent(e); setCheckoutStep(null); }} style={{ display: 'flex', alignItems: 'center', gap: '12px', background: 'var(--card-bg)', padding: '8px 16px', borderRadius: '999px', border: '1px solid var(--border-color)', cursor: 'pointer', minWidth: 'max-content' }}>
-                        <div style={{ width: '24px', height: '24px', borderRadius: '6px', background: e.banner, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><e.icon size={12} color="var(--text-primary)" /></div>
-                        <span style={{ fontSize: '13px', fontWeight: 500 }}>{e.title}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {isLoading ? (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '24px' }}>
-                  {[...Array(4)].map((_, i) => (
-                    <div key={i} className="glass-panel" style={{ height: '360px', background: 'var(--card-bg)', overflow: 'hidden' }}>
-                      <div style={{ height: '80px', background: 'var(--bg-subtle)' }} className="skeleton" />
-                      <div style={{ padding: '32px 24px' }}>
-                        <div style={{ height: '12px', width: '40%', background: 'var(--bg-subtle)', marginBottom: '16px', borderRadius: '4px' }} className="skeleton" />
-                        <div style={{ height: '24px', width: '80%', background: 'var(--bg-subtle)', marginBottom: '16px', borderRadius: '4px' }} className="skeleton" />
-                        <div style={{ height: '14px', width: '60%', background: 'var(--bg-subtle)', marginBottom: '8px', borderRadius: '4px' }} className="skeleton" />
-                        <div style={{ height: '14px', width: '50%', background: 'var(--bg-subtle)', marginBottom: '24px', borderRadius: '4px' }} className="skeleton" />
-                        <div style={{ height: '36px', width: '100%', background: 'var(--bg-subtle)', borderRadius: '999px' }} className="skeleton" />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : filteredEvents.length === 0 ? (
-                <div className="flex-center" style={{ flexDirection: 'column', height: '400px', background: 'var(--card-bg)', borderRadius: '24px', border: '1px dashed var(--border-color)' }}>
-                  <SearchX size={48} color="var(--text-tertiary)" style={{ marginBottom: '16px' }} />
-                  <h3 style={{ fontSize: '24px', marginBottom: '8px' }}>No events found</h3>
-                  <p style={{ color: 'var(--text-secondary)' }}>We couldn't find anything for "{searchQuery}"</p>
-                  <div style={{ marginTop: '24px', display: 'flex', gap: '12px' }}>
-                    <button className="btn btn-ghost" style={{ border: '1px solid var(--border-color)' }} onClick={() => setSearchQuery('Concert')}>Try "Concert"</button>
-                    <button className="btn btn-ghost" style={{ border: '1px solid var(--border-color)' }} onClick={() => setSearchQuery('Tech')}>Try "Tech"</button>
-                  </div>
-                </div>
-              ) : (
               <motion.div variants={containerVariants} initial="hidden" animate="show" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '24px' }}>
                 {filteredEvents.map(evt => {
                   const Icon = evt.icon;
-                  const isSoldOut = evt.tag === 'Sold Out';
                   return (
                   <motion.div 
                     key={evt.id} 
@@ -428,14 +272,14 @@ export default function Dashboard({ onSignOut }) {
                     className="glass-panel" 
                     style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', background: 'var(--card-bg)', overflow: 'hidden' }}
                     onClick={() => { setSelectedEvent(evt); setCheckoutStep(null); }}
-                    whileHover={{ y: -5, scale: 1.02, boxShadow: '0 20px 40px rgba(0,0,0,0.1)' }}
+                    whileHover={{ y: -5, boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }}
                   >
                     <div style={{ height: '80px', background: evt.banner, position: 'relative' }}>
                       <div style={{ position: 'absolute', top: '16px', right: '16px', display: 'flex', gap: '8px' }}>
                          {evt.countdown && (
                            <span className="badge badge-yellow" style={{ boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>{evt.countdown}</span>
                          )}
-                         <span className={`badge ₹{evt.tag === 'Selling Fast' ? 'badge-red' : (isSoldOut ? 'badge' : 'badge-yellow')}`} style={{ boxShadow: '0 2px 4px rgba(0,0,0,0.1)', background: isSoldOut ? 'var(--bg-subtle)' : undefined, color: isSoldOut ? 'var(--text-secondary)' : undefined }}>
+                         <span className={`badge ₹{evt.tag === 'Selling Fast' ? 'badge-red' : 'badge-yellow'}`} style={{ boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
                            {evt.tag}
                          </span>
                       </div>
@@ -449,14 +293,7 @@ export default function Dashboard({ onSignOut }) {
                     </div>
 
                     <div style={{ padding: '32px 24px 24px 24px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                      <div className="flex-between" style={{ marginBottom: '8px' }}>
-                        <p style={{ color: 'var(--accent-text)', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{evt.category}</p>
-                        {evt.viewers > 10 && (
-                          <div style={{ fontSize: '11px', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                            <Flame size={12} color="#EF4444" /> {evt.viewers} people viewing
-                          </div>
-                        )}
-                      </div>
+                      <p style={{ color: 'var(--accent-text)', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>{evt.category}</p>
                       <h3 style={{ fontSize: '20px', color: 'var(--text-primary)', marginBottom: '16px' }}>{evt.title}</h3>
                       
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '24px', flex: 1 }}>
@@ -464,50 +301,14 @@ export default function Dashboard({ onSignOut }) {
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><MapPin size={16} /> {evt.location}</div>
                       </div>
                       
-                      <div style={{ paddingTop: '16px', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
-                        <div className="flex-between" style={{ marginBottom: evt.tag === 'Selling Fast' ? '12px' : '0' }}>
-                          <span style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text-primary)' }}>{evt.price === 0 ? 'Free' : `₹${evt.price}`}</span>
-                          <motion.button whileTap={{ scale: 0.95 }} className={`btn ₹{isSoldOut ? 'btn-ghost' : 'btn-primary'}`} style={{ padding: '8px 16px', fontSize: '12px', border: isSoldOut ? '1px solid var(--border-color)' : 'none' }}>
-                            {isSoldOut ? 'Join Waitlist' : 'Book Now'}
-                          </motion.button>
-                        </div>
-                        {evt.tag === 'Selling Fast' && (
-                          <div style={{ width: '100%', height: '4px', background: 'var(--bg-subtle)', borderRadius: '2px', overflow: 'hidden' }}>
-                            <div style={{ width: `₹{evt.capacity}%`, height: '100%', background: evt.capacity > 80 ? '#EF4444' : '#EAB308', borderRadius: '2px' }} />
-                          </div>
-                        )}
+                      <div className="flex-between" style={{ paddingTop: '16px', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
+                        <span style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text-primary)' }}>{evt.price === 0 ? 'Free' : `₹${evt.price}`}</span>
+                        <button className="btn btn-primary" style={{ padding: '8px 16px', fontSize: '12px' }}>Book Now</button>
                       </div>
                     </div>
                   </motion.div>
                 )})}
               </motion.div>
-              )}
-
-              {!searchQuery && !isLoading && (
-                <div style={{ marginTop: '48px', paddingTop: '40px', borderTop: '1px solid var(--border-color)' }}>
-                  <h2 style={{ fontSize: '24px', marginBottom: '8px' }}>Recommended for you</h2>
-                  <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '24px' }}>Because you liked <strong>Oblivion Neon Night</strong></p>
-                  <div style={{ display: 'flex', gap: '24px', overflowX: 'auto', paddingBottom: '16px' }}>
-                    {mockEvents.slice(3, 5).map(evt => {
-                      const Icon = evt.icon;
-                      return (
-                      <motion.div key={evt.id} whileHover={{ y: -5, scale: 1.02 }} onClick={() => { setSelectedEvent(evt); setCheckoutStep(null); }} className="glass-panel" style={{ minWidth: '300px', cursor: 'pointer', background: 'var(--card-bg)', overflow: 'hidden' }}>
-                        <div style={{ height: '60px', background: evt.banner }} />
-                        <div style={{ padding: '16px' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-                            <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'var(--bg-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-primary)' }}><Icon size={16}/></div>
-                            <div>
-                              <h4 style={{ fontSize: '16px', fontWeight: 600 }}>{evt.title}</h4>
-                              <p style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{evt.date}</p>
-                            </div>
-                          </div>
-                        </div>
-                      </motion.div>
-                    )})}
-                  </div>
-                </div>
-              )}
-              </>
             ) : (
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ width: '100%', height: '500px', background: 'rgba(0,0,0,0.02)', borderRadius: '24px', border: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', color: 'var(--text-secondary)' }}>
                 <Map size={48} style={{ opacity: 0.2, marginBottom: '16px' }} />
@@ -548,7 +349,7 @@ export default function Dashboard({ onSignOut }) {
                     </div>
                   </div>
                   
-                  <div style={{ display: 'flex', gap: '24px', marginBottom: '24px' }}>
+                  <div style={{ display: 'flex', gap: '24px', marginBottom: '40px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: 'var(--bg-subtle)', padding: '16px', borderRadius: '16px', flex: 1 }}>
                       <CalendarIcon size={24} color="var(--accent-text)" />
                       <div>
@@ -564,18 +365,6 @@ export default function Dashboard({ onSignOut }) {
                       </div>
                     </div>
                   </div>
-                  
-                  {selectedEvent.accessibility && selectedEvent.accessibility.length > 0 && (
-                    <div style={{ display: 'flex', gap: '8px', marginBottom: '40px' }}>
-                      {selectedEvent.accessibility.map(a => (
-                        <div key={a} style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'var(--bg-subtle)', padding: '6px 12px', borderRadius: '999px', fontSize: '12px', color: 'var(--text-secondary)', border: '1px solid var(--border-color)' }}>
-                           {a === 'Wheelchair' && <Accessibility size={14} />}
-                           {a === 'ASL' && <Ear size={14} />}
-                           {a} Access
-                        </div>
-                      ))}
-                    </div>
-                  )}
 
                   <h3 style={{ fontSize: '20px', marginBottom: '16px' }}>About this event</h3>
                   <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '32px' }}>
@@ -634,15 +423,9 @@ export default function Dashboard({ onSignOut }) {
                     <span style={{ color: 'var(--text-primary)', fontWeight: 600, fontSize: '24px' }}>{selectedEvent.price === 0 ? 'Free' : `₹${selectedEvent.price}`}</span>
                   </div>
 
-                  {selectedEvent.tag === 'Sold Out' ? (
-                    <motion.button whileTap={{ scale: 0.95 }} className="btn btn-ghost" style={{ width: '100%', padding: '16px', fontSize: '16px', display: 'flex', justifyContent: 'center', border: '1px solid var(--text-primary)', color: 'var(--text-primary)' }}>
-                      Join Waitlist
-                    </motion.button>
-                  ) : (
-                    <motion.button whileTap={{ scale: 0.95 }} onClick={() => setCheckoutStep('seats')} className="btn btn-primary" style={{ width: '100%', padding: '16px', fontSize: '16px', display: 'flex', justifyContent: 'center' }}>
-                      Select Seats <ArrowUpRight size={20} />
-                    </motion.button>
-                  )}
+                  <button onClick={() => setCheckoutStep('seats')} className="btn btn-primary" style={{ width: '100%', padding: '16px', fontSize: '16px', display: 'flex', justifyContent: 'center' }}>
+                    Select Seats <ArrowUpRight size={20} />
+                  </button>
                 </div>
               </div>
             </div>
@@ -812,32 +595,21 @@ export default function Dashboard({ onSignOut }) {
             )}
 
             {checkoutStep === 'confirmation' && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'var(--card-bg)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+              <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="glass-panel" style={{ padding: '80px 40px', background: 'var(--card-bg)', textAlign: 'center', maxWidth: '600px', margin: '0 auto' }}>
                 <motion.div 
-                  initial={{ scale: 0, rotate: -180 }} animate={{ scale: 1, rotate: 0 }} transition={{ type: 'spring', bounce: 0.6, duration: 0.8 }}
-                  style={{ width: '120px', height: '120px', borderRadius: '50%', background: 'var(--accent-text)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 32px auto', boxShadow: '0 20px 40px rgba(234, 179, 8, 0.3)' }}
+                  initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', bounce: 0.5, delay: 0.2 }}
+                  style={{ width: '80px', height: '80px', borderRadius: '50%', background: '#D1FAE5', border: '4px solid #34D399', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px auto', color: '#065F46' }}
                 >
-                  <Ticket size={64} />
+                  <Check size={40} strokeWidth={3} />
                 </motion.div>
                 
-                <motion.h2 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="font-serif" style={{ fontSize: '48px', marginBottom: '16px', textAlign: 'center' }}>You're going to {selectedEvent.title}!</motion.h2>
-                <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} style={{ color: 'var(--text-secondary)', fontSize: '18px', marginBottom: '48px', maxWidth: '500px', textAlign: 'center', lineHeight: 1.6 }}>Your tickets are secured. Get ready for an unforgettable experience.</motion.p>
+                <h2 className="font-serif" style={{ fontSize: '32px', marginBottom: '8px' }}>Booking Confirmed!</h2>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '16px', marginBottom: '40px' }}>Your seats for <strong>{selectedEvent.title}</strong> are secured. An email receipt has been sent to you.</p>
                 
-                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} style={{ display: 'flex', gap: '16px' }}>
-                  <button className="btn btn-primary" onClick={() => { setActiveTab('My Tickets'); setCheckoutStep(null); setSelectedEvent(null); setSelectedSeats([]); }} style={{ padding: '16px 32px', fontSize: '16px' }}>View Ticket</button>
-                  <button className="btn btn-ghost" onClick={() => { setCheckoutStep(null); setSelectedEvent(null); setSelectedSeats([]); }} style={{ padding: '16px 32px', fontSize: '16px', border: '1px solid var(--border-color)' }}>Back to Discover</button>
-                </motion.div>
-                
-                {/* Confetti simulation using framer-motion */}
-                {[...Array(30)].map((_, i) => (
-                   <motion.div 
-                     key={i} 
-                     initial={{ opacity: 1, y: '50vh', x: '50vw', scale: 0 }} 
-                     animate={{ opacity: 0, y: `${Math.random() * 100}vh`, x: `${Math.random() * 100}vw`, scale: Math.random() * 2 + 1, rotate: Math.random() * 360 }} 
-                     transition={{ duration: 1.5, ease: 'easeOut' }}
-                     style={{ position: 'fixed', top: 0, left: 0, width: '12px', height: '12px', background: ['#EAB308', '#FDE047', '#FEF3C7'][i%3], borderRadius: i%2===0?'50%':'4px', zIndex: 1999 }} 
-                   />
-                ))}
+                <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
+                  <button className="btn btn-ghost" onClick={() => { setCheckoutStep(null); setSelectedEvent(null); setSelectedSeats([]); }} style={{ border: '1px solid var(--border-color)' }}>Back to Discover</button>
+                  <button className="btn btn-primary" onClick={() => { setActiveTab('My Tickets'); setCheckoutStep(null); setSelectedEvent(null); setSelectedSeats([]); }}>View in My Tickets</button>
+                </div>
               </motion.div>
             )}
           </motion.main>
@@ -848,68 +620,36 @@ export default function Dashboard({ onSignOut }) {
            <motion.main key="friends" variants={pageVariants} initial="initial" animate="animate" exit="exit" className="container" style={{ marginTop: '40px', flex: 1 }}>
              <h1 className="font-serif" style={{ fontSize: '48px', color: 'var(--text-primary)', marginBottom: '32px' }}>YOUR <span style={{ color: 'var(--accent-text)' }}>SQUAD.</span></h1>
              
-             <div className="glass-panel" style={{ padding: '60px 40px', textAlign: 'center', background: 'var(--card-bg)' }}>
-               <Users size={48} color="var(--text-secondary)" style={{ margin: '0 auto 16px auto', opacity: 0.5 }} />
-               <h3 style={{ fontSize: '24px', color: 'var(--text-secondary)', marginBottom: '8px' }}>No friends added yet</h3>
-               <p style={{ color: 'var(--text-tertiary)', marginBottom: '24px', maxWidth: '400px', margin: '0 auto 24px auto', lineHeight: 1.5 }}>Build your squad to easily split payments, see where everyone is going, and discover events together.</p>
-               <button className="btn btn-primary" onClick={() => setShowAddFriendModal(true)}>Invite Friends</button>
+             <h3 style={{ fontSize: '20px', marginBottom: '16px' }}>Your Squad</h3>
+             <div style={{ display: 'flex', gap: '16px', overflowX: 'auto', paddingBottom: '16px', marginBottom: '40px' }}>
+               <button onClick={() => setShowAddFriendModal(true)} className="btn btn-ghost flex-center" style={{ minWidth: '64px', height: '64px', borderRadius: '50%', border: '1px dashed var(--border-color)', flexDirection: 'column', gap: '4px' }}>
+                 <UserPlus size={20} />
+               </button>
+               {['Rahul', 'Priya', 'Amit', 'Neha', 'Vikram'].map(name => (
+                 <div key={name} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                   <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: '#FEF3C7', color: '#92400E', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', fontWeight: 600 }}>{name[0]}</div>
+                   <span style={{ fontSize: '13px', fontWeight: 500 }}>{name}</span>
+                 </div>
+               ))}
              </div>
-           </motion.main>
-        )}
 
-        {/* Profile Page */}
-        {activeTab === 'Profile' && (
-           <motion.main key="profile" variants={pageVariants} initial="initial" animate="animate" exit="exit" className="container" style={{ marginTop: '40px', flex: 1, maxWidth: '800px' }}>
-             <h1 className="font-serif" style={{ fontSize: '48px', color: 'var(--text-primary)', marginBottom: '32px' }}>YOUR <span style={{ color: 'var(--accent-text)' }}>PROFILE.</span></h1>
-             
-             <div className="glass-panel" style={{ padding: '40px', background: 'var(--card-bg)', marginBottom: '32px' }}>
-               <div style={{ display: 'flex', alignItems: 'center', gap: '24px', borderBottom: '1px solid var(--border-color)', paddingBottom: '32px', marginBottom: '32px' }}>
-                 <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'var(--text-primary)', color: 'var(--card-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '32px', fontWeight: 600 }}>
-                   RD
-                 </div>
-                 <div>
-                   <h2 style={{ fontSize: '28px', marginBottom: '8px' }}>Rahul Desai</h2>
-                   <p style={{ color: 'var(--text-secondary)' }}>rahul.desai@example.com</p>
-                 </div>
-               </div>
-               
-               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '40px' }}>
-                 <div style={{ padding: '20px', background: 'var(--bg-subtle)', borderRadius: '16px', display: 'flex', alignItems: 'center', gap: '16px' }}>
-                   <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: '#D1FAE5', color: '#065F46', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Ticket size={24} /></div>
-                   <div><div style={{ fontSize: '24px', fontWeight: 700 }}>12</div><div style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>Events Attended</div></div>
-                 </div>
-                 <div style={{ padding: '20px', background: 'var(--bg-subtle)', borderRadius: '16px', display: 'flex', alignItems: 'center', gap: '16px' }}>
-                   <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: '#E0E7FF', color: '#3730A3', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Users size={24} /></div>
-                   <div><div style={{ fontSize: '24px', fontWeight: 700 }}>5</div><div style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>Friends</div></div>
-                 </div>
-               </div>
-               
-               <h3 style={{ fontSize: '20px', marginBottom: '16px' }}>Settings</h3>
-               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                 <div className="flex-between" style={{ padding: '16px', background: 'var(--bg-subtle)', borderRadius: '12px' }}>
-                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}><Bell size={20} /> <span style={{ fontWeight: 500 }}>Notifications</span></div>
-                   <button className="btn btn-ghost" style={{ padding: '4px 12px', fontSize: '12px', border: '1px solid var(--border-color)' }}>Manage</button>
-                 </div>
-                 <div className="flex-between" style={{ padding: '16px', background: 'var(--bg-subtle)', borderRadius: '12px' }}>
-                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}><CreditCard size={20} /> <span style={{ fontWeight: 500 }}>Payment Methods</span></div>
-                   <button className="btn btn-ghost" style={{ padding: '4px 12px', fontSize: '12px', border: '1px solid var(--border-color)' }}>Manage</button>
-                 </div>
-                 <div className="flex-between" style={{ padding: '16px', background: 'var(--bg-subtle)', borderRadius: '12px' }}>
-                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}><Bookmark size={20} /> <span style={{ fontWeight: 500 }}>Saved Events</span></div>
-                   <button className="btn btn-ghost" onClick={() => setActiveTab('Saved Events')} style={{ padding: '4px 12px', fontSize: '12px', border: '1px solid var(--border-color)' }}>View</button>
-                 </div>
-                 <div className="flex-between" style={{ padding: '16px', background: 'var(--bg-subtle)', borderRadius: '12px' }}>
-                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                     {darkMode ? <Sparkles size={20} /> : <Sparkles size={20} />} 
-                     <span style={{ fontWeight: 500 }}>Dark Mode</span>
+             <h3 style={{ fontSize: '20px', marginBottom: '16px' }}>Group Plans</h3>
+             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px' }}>
+               <div className="glass-panel" style={{ padding: '24px', background: 'var(--card-bg)' }}>
+                 <div style={{ display: 'flex', gap: '16px', marginBottom: '16px' }}>
+                   <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: '#FEF3C7', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#92400E' }}><Music size={24}/></div>
+                   <div>
+                     <h4 style={{ fontSize: '18px', fontWeight: 600 }}>Oblivion Neon Night</h4>
+                     <p style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>Nov 12 · Main Arena</p>
                    </div>
-                   <button className="btn btn-ghost" onClick={() => setDarkMode(!darkMode)} style={{ padding: '4px 12px', fontSize: '12px', border: '1px solid var(--border-color)', background: darkMode ? 'var(--text-primary)' : 'transparent', color: darkMode ? 'var(--card-bg)' : 'inherit' }}>
-                     {darkMode ? 'On' : 'Off'}
-                   </button>
                  </div>
-                 <div className="flex-between" style={{ padding: '16px', background: 'var(--bg-subtle)', borderRadius: '12px', marginTop: '16px' }}>
-                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px', color: '#EF4444' }}><LogOut size={20} /> <span style={{ fontWeight: 500 }}>Sign Out</span></div>
-                   <button className="btn btn-ghost" onClick={onSignOut} style={{ padding: '4px 12px', fontSize: '12px', border: '1px solid #EF4444', color: '#EF4444' }}>Log Out</button>
+                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px', background: 'var(--bg-subtle)', borderRadius: '12px' }}>
+                   <div style={{ display: 'flex' }}>
+                     {['R', 'P', 'A'].map((initial, i) => (
+                       <div key={i} style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'var(--card-bg)', border: '2px solid var(--border-color)', marginLeft: i > 0 ? '-8px' : 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px' }}>{initial}</div>
+                     ))}
+                   </div>
+                   <span style={{ fontSize: '13px', fontWeight: 600 }}>3 friends going</span>
                  </div>
                </div>
              </div>
@@ -1006,22 +746,16 @@ export default function Dashboard({ onSignOut }) {
         {/* Phase 4: My Tickets (Populated Ticket Card) */}
         {activeTab === 'My Tickets' && (
            <motion.main key="tickets" variants={pageVariants} initial="initial" animate="animate" exit="exit" className="container" style={{ marginTop: '40px', flex: 1, paddingBottom: '80px' }}>
-             <div className="flex-between" style={{ marginBottom: '32px' }}>
-               <h1 className="font-serif" style={{ fontSize: '48px', color: 'var(--text-primary)' }}>MY <span style={{ color: 'var(--accent-text)' }}>TICKETS.</span></h1>
-               <div style={{ display: 'flex', background: 'var(--card-bg)', borderRadius: '999px', border: '1px solid var(--border-color)', padding: '4px' }}>
-                 <button onClick={() => setTicketTab('Upcoming')} style={{ padding: '6px 16px', borderRadius: '999px', border: 'none', background: ticketTab === 'Upcoming' ? 'var(--bg-subtle)' : 'transparent', color: ticketTab === 'Upcoming' ? 'var(--text-primary)' : 'var(--text-secondary)', cursor: 'pointer', fontSize: '13px', fontWeight: 500 }}>Upcoming</button>
-                 <button onClick={() => setTicketTab('Past')} style={{ padding: '6px 16px', borderRadius: '999px', border: 'none', background: ticketTab === 'Past' ? 'var(--bg-subtle)' : 'transparent', color: ticketTab === 'Past' ? 'var(--text-primary)' : 'var(--text-secondary)', cursor: 'pointer', fontSize: '13px', fontWeight: 500 }}>Past</button>
-               </div>
-             </div>
+             <h1 className="font-serif" style={{ fontSize: '48px', color: 'var(--text-primary)', marginBottom: '32px' }}>MY <span style={{ color: 'var(--accent-text)' }}>TICKETS.</span></h1>
              
-             {ticketTab === 'Upcoming' && myTickets.length === 0 ? (
+             {myTickets.length === 0 ? (
                <div className="glass-panel" style={{ padding: '40px', textAlign: 'center', background: 'var(--card-bg)' }}>
                  <Ticket size={48} color="var(--text-secondary)" style={{ margin: '0 auto 16px auto', opacity: 0.5 }} />
                  <h3 style={{ fontSize: '24px', color: 'var(--text-secondary)' }}>No active tickets</h3>
                  <p style={{ color: 'var(--text-tertiary)', marginTop: '8px', marginBottom: '24px' }}>Explore events and book your first secure ticket.</p>
                  <button className="btn btn-primary" onClick={() => setActiveTab('Discover')}>Discover Events</button>
                </div>
-             ) : ticketTab === 'Upcoming' ? (
+             ) : (
                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '32px' }}>
                  {myTickets.map(ticket => {
                     const eventData = mockEvents.find(e => e.id === ticket.eventId) || mockEvents[0];
@@ -1044,7 +778,7 @@ export default function Dashboard({ onSignOut }) {
                          {/* Ticket Header Image */}
                          <div style={{ height: '120px', background: eventData.banner, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
                            <div style={{ width: '64px', height: '64px', borderRadius: '16px', background: 'var(--card-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
-                             <eventData.icon size={32} color="var(--text-primary)" />
+                             {React.createElement(eventData.icon, { size: 32, color: "var(--text-primary)" })}
                            </div>
                          </div>
 
@@ -1099,38 +833,6 @@ export default function Dashboard({ onSignOut }) {
                        </motion.div>
                     )
                  })}
-               </div>
-             ) : (
-               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '32px' }}>
-                 {[mockEvents[0]].map(evt => (
-                   <motion.div key={evt.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                     <div style={{ background: 'var(--card-bg)', borderRadius: '24px', overflow: 'hidden', border: '1px solid var(--border-color)', opacity: 0.7, filter: 'grayscale(0.5)' }}>
-                       <div style={{ padding: '24px', display: 'flex', alignItems: 'center', gap: '16px' }}>
-                         <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'var(--bg-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><evt.icon size={24}/></div>
-                         <div>
-                           <p style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{evt.date}</p>
-                           <h4 style={{ fontSize: '18px', fontWeight: 600 }}>{evt.title}</h4>
-                         </div>
-                       </div>
-                       <div style={{ padding: '16px 24px', borderTop: '1px solid var(--border-color)', display: 'flex', gap: '12px' }}>
-                         <button className="btn btn-primary" onClick={() => { setRatingEvent(evt); setShowRatingModal(true); }} style={{ flex: 1, padding: '8px', fontSize: '13px' }}><Star size={14}/> Rate Event</button>
-                         <button className="btn btn-ghost" style={{ flex: 1, padding: '8px', fontSize: '13px', border: '1px solid var(--border-color)' }}>Book Again</button>
-                       </div>
-                     </div>
-                     
-                     <div className="glass-panel" style={{ background: 'var(--card-bg)', padding: '24px', borderRadius: '24px' }}>
-                       <div className="flex-between" style={{ marginBottom: '16px' }}>
-                         <h4 style={{ fontSize: '16px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px' }}><ImageIcon size={16}/> Memories</h4>
-                         <button className="btn btn-ghost btn-icon"><Share2 size={16}/></button>
-                       </div>
-                       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '12px' }}>
-                         <div style={{ height: '120px', borderRadius: '12px', background: 'url(https://images.unsplash.com/photo-1540039155732-684735000bcb?w=400&h=400&fit=crop) center/cover' }} />
-                         <div style={{ height: '120px', borderRadius: '12px', background: 'url(https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&h=400&fit=crop) center/cover' }} />
-                       </div>
-                       <p style={{ fontSize: '13px', color: 'var(--text-secondary)', textAlign: 'center' }}>You and 3 friends went to this.</p>
-                     </div>
-                   </motion.div>
-                 ))}
                </div>
              )}
            </motion.main>
@@ -1225,95 +927,6 @@ export default function Dashboard({ onSignOut }) {
                >
                  Send Request
                </button>
-             </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-
-      {/* Rating Modal */}
-      <AnimatePresence>
-        {showRatingModal && (
-          <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.5)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-             <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }} style={{ background: 'var(--card-bg)', padding: '32px', borderRadius: '24px', width: '400px', maxWidth: '90%', boxShadow: '0 20px 40px rgba(0,0,0,0.2)' }}>
-               <h3 className="font-serif" style={{ fontSize: '28px', marginBottom: '8px', textAlign: 'center' }}>How was it?</h3>
-               <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '24px', textAlign: 'center' }}>Rate your experience at {ratingEvent?.title}</p>
-               
-               <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginBottom: '24px' }}>
-                 {[1,2,3,4,5].map(star => (
-                   <motion.button key={star} whileTap={{ scale: 0.8 }} onClick={() => setRatingValue(star)} className="btn btn-ghost btn-icon" style={{ color: ratingValue >= star ? 'var(--accent-text)' : 'var(--border-color)' }}>
-                     <Star size={32} fill={ratingValue >= star ? 'currentColor' : 'none'} />
-                   </motion.button>
-                 ))}
-               </div>
-               
-               <textarea 
-                 placeholder="Tell us what you loved (optional)" 
-                 value={ratingText}
-                 onChange={e => setRatingText(e.target.value)}
-                 className="search-input"
-                 style={{ width: '100%', height: '100px', padding: '16px', borderRadius: '12px', marginBottom: '24px', resize: 'none' }}
-               />
-               
-               <div style={{ display: 'flex', gap: '12px' }}>
-                 <button className="btn btn-ghost" onClick={() => { setShowRatingModal(false); setRatingValue(0); setRatingText(''); }} style={{ flex: 1, border: '1px solid var(--border-color)' }}>Skip</button>
-                 <button className="btn btn-primary" onClick={() => { setShowRatingModal(false); setRatingValue(0); setRatingText(''); alert('Review submitted!'); }} style={{ flex: 1 }}>Submit</button>
-               </div>
-             </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-
-      {/* Onboarding Modal */}
-      <AnimatePresence>
-        {showOnboarding && (
-          <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.5)', zIndex: 3000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-             <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }} style={{ background: 'var(--card-bg)', padding: '40px', borderRadius: '24px', width: '480px', maxWidth: '90%', boxShadow: '0 20px 40px rgba(0,0,0,0.2)' }}>
-               {onboardingStep === 1 ? (
-                 <>
-                   <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'var(--accent-text)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#000', marginBottom: '24px' }}><Sparkles size={24}/></div>
-                   <h2 className="font-serif" style={{ fontSize: '32px', marginBottom: '8px' }}>Welcome to Eventra</h2>
-                   <p style={{ color: 'var(--text-secondary)', marginBottom: '32px' }}>What kind of events are you looking for?</p>
-                   
-                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', marginBottom: '40px' }}>
-                     {['Concerts', 'Fests', 'Workshops', 'Sports', 'Networking', 'Comedy'].map(interest => (
-                       <button 
-                         key={interest}
-                         onClick={() => setOnboardingInterests(prev => prev.includes(interest) ? prev.filter(i => i !== interest) : [...prev, interest])}
-                         className="btn"
-                         style={{ padding: '8px 16px', borderRadius: '999px', border: `1px solid ₹{onboardingInterests.includes(interest) ? 'var(--accent-text)' : 'var(--border-color)'}`, background: onboardingInterests.includes(interest) ? 'var(--accent-light)' : 'transparent', color: onboardingInterests.includes(interest) ? '#92400E' : 'var(--text-secondary)' }}
-                       >
-                         {interest}
-                       </button>
-                     ))}
-                   </div>
-                   
-                   <div className="flex-between">
-                     <div style={{ display: 'flex', gap: '8px' }}>
-                       <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--accent-text)' }} />
-                       <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--border-color)' }} />
-                     </div>
-                     <button className="btn btn-primary" onClick={() => setOnboardingStep(2)}>Continue</button>
-                   </div>
-                 </>
-               ) : (
-                 <>
-                   <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: '#DBEAFE', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1E3A8A', marginBottom: '24px' }}><Navigation size={24}/></div>
-                   <h2 className="font-serif" style={{ fontSize: '32px', marginBottom: '8px' }}>Find events near you</h2>
-                   <p style={{ color: 'var(--text-secondary)', marginBottom: '32px' }}>Enable location to see the best local events on your Discover feed.</p>
-                   
-                   <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '40px' }}>
-                     <button className="btn btn-primary" onClick={() => setShowOnboarding(false)} style={{ width: '100%', padding: '16px', justifyContent: 'center' }}>Enable Location</button>
-                     <button className="btn btn-ghost" onClick={() => setShowOnboarding(false)} style={{ width: '100%', padding: '16px', justifyContent: 'center', border: '1px solid var(--border-color)' }}>Not right now</button>
-                   </div>
-                   
-                   <div style={{ display: 'flex', justifyContent: 'center' }}>
-                     <div style={{ display: 'flex', gap: '8px' }}>
-                       <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--border-color)' }} />
-                       <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--accent-text)' }} />
-                     </div>
-                   </div>
-                 </>
-               )}
              </motion.div>
           </div>
         )}
