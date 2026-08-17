@@ -1,6 +1,6 @@
 # Eventra
 
-**Deploy Link:** [omni-eventra.vercel.app](https://omni-eventra.vercel.app)
+**DemoVersion:** [omni-eventra.vercel.app](https://omni-eventra.vercel.app)
 
 **Hackathon:** UX Imperium
 
